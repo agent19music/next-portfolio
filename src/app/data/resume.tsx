@@ -8,10 +8,9 @@ export const DATA = {
   location: "Nairobi, KE",
   locationLink: "https://www.google.com/maps/place/sanfrancisco",
   description:
-    "Software Engineer turned Entrepreneur. I love building things and helping people. Very active on Twitter.",
+    "Software Engineer. I love building things and helping people.",
   summary:
-    "At the end of 2022, I quit my job as a software engineer to go fulltime into building and scaling my own SaaS businesses. In the past, [I pursued a double degree in computer science and business](/#education), [interned at big tech companies in Silicon Valley](https://www.youtube.com/watch?v=d-LJ2e5qKdE), and [competed in over 21 hackathons for fun](/#hackathons). I also had the pleasure of being a part of the first ever in-person cohort of buildspace called [buildspace sf1](https://buildspace.so/sf1).",
-  avatarUrl: "/me.png",
+    "I am a 20-year-old full-stack web developer and computer science student, with a certificate in software engineering. I have a passion for building innovative and efficient web applications. In addition to my technical skills, I have a deep appreciation for music, which fuels my creativity and drive.",
   skills: [
     "React",
     "Next.js",
@@ -107,32 +106,30 @@ export const DATA = {
   ],
   projects: [
     {
-      title: "Campo Social",
+      title: "Vitapharm cosmetics",
       href: "https://chatcollect.com",
-      dates: "Jan 2024 - Feb 2024",
+      dates: "Apr 2024 - Aug 2024",
       active: true,
       description:
         "With the release of the [OpenAI GPT Store](https://openai.com/blog/introducing-the-gpt-store), I decided to build a SaaS which allows users to collect email addresses from their GPT users. This is a great way to build an audience and monetize your GPT API usage.",
       technologies: [
         "React.js",
-        "Typescript",
-        "PostgreSQL",
-        "Prisma",
+        "Javascript",
+        "MySQL",
+        "Flask",
         "TailwindCSS",
-        "Stripe",
-        "Shadcn UI",
-        "Magic UI",
+        "Chakra UI",
       ],
       links: [
         {
           type: "Website",
-          href: "https://chatcollect.com",
+          href: "https://vitapharmcosmetics.co.ke/",
           icon: <Icons.globe className="size-3" />,
         },
       ],
       image: "",
       video:
-        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/chat-collect.mp4",
+        "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/vitapharm.mp4",
     },
     {
       title: "Magic UI",
@@ -169,24 +166,24 @@ export const DATA = {
   ],
   hackathons: [
     {
-      title: "A2SV 2024",
-      dates: "November 23rd - 25th, 2018",
-      location: "London, Ontario",
+      title: "Naiccon Afrofuturisic Game Hackathon",
+      dates: "November 18h - 19th, 2023",
+      location: "Nairobi, Kenya",
       description:
-        "Developed a mobile application which delivered bedtime stories to children using augmented reality.",
+        "Developed a web based anime quiz bowl game application with a bingwa points award system and weekly leaderboards.",
       image:
-        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/hack-western.png",
+        "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/naicconlogo.jpg",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
     },
     {
-      title: "Hack The North",
-      dates: "September 14th - 16th, 2018",
-      location: "Waterloo, Ontario",
+      title: "A2SV AI for Impact in Africa",
+      dates: "July 26th - 31st, 2024",
+      location: "Nairobi, Kenya",
       description:
-        "Developed a mobile application which delivers university campus wide events in real time to all students.",
+        "Developed a mental wellness web application which helps streamline learning by providing links to tutorials and also a place to bond over common interests like music and movies.",
       image:
-        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/hackline/hack-the-north.png",
+        "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/a2svlogo.jpeg",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
     }
