@@ -9,7 +9,7 @@ import Markdown from "react-markdown";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ProjectCard } from "./mycomponents/projectcard/page";
 import { HackathonCard } from "./mycomponents/hackathoncard/page";
-
+import MyAvatar from "./mycomponents/MyAvatar/page";
 
 
 
@@ -19,11 +19,12 @@ export type IconProps = React.HTMLAttributes<SVGElement>;
 export default function BlurFadeTextDemo() {
   return (
     <div className="flex flex-col min-h-[100dvh] space-y-10 container">
-    <section className="mt-9 mx-auto w-full md:max-w-2xl lg:max-w-4xl xl:max-w-6xl ">
+    <section className="mt-9 mx-auto w-full md:max-w-2xl lg:max-w-4xl xl:max-w-6xl container ">
     <section id="header" className=" mt-9 mx-auto">
       <BlurFade delay={0.25} inView>
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none ">
-          Hello, Im Sean 👋
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none flex">
+       
+        Hello, Im Sean 👋
         </h2>
       </BlurFade>
       <BlurFade delay={0.25 * 2} inView className="my-4">
@@ -31,16 +32,22 @@ export default function BlurFadeTextDemo() {
           Sofware Engineer, Designer, Munch
         </span>
       </BlurFade >
-      <BlurFade delay={0.25 *2} inView className="">
-      <iframe  src="https://open.spotify.com/embed/track/1fOkmYW3ZFkkjIdOZSf596?utm_source=generator" 
-      width="100%" height="200" frameBorder="0"  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </BlurFade>
-      
+      <section id="about">
+        <BlurFade delay={BLUR_FADE_DELAY * 3}>
+          <h2 className="text-xl font-bold">About</h2>
+        </BlurFade>
+        <BlurFade delay={BLUR_FADE_DELAY * 4}>
+          <Markdown className="prose max-w-full text-pretty font-sans text-md text-muted-foreground dark:prose-invert">
+            {DATA.summary}
+          </Markdown>
+        </BlurFade>
+      </section>
+     
      
      
     </section>
     <section id="work">
-        <div className="flex min-h-0 flex-col gap-y-3">
+        <div className="flex min-h-0 flex-col gap-y-3 mt-4">
           <BlurFade delay={BLUR_FADE_DELAY * 5}>
             <h2 className="text-xl font-bold">Work Experience</h2>
           </BlurFade>
@@ -106,7 +113,7 @@ export default function BlurFadeTextDemo() {
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
+                <div className="inline-block rounded-lg bg-sunset text-petal px-3 py-1 text-sm">
                   My Projects
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -147,7 +154,7 @@ export default function BlurFadeTextDemo() {
           <BlurFade delay={BLUR_FADE_DELAY * 13}>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
+                <div className="inline-block rounded-lg bg-sunset text-petal px-3 py-1 text-sm">
                   Hackathons
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -189,7 +196,7 @@ export default function BlurFadeTextDemo() {
         <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 16}>
             <div className="space-y-3">
-              <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
+              <div className="inline-block rounded-lg bg-sunset text-petal px-3 py-1 text-sm">
                 Contact
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -213,7 +220,12 @@ export default function BlurFadeTextDemo() {
    
    
     </section>
-    <footer>
+    <footer className="mb-6">
+    <BlurFade delay={0.25 *2} inView className="flex justify-center">
+      <iframe  src="https://open.spotify.com/embed/track/1fOkmYW3ZFkkjIdOZSf596?utm_source=generator" 
+      width="70%" height="200" frameBorder="0"  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </BlurFade>
+      
    <LinksDock/>
     </footer>
     </div>
