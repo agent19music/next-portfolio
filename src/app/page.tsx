@@ -9,9 +9,6 @@ import Markdown from "react-markdown";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ProjectCard } from "./mycomponents/projectcard/page";
 import { HackathonCard } from "./mycomponents/hackathoncard/page";
-import MyAvatar from "./mycomponents/MyAvatar/page";
-
-
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -20,7 +17,7 @@ export default function BlurFadeTextDemo() {
   return (
     <div className="flex flex-col min-h-[100dvh] space-y-10 container">
     <section className="mt-9 mx-auto w-full md:max-w-2xl lg:max-w-4xl xl:max-w-6xl container ">
-    <section id="header" className=" mt-9 mx-auto">
+    <section id="header" className=" mt-9 mx-auto relative">
       <BlurFade delay={0.25} inView>
         <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none flex">
        
@@ -43,7 +40,8 @@ export default function BlurFadeTextDemo() {
         </BlurFade>
       </section>
      
-     
+      <div className="absolute top-0 right-0"> {/* Position avatar absolutely */}
+  </div>
      
     </section>
     <section id="work">
