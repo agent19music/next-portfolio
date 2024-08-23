@@ -7,6 +7,8 @@ import { useControls } from 'leva';
 import * as THREE from 'three';
 
 export function SeanDuneAvatar(props) {
+  const {animation} = props
+  
   const group = useRef();  
 
   const {cursorFollow} = useControls({
@@ -17,8 +19,16 @@ export function SeanDuneAvatar(props) {
   const { nodes, materials } = useGraph(clone)
 
   const {animations: wavingAnimation} = useFBX("animations/Waving.fbx");
+  const {animations: standingAnimation} = useFBX("animations/Standing Idle.fbx");
+  const {animations: fallingAnimation} = useFBX("animations/Falling Idle.fbx");
+  const {animations: landingAnimation} = useFBX("animations/Falling To Landing.fbx");
+
+
+
   wavingAnimation[0].name = "Waving";
-  console.log(group.current);
+  standingAnimation[0].name = "Standing";
+  fallingAnimation[0].name = "Falling";
+  landingAnimation[0].name = "Landing";
   
 
   useFrame((state) => {
@@ -28,10 +38,13 @@ export function SeanDuneAvatar(props) {
       group.current.getObjectByName("Head").lookAt(target); 
      }
   });
-  const {actions} = useAnimations(wavingAnimation, group)
+  const {actions} = useAnimations([wavingAnimation[0], fallingAnimation[0], landingAnimation[0], standingAnimation[0]], group)
   useEffect(()=>{
-    actions["Waving"].reset().play()
-  },[])
+    actions[animation].reset().fadeIn(0.5).play()
+    return ()=>{
+      actions[animation].reset().fadeOut(0.5)
+    }
+  },[animation])
 
   return (
     <group {...props} ref={group} dispose={null} >
