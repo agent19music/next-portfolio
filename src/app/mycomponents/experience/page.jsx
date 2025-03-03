@@ -1,6 +1,6 @@
 "use client";
 import { ContactShadows, OrbitControls } from "@react-three/drei";
-import {SeanDuneAvatar} from "@/app/mycomponents/seanduneavatar/page";
+import {SeanDuneAvatar} from "@/app/mycomponents/seanduneavatar";
 import { PointLight } from "@react-three/drei";
 import { useControls } from "leva";
 import { Sky } from "@react-three/drei";
