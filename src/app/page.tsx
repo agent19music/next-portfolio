@@ -1,13 +1,13 @@
 import BlurFade from "@/components/magicui/blur-fade";
 import Sidebar from "./mycomponents/aside/page";
-import { LinksDock } from "./mycomponents/dock/page";
-import { ResumeCard } from "./mycomponents/resumecard/page";
+import { LinksDock } from "./mycomponents/dock";
+import { ResumeCard } from "./mycomponents/resumecard";
 import { DATA } from "./data/resume";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ProjectCard } from "./mycomponents/projectcard/page";
+import { ProjectCard } from "./mycomponents/projectcard";
 import HackathonCard from "./mycomponents/hackathoncard/page";
 
 const BLUR_FADE_DELAY = 0.04;
