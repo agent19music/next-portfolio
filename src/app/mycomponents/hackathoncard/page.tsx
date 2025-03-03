@@ -1,6 +1,6 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { FaGithub, FaLink } from 'react-icons/fa';
+import { Github, Link } from 'lucide-react';
 
 // Dynamically import the HackathonCard component
 const HackathonCard = dynamic(() => import('@/components/ui/hackathon-card').then(mod => mod.HackathonCard), {
@@ -16,12 +16,12 @@ const exampleHackathon = {
   image: "/images/hackathon-logo.png",
   links: [
     {
-      icon: <FaGithub className="h-4 w-4" />,
+      icon: <Github className="h-4 w-4" />,
       title: "GitHub",
       href: "https://github.com/username/project"
     },
     {
-      icon: <FaLink className="h-4 w-4" />,
+      icon: <Link className="h-4 w-4" />,
       title: "Demo",
       href: "https://demo-url.com"
     }
