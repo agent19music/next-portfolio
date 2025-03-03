@@ -7,7 +7,7 @@ import { Sky } from "@react-three/drei";
 import { Environment } from "@react-three/drei";
 
 
-export const Experience = () => {
+const Page = () => {
   const {animation} = useControls({
     animation:{
     value : "Waving",
@@ -47,3 +47,5 @@ export const Experience = () => {
   </>
   );
 };
+
+export default Page;
