@@ -1,5 +1,5 @@
 import BlurFade from "@/components/magicui/blur-fade";
-import Sidebar from "./mycomponents/aside/page";
+import Sidebar from "./mycomponents/aside";
 import { LinksDock } from "./mycomponents/dock";
 import { ResumeCard } from "./mycomponents/resumecard";
 import { DATA } from "./data/resume";
