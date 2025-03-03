@@ -8,7 +8,7 @@ import Link from "next/link";
 import Markdown from "react-markdown";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ProjectCard } from "./mycomponents/projectcard";
-import HackathonCard from "./mycomponents/hackathoncard/page";
+import { HackathonCard } from "./mycomponents/hackathoncard";
 
 const BLUR_FADE_DELAY = 0.04;
 
