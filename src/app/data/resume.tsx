@@ -69,22 +69,21 @@ export const DATA = {
       title: "Frontend Software Engineer",
       logoUrl: "/vitapharmlogo.png",
       start: "April 2024",
-      end: "date",
+      end: "August 2024",
       description:
-        "Implemented the Bitcoin discreet log contract (DLC) protocol specifications as an open source Typescript SDK. Dockerized all microservices and setup production kubernetes cluster. Architected a data lake using AWS S3 and Athena for historical backtesting of bitcoin trading strategies. Built a mobile app using react native and typescript.",
+        "Developed a web-based application and an accompanying admin dashboard for Vitapharm Health, a cosmetics company, using React.js and Tailwind CSS. The application features a user-friendly interface for managing product inventory and customer orders.",
     },
     {
-      company: "E-Kommerce Ltd",
-      href: "https://mitremedia.com/",
+      company: "Freelance",
+      href: "https://www.upwork.com/freelancers/~01a2b3c4d5e6f7g8h9",
       badges: [],
-      location: "Toronto, ON",
+      location: "Nairobi, KE",
       title: "Full Stack Software Engineer",
-      logoUrl: "/mitremedia.png",
+      logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/upwork-logo.png",
       start: "June 2024",
       end: "date",
-      description:
-        "Designed and implemented a robust password encryption and browser cookie storage system in Ruby on Rails. Leveraged the Yahoo finance API to develop the dividend.com equity screener",
-    },
+      description: "Worked as a freelance software engineer, specializing in full-stack development. Collaborated with clients to design and implement custom web applications, focusing on user experience and performance optimization. Additionally, dedicated significant time to challenging personal projects, which served to deepen tool knowledge and enhance problem-solving skills."
+      },
   ],
   education: [
     {
@@ -189,4 +188,32 @@ export const DATA = {
     }
 
   ],
+  photos:  [
+    {
+      id: 1,
+      src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/miracle-garden-polaroid.png",
+      alt: "Dubai Miracle Garden",
+      caption: "Me at the Dubai Miracle Garden, 2024"
+    },
+    {
+      id: 2,
+      src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/moringa-grad-polaroid.png",
+      alt: "Moringa School Graduation",
+      caption: "Me at the Moringa School Graduation, 2024"
+    },
+    {
+      id: 3,
+      src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/dubai-desert-safari-polaroid.png",
+      alt: "Dubai Desert Safari",
+      caption: "Me at the Dubai Desert Safari, 2024"
+    },
+    {
+      id: 4,
+      src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/oloolua-walk-polaroid.png",
+      alt: "Oloolua Nature Trail",
+      caption: "Me at the Oloolua Nature Trail, 2025"
+    },
+   
+  ],
+
 } as const;
