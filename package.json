@@ -14,6 +14,7 @@
     "@react-three/drei": "^9.68.2",
     "@react-three/fiber": "^8.13.0",
     "@types/three": "0.152.1",
+    "@vercel/analytics": "^1.5.0",
     "aws-sdk": "^2.1678.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
