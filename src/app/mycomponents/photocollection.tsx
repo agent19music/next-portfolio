@@ -19,28 +19,47 @@ interface StackedPhotoCollectionProps {
 const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({ 
   photos, 
   stackSpacing = 3, 
-  growScale = 1.08,
   size = 'medium'
 }) => {
   // State to track order of photos
   const [photoStack, setPhotoStack] = useState<Photo[]>(photos);
-  // State to track if currently dragging
-  const [isDragging, setIsDragging] = useState(false);
+  // State to track current position in the sequence
+  const [currentIndex, setCurrentIndex] = useState(0);
   // State to track hovered photo
   const [hoveredPhotoId, setHoveredPhotoId] = useState<number | null>(null);
   // State to track if we're on mobile
   const [isMobile, setIsMobile] = useState(false);
+  // State to track if user has interacted with the component
+  const [hasInteracted, setHasInteracted] = useState(false);
   
   // Container for the entire component
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Function to move a photo to the back of the stack
-  const moveToBack = (id: number) => {
+  // Function to move the next photo to the back of the stack sequentially
+  const shuffleNext = () => {
+    // Set hasInteracted to true on first shuffle
+    if (!hasInteracted) {
+      setHasInteracted(true);
+    }
+    
+    // Reset hover state when shuffling
+    setHoveredPhotoId(null);
+    
     setPhotoStack(prev => {
-      const item = prev.find(photo => photo.id === id);
+      // Get the photo at the current index
+      const nextIndex = currentIndex % photos.length;
+      const nextPhotoId = photos[nextIndex].id;
+      
+      // Find the photo to move
+      const item = prev.find(photo => photo.id === nextPhotoId);
       if (!item) return prev;
       
-      const filteredStack = prev.filter(photo => photo.id !== id);
+      // Remove it from the stack and add to the end
+      const filteredStack = prev.filter(photo => photo.id !== nextPhotoId);
+      
+      // Increment the index for next shuffle
+      setCurrentIndex(currentIndex + 1);
+      
       return [...filteredStack, item];
     });
   };
@@ -111,7 +130,6 @@ const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({
                 className="absolute top-0 left-0 w-full h-full cursor-pointer"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ 
-                  scale: isHovered ? growScale : 1,
                   opacity: 1,
                   x: offset.x * stackSpacing,
                   y: offset.y * stackSpacing,
@@ -134,51 +152,22 @@ const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({
                 style={{ 
                   transformOrigin: 'center center',
                 }}
-                drag={!isMobile}
-                dragConstraints={{ left: -20, right: 20, top: -20, bottom: 20 }}
-                dragElastic={0.05}
-                onDragStart={() => setIsDragging(true)}
-                onDrag={(e, info) => {
-                  // If dragged more than minimal threshold, immediately send to back
-                  const dragDistance = Math.sqrt(
-                    Math.pow(info.offset.x, 2) + 
-                    Math.pow(info.offset.y, 2)
-                  );
+                onClick={(e) => {
+                  // Prevent hover state from persisting
+                  e.stopPropagation();
                   
-                  if (dragDistance > 15 && !isMobile) {
-                    // Only move it once during a drag
-                    if (isDragging) {
-                      moveToBack(photo.id);
-                      // Temporarily disable further dragging effects for this action
-                      setIsDragging(false);
-                    }
-                  }
+                  // Shuffle to the next photo when clicked
+                  shuffleNext();
                 }}
-                onDragEnd={() => {
-                  setIsDragging(false);
-                }}
-                onClick={() => {
-                  // Always move to back on mobile tap
-                  // On desktop, only process click if not dragging
-                  if (isMobile || !isDragging) {
-                    moveToBack(photo.id);
-                  }
-                }}
-                whileHover={{ 
-                  scale: growScale,
-                  zIndex: 100
-                }}
-                onHoverStart={() => setHoveredPhotoId(photo.id)}
-                onHoverEnd={() => setHoveredPhotoId(null)}
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
-                    moveToBack(photo.id);
+                    shuffleNext();
                   }
                 }}
               >
                 {/* Actual photo */}
-                <div className="absolute inset-0 w-full h-full rounded-lg overflow-hidden">
+                <div className="absolute inset-0 w-full h-full rounded-lg overflow-hidden ">
                   <img 
                     src={photo.src} 
                     alt={photo.alt}
@@ -188,22 +177,24 @@ const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({
                 </div>
                 
                 {/* Caption if provided */}
-                {photo.caption && (
+                {/* {photo.caption && (
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-4 py-3">
                     <p className="text-white text-sm font-medium">{photo.caption}</p>
                   </div>
-                )}
+                )} */}
                 
-                {/* "Drag me" bubble - shown on all cards when hovered */}
-                <div 
-                  className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300 ${
-                    isHovered ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  <div className="bg-black/60 text-white text-xs px-3 py-1.5 rounded-full">
-                    {isMobile ? 'Tap to shuffle' : 'Drag to shuffle'}
+                {/* "Click me" bubble - shown on all cards when hovered, but only if user hasn't interacted yet */}
+                {!hasInteracted && (
+                  <div 
+                    className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300 ${
+                      isHovered ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    <div className="bg-black/60 text-white text-xs px-3 py-1.5 rounded-full">
+                      {isMobile ? 'Tap to shuffle' : 'Click to shuffle'}
+                    </div>
                   </div>
-                </div>
+                )}
               </motion.div>
             );
           })}
@@ -212,7 +203,6 @@ const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({
       
       <div className="absolute bottom-2 left-0 right-0 text-center">
         <p className="text-sm text-gray-500">
-          <span className="hidden md:inline">Shuffle through my work</span>
           <span className="md:hidden">Tap to explore</span>
         </p>
       </div>
