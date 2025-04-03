@@ -19,6 +19,7 @@ interface ResumeCardProps {
   period: string;
   description?: string;
 }
+
 export const ResumeCard = ({
   logoUrl,
   altText,
@@ -30,6 +31,14 @@ export const ResumeCard = ({
   description,
 }: ResumeCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
+  const [contentHeight, setContentHeight] = React.useState(0);
+  const contentRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight);
+    }
+  }, [description]);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (description) {
@@ -44,9 +53,9 @@ export const ResumeCard = ({
       className="block cursor-pointer"
       onClick={handleClick}
     >
-      <Card className="flex">
-        <div className="flex-none">
-          <Avatar className="border size-12 m-auto bg-muted-background dark:bg-foreground">
+      <Card className="flex flex-col sm:flex-row">
+        <div className="flex justify-start pl-4 py-3 sm:p-4 sm:w-16 md:w-20">
+          <Avatar className="border size-10 sm:size-12 bg-muted-background dark:bg-foreground">
             <AvatarImage
               src={logoUrl}
               alt={altText}
@@ -55,53 +64,62 @@ export const ResumeCard = ({
             <AvatarFallback>{altText[0]}</AvatarFallback>
           </Avatar>
         </div>
-        <div className="flex-grow ml-4 items-center flex-col group">
-          <CardHeader>
-            <div className="flex items-center justify-between gap-x-2 text-base">
-              <h3 className="inline-flex items-center justify-center font-semibold leading-none text-xs sm:text-sm">
+        <div className="flex-grow flex-col group">
+          <CardHeader className="px-4 py-2 sm:py-3">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-x-2">
+              <h3 className="inline-flex items-center font-semibold leading-none text-xs sm:text-sm">
                 {title}
-                {badges && (
-                  <span className="inline-flex gap-x-1">
-                    {badges.map((badge, index) => (
-                      <Badge
-                        variant="secondary"
-                        className="align-middle text-xs"
-                        key={index}
-                      >
-                        {badge}
-                      </Badge>
-                    ))}
-                  </span>
-                )}
                 <ChevronRightIcon
                   className={cn(
-                    "size-4 translate-x-0 transform opacity-0 transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:opacity-100",
-                    isExpanded ? "rotate-90" : "rotate-0"
+                    "ml-1 size-4 transform",
+                    isExpanded ? "rotate-90" : "rotate-0",
+                    // Only hide on desktop and show on hover
+                    "sm:opacity-0 sm:group-hover:opacity-100 sm:transition-all sm:duration-300 sm:ease-out sm:group-hover:translate-x-1 sm:translate-x-0"
                   )}
                 />
               </h3>
-              <div className="text-xs sm:text-sm tabular-nums text-muted-foreground text-right">
+              <div className="text-xs sm:text-sm tabular-nums text-muted-foreground sm:text-right">
                 {period}
               </div>
             </div>
-            {subtitle && <div className="font-sans text-xs">{subtitle}</div>}
+            {subtitle && <div className="text-xs mt-1">{subtitle}</div>}
+            {badges && badges.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-2">
+                {badges.map((badge, index) => (
+                  <Badge
+                    variant="secondary"
+                    className="align-middle text-xs"
+                    key={index}
+                  >
+                    {badge}
+                  </Badge>
+                ))}
+              </div>
+            )}
           </CardHeader>
           {description && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{
-                opacity: isExpanded ? 1 : 0,
-
-                height: isExpanded ? "auto" : 0,
-              }}
-              transition={{
-                duration: 0.7,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="mt-2 text-xs sm:text-sm"
-            >
-              {description}
-            </motion.div>
+            <>
+              <div 
+                ref={contentRef} 
+                className="absolute opacity-0 pointer-events-none px-4 pb-4 text-xs sm:text-sm"
+              >
+                {description}
+              </div>
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{
+                  opacity: isExpanded ? 1 : 0,
+                  height: isExpanded ? contentHeight : 0,
+                }}
+                transition={{
+                  duration: 0.5,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="px-4 pb-4 text-xs sm:text-sm overflow-hidden"
+              >
+                {description}
+              </motion.div>
+            </>
           )}
         </div>
       </Card>
