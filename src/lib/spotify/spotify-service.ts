@@ -194,7 +194,7 @@ export function formatTrackData(track: SpotifyTrackItem | null) {
     artist: track.track.artists.map(artist => artist.name).join(', '),
     album: track.track.album.name,
     albumArt: track.track.album.images[0]?.url,
-    playedAt: new Date(track.played_at).toLocaleString(),
+    playedAt: new Date(track.played_at).toISOString(),
     spotifyUrl: track.track.external_urls.spotify,
     duration: Math.floor(track.track.duration_ms / 1000),
   };
