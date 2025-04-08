@@ -44,7 +44,7 @@ export function SeanDuneAvatar(props) {
     return ()=>{
       actions[animation].reset().fadeOut(0.5)
     }
-  },[animation])
+  },[animation, actions])
 
   return (
     <group {...props} ref={group} dispose={null} >

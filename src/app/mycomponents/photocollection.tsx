@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 interface Photo {
   id: number;
@@ -165,11 +166,15 @@ const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({
               >
                 {/* Actual photo */}
                 <div className="absolute inset-0 w-full h-full rounded-lg overflow-hidden ">
-                  <img 
+                  <Image 
                     src={photo.src} 
                     alt={photo.alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="w-full h-full object-cover"
-                    draggable="false" // Prevent native image dragging
+                    draggable={false} // Prevent native image dragging
+                    quality={85}
+                    priority={index === 0} // Load first image with priority
                   />
                 </div>
                 
