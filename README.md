@@ -1,3 +1,45 @@
+# Supabase Integration
+
+This project uses Supabase for authentication and data storage. Follow these steps to ensure proper configuration:
+
+## Environment Variables
+
+1. Update your `.env.local` file to include the following Supabase variables with the `NEXT_PUBLIC_` prefix:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+The existing `SUPABASE_URL` and `SUPABASE_ANON_KEY` variables (without the `NEXT_PUBLIC_` prefix) should be kept for server-side operations.
+
+## Using the Supabase Client
+
+The Supabase client is initialized in a centralized location at `src/lib/supabase.ts`. Import and use it in your components like this:
+
+```tsx
+import supabase from '@/lib/supabase';
+
+// Now you can use the supabase client
+const { data, error } = await supabase.auth.signInWithPassword({
+  email: 'example@email.com',
+  password: 'example-password',
+});
+```
+
+## Authentication Example
+
+An example authentication component is provided at `src/components/examples/SupabaseAuthExample.tsx`. You can use this as a reference for implementing Supabase authentication in your application.
+
+## Troubleshooting
+
+If you encounter issues with Supabase client initialization:
+
+1. Make sure the environment variables are correctly set with the `NEXT_PUBLIC_` prefix in `.env.local`
+2. Check the browser console for any error messages during development
+3. Verify that the Supabase project URL and anon key are correct
+4. Restart the Next.js development server after making changes to `.env.local`
+
 # Hello, I'm Sean Motanya! 👋✨
 
 Certified Software Engineer | Anime Enthusiast | JavaScript Ninja 🥷

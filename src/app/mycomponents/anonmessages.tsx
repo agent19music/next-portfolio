@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { Send, Image, X } from "lucide-react";
-import { createClient } from "@supabase/supabase-js";
 import {Input} from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,17 +10,6 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 // Dynamically import Lottie with SSR disabled
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
-
-// Initialize Supabase client
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error("Supabase environment variables are not set.");
-}
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function EasterEggMessageForm() {
   const [showForm, setShowForm] = useState(false);
@@ -110,20 +98,21 @@ const uploadImage = async (file: File): Promise<string | null> => {
         imageUrl = await uploadImage(file);
       }
 
-      // Insert message into database
-      const { error: insertError } = await supabase
-        .from("anonymous_messages")
-        .insert([
-          {
-            message: message.trim(),
-            image_url: imageUrl,
-            created_at: new Date().toISOString(),
-          },
-        ]);
+      // Send message to our API route instead of directly to Supabase
+      const response = await fetch('/api/supabase-config', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: message.trim(),
+          imageUrl,
+        }),
+      });
 
-      if (insertError) {
-        console.error("Error saving message:", insertError.message);
-        throw new Error("Failed to save message");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to save message");
       }
 
       // Show success in button
