@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import supabase from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,68 +11,63 @@ export function SupabaseAuthExample() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<{ email: string } | null>(null);
 
-  const handleSignIn = async (e) => {
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
-    
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-      
+
       if (error) {
-        throw error;
+        throw new Error(error.message);
       }
-      
-      setUser(data.user);
+
+      setUser(data.user ? { email: data.user.email || '' } : null);
       setMessage('Successfully signed in!');
-    } catch (error) {
-      setMessage(`Error: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-  const handleSignOut = async () => {
-    setLoading(true);
-    
-    try {
-      const { error } = await supabase.auth.signOut();
-      
-      if (error) {
-        throw error;
-      }
-      
-      setUser(null);
-      setMessage('Successfully signed out!');
-    } catch (error) {
+    } catch (error: any) {
       setMessage(`Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
   };
 
-  // Check current session on component mount
-  useState(() => {
+  const handleSignOut = async () => {
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      setUser(null);
+      setMessage('Successfully signed out!');
+    } catch (error: any) {
+      setMessage(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     const checkUser = async () => {
       const { data } = await supabase.auth.getSession();
-      setUser(data?.session?.user || null);
+      setUser(data?.session?.user ? { email: data.session.user.email || '' } : null);
     };
-    
+
     checkUser();
-    
-    // Set up auth state listener
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setUser(session?.user || null);
-      }
-    );
-    
-    // Clean up subscription on unmount
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ? { email: session.user.email || '' } : null);
+    });
+
     return () => {
       authListener?.subscription?.unsubscribe();
     };
@@ -101,6 +96,7 @@ export function SupabaseAuthExample() {
                 <Input
                   type="email"
                   placeholder="Email"
+                  aria-label="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -110,6 +106,7 @@ export function SupabaseAuthExample() {
                 <Input
                   type="password"
                   placeholder="Password"
+                  aria-label="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
