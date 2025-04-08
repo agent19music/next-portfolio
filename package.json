@@ -14,6 +14,7 @@
     "@radix-ui/react-avatar": "^1.1.0",
     "@react-three/drei": "^9.68.2",
     "@react-three/fiber": "^8.13.0",
+    "@supabase/supabase-js": "^2.49.4",
     "@types/three": "0.152.1",
     "@vercel/analytics": "^1.5.0",
     "aws-sdk": "^2.1678.0",

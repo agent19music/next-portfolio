@@ -11,6 +11,7 @@ import { HackathonCard } from "./mycomponents/hackathoncard"
 import { EducationCard } from "./mycomponents/educationcard"
 import StackedPhotoCollection from "./mycomponents/photocollection"
 import { SpotifyTrack } from "@/app/mycomponents/SpotifyTrack"
+import AnonymousMessageInput from "@/app/mycomponents/anonmessages"
 const BLUR_FADE_DELAY = 0.04
 
 export type IconProps = React.HTMLAttributes<SVGElement>
@@ -192,8 +193,11 @@ export default function BlurFadeTextDemo() {
         <BlurFade delay={0.25 * 2} inView className="flex flex-col items-center mb-12">
           <div className="inline-block rounded-lg bg-sunset text-petal px-3 py-1 text-sm mb-4">Currently Listening</div>
           <h3 className="text-xl font-bold mb-4">My Latest Spotify Track</h3>
-          <div className="w-[70%]">
+          <div className="w-[80%]">
             <SpotifyTrack />
+          </div>
+          <div>
+            <AnonymousMessageInput />
           </div>
         </BlurFade>
 
