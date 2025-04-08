@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useSWR from "swr";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -15,6 +15,74 @@ interface SpotifyTrack {
   songUrl: string;
   title: string;
   playedAt: string;
+}
+
+// Custom component for text that slides horizontally when it doesn't fit
+function SlidingText({ 
+  children, 
+  className = "",
+  hoverOnly = false 
+}: { 
+  children: React.ReactNode; 
+  className?: string;
+  hoverOnly?: boolean;
+}) {
+  const textRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+
+  // Check if the text is overflowing its container
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (textRef.current && containerRef.current) {
+        const isTextOverflowing = textRef.current.scrollWidth > containerRef.current.clientWidth;
+        setIsOverflowing(isTextOverflowing);
+      }
+    };
+
+    checkOverflow();
+    
+    // Recheck on window resize
+    window.addEventListener('resize', checkOverflow);
+    return () => window.removeEventListener('resize', checkOverflow);
+  }, [children]);
+
+  // Determine if we should animate based on overflow and hover state
+  const shouldAnimate = isOverflowing && (!hoverOnly || (hoverOnly && isHovering));
+
+  return (
+    <div 
+      ref={containerRef}
+      className={`relative overflow-hidden ${className}`}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <motion.div
+        ref={textRef}
+        animate={shouldAnimate ? {
+          x: [0, -100, 0],
+        } : {
+          x: 0
+        }}
+        transition={shouldAnimate ? {
+          x: {
+            duration: 10,
+            repeat: Infinity,
+            repeatType: "loop",
+            ease: "linear",
+            repeatDelay: 1,
+          }
+        } : {}}
+        style={{ 
+          width: "max-content", 
+          display: "inline-block",
+        }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
 }
 
 const fetcher = (url: string) => fetch(url).then((res) => {
@@ -53,12 +121,20 @@ export function SpotifyTrack() {
         mutate();
       }
     };
-
+    
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [mutate]);
+
+  // Calculate animation distance based on text content
+  const getAnimationDistance = (textWidth: number, containerWidth: number): number => {
+    // Only animate if text is wider than container
+    if (textWidth <= containerWidth) return 0;
+    // Return negative percentage that would fully show all text
+    return -((textWidth / containerWidth * 100) - 100);
+  };
 
   if (isLoading) {
     return (
@@ -123,12 +199,12 @@ export function SpotifyTrack() {
           )}
           
           <div className="flex-1 min-w-0 max-w-full overflow-hidden">
-            <h3 className="font-medium text-base sm:text-lg text-mocha dark:text-gray-100 truncate">
+            <SlidingText className="font-medium text-base sm:text-lg text-mocha dark:text-gray-100">
               {data.title || 'Unknown Track'}
-            </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+            </SlidingText>
+            <SlidingText className="text-sm text-gray-500 dark:text-gray-400">
               {data.artistName || 'Unknown Artist'} · {data.albumName || 'Unknown Album'}
-            </p>
+            </SlidingText>
             <div className="mt-1 flex items-center gap-2">
               <span className={`inline-block w-2 h-2 rounded-full ${
                 data.isPlaying 
