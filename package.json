@@ -19,6 +19,7 @@
     "@supabase/supabase-js": "^2.49.4",
     "@types/three": "0.152.1",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "aws-sdk": "^2.1678.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
