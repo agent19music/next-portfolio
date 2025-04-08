@@ -18,7 +18,7 @@ interface StackedPhotoCollectionProps {
 
 const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({ 
   photos, 
-  stackSpacing = 3, 
+  stackSpacing = 4, 
   size = 'medium'
 }) => {
   // State to track order of photos
@@ -108,7 +108,7 @@ const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({
 
   return (
     <div 
-      className="w-full flex justify-center items-center py-12 relative select-none"
+      className="w-full flex justify-center items-center  relative select-none"
       ref={containerRef}
     >
       <div 
@@ -134,10 +134,7 @@ const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({
                   x: offset.x * stackSpacing,
                   y: offset.y * stackSpacing,
                   rotate: offset.rotate,
-                  zIndex,
-                  boxShadow: isHovered 
-                    ? '0 10px 25px rgba(0, 0, 0, 0.2)' 
-                    : '0 4px 8px rgba(0, 0, 0, 0.1)'
+                  zIndex
                 }}
                 exit={{ 
                   scale: 0.8, 

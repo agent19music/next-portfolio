@@ -11,14 +11,21 @@ export function LinksDock() {
     <div className="relative">
       <Dock direction="middle">
         <DockIcon>
-          <Icons.gitHub className="size-6" /> 
+          <a href="https://github.com/agent19music" target="_blank" rel="noopener noreferrer">
+            <Icons.gitHub className="size-6" />
+          </a>
         </DockIcon>
-        
+
         <DockIcon>
-          <Icons.gmail className="size-6" /> 
+          <a href="mailto:seanmotanya@gmail.com" target="_blank" rel="noopener noreferrer">
+            <Icons.gmail className="size-6" />
+          </a>
         </DockIcon>
+
         <DockIcon>
-          <Icons.whatsapp className="size-6" />
+          <a href="https://wa.me/971582301251" target="_blank" rel="noopener noreferrer">
+            <Icons.whatsapp className="size-6" />
+          </a>
         </DockIcon>
       </Dock>
     </div>

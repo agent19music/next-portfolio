@@ -10,6 +10,7 @@ import { ProjectCard } from "./mycomponents/projectcard"
 import { HackathonCard } from "./mycomponents/hackathoncard"
 import { EducationCard } from "./mycomponents/educationcard"
 import StackedPhotoCollection from "./mycomponents/photocollection"
+import { SpotifyTrack } from "@/app/mycomponents/SpotifyTrack"
 const BLUR_FADE_DELAY = 0.04
 
 export type IconProps = React.HTMLAttributes<SVGElement>
@@ -188,15 +189,12 @@ export default function BlurFadeTextDemo() {
         </section>
       </section>
       <footer className="py-16 mt-8">
-        <BlurFade delay={0.25 * 2} inView className="flex justify-center mb-12">
-          <iframe
-            src="https://open.spotify.com/embed/track/1fOkmYW3ZFkkjIdOZSf596?utm_source=generator"
-            width="70%"
-            height="200"
-            frameBorder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
+        <BlurFade delay={0.25 * 2} inView className="flex flex-col items-center mb-12">
+          <div className="inline-block rounded-lg bg-sunset text-petal px-3 py-1 text-sm mb-4">Currently Listening</div>
+          <h3 className="text-xl font-bold mb-4">My Latest Spotify Track</h3>
+          <div className="w-[70%]">
+            <SpotifyTrack />
+          </div>
         </BlurFade>
 
         <LinksDock />

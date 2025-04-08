@@ -10,7 +10,7 @@ export const DATA = {
   description:
     "Software Engineer. I love building things and helping people.",
   summary:
-    "I am a 20-year-old full-stack web developer and computer science student, with a certificate in software engineering. I have a passion for building innovative and efficient web applications. In addition to my technical skills, I have a deep appreciation for music, which fuels my creativity and drive.",
+    "I am a 21-year-old full-stack web developer and computer science student, with a certificate in software engineering. I have a passion for building innovative and efficient web applications. In addition to my technical skills, I have a deep appreciation for music, which fuels my creativity and drive.",
   skills: [
     "React",
     "Next.js",
@@ -19,6 +19,9 @@ export const DATA = {
     "Python",
     "Postgres",
     "Docker",
+    "Flask",
+    "Tailwind CSS",
+    "React Native",
    
   ],
   navbar: [
@@ -121,47 +124,15 @@ export const DATA = {
       ],
       links: [
         {
-          type: "Website",
-          href: "https://vitapharmcosmetics.co.ke/",
-          icon: <Icons.globe className="size-3" />,
+          type: "Source",
+          href: "https://github.com/agent19music/vitapharm-client",
+          icon: <Icons.github className="size-3" />,
         },
       ],
       image: "",
       video:
         "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/vitapharm.mp4",
     },
-    {
-      title: "Magic UI",
-      href: "https://magicui.design",
-      dates: "June 2023 - Present",
-      active: true,
-      description:
-        "Designed, developed and sold animated UI components for developers.",
-      technologies: [
-        "Next.js",
-        "Typescript",
-        "PostgreSQL",
-        "Prisma",
-        "TailwindCSS",
-        "Stripe",
-        "Shadcn UI",
-        "Magic UI",
-      ],
-      links: [
-        {
-          type: "Website",
-          href: "https://magicui.design",
-          icon: <Icons.globe className="size-3" />,
-        },
-        {
-          type: "Source",
-          href: "https://github.com/magicuidesign/magicui",
-          icon: <Icons.github className="size-3" />,
-        },
-      ],
-      image: "",
-      video: "https://cdn.magicui.design/bento-grid.mp4",
-    }
   ],
   hackathons: [
     {
@@ -185,7 +156,17 @@ export const DATA = {
         "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/a2svlogo.jpeg",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
-    }
+    },
+    {
+      title: "Anza Village Design Thinking Hackathon",
+      dates: "November 15th - 17th 2024",
+      location: "Nairobi, Kenya",
+      description:"Developed a secure ticket management system that eliminated unauthorized transfers and prevented revenue loss from resale fraud, while delivering an intuitive, visually striking user interface for enhanced customer experience.",
+      image:
+        "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/logo_anzavillage.png",
+      mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
+      links: [],
+    },
 
   ],
   photos:  [
