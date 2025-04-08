@@ -6,6 +6,7 @@ const ACCESS_KEY = process.env.R2_ACCESS_KEY;
 const SECRET_KEY = process.env.R2_SECRET_KEY;
 const BUCKET_NAME = process.env.R2_BUCKET_NAME;
 
+
 // Validate required environment variables
 if (!ACCOUNT_ID) {
   console.error('R2_ACCOUNT_ID environment variable is required');
