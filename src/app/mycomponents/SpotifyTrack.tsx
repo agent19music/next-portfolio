@@ -62,10 +62,10 @@ export function SpotifyTrack() {
 
   if (isLoading) {
     return (
-      <div className="w-full p-4 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 animate-pulse">
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-md bg-gray-200 dark:bg-gray-700"></div>
-          <div className="flex-1 space-y-2">
+      <div className="w-full p-4 sm:p-5 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 animate-pulse">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-md bg-gray-200 dark:bg-gray-700"></div>
+          <div className="flex-1 min-w-0 space-y-2">
             <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
             <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
           </div>
@@ -90,23 +90,23 @@ export function SpotifyTrack() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full overflow-hidden rounded-lg border-2 border-mocha dark:border-gray-800 bg-petal dark:bg-gray-950 shadow-sm hover:shadow-md transition-shadow duration-200"
+      className="w-full max-w-full overflow-hidden rounded-lg border-2 border-mocha dark:border-gray-800 bg-petal dark:bg-gray-950 shadow-sm hover:shadow-md transition-shadow duration-200"
     >
       <a 
         href={data.songUrl} 
         target="_blank"
         rel="noopener noreferrer"
-        className="block p-4"
+        className="block p-4 sm:p-5 md:p-6"
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           {data.albumImageUrl ? (
-            <div className="relative min-w-16 h-16 rounded-md overflow-hidden shadow-sm">
+            <div className="relative min-w-16 sm:min-w-20 h-16 sm:h-20 rounded-md overflow-hidden shadow-sm">
               <Image
                 src={data.albumImageUrl}
                 alt={data.albumName || 'Album cover'}
-                width={64}
-                height={64}
-                className="object-cover"
+                width={80}
+                height={80}
+                className="object-cover w-full h-full"
               />
               <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 {data.isPlaying ? (
@@ -117,16 +117,16 @@ export function SpotifyTrack() {
               </div>
             </div>
           ) : (
-            <div className="min-w-16 h-16 rounded-md bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+            <div className="min-w-16 sm:min-w-20 h-16 sm:h-20 rounded-md bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
               <Music className="text-gray-400" size={24} />
             </div>
           )}
           
-          <div className="flex-1 min-w-0">
-            <h3 className="font-medium text-sm sm:text-base text-mocha dark:text-gray-100 truncate">
+          <div className="flex-1 min-w-0 max-w-full overflow-hidden">
+            <h3 className="font-medium text-base sm:text-lg text-mocha dark:text-gray-100 truncate">
               {data.title || 'Unknown Track'}
             </h3>
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">
+            <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
               {data.artistName || 'Unknown Artist'} · {data.albumName || 'Unknown Album'}
             </p>
             <div className="mt-1 flex items-center gap-2">
@@ -135,7 +135,7 @@ export function SpotifyTrack() {
                   ? 'bg-green-500 animate-pulse' 
                   : 'bg-gray-300 dark:bg-gray-600'
               }`}></span>
-              <p className="text-xs text-gray-400 dark:text-gray-500">
+              <p className="text-xs sm:text-sm text-gray-400 dark:text-gray-500">
                 {data.isPlaying 
                   ? 'Now playing' 
                   : data.playedAt 
