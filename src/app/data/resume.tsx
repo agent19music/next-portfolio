@@ -100,7 +100,7 @@ export const DATA = {
     {
       school: "Riara University",
       href: "https://riarauniversity.ac.ke",
-      degree: "Bachelor's Degree of Computer Science (BCS)",
+      degree: "Bachelor's Degree in Computer Science (BCS)",
       logoUrl: "/rulogo.jpg",
       start: "2021",
       end: "2025",
@@ -109,11 +109,11 @@ export const DATA = {
   projects: [
     {
       title: "Vitapharm cosmetics",
-      href: "https://chatcollect.com",
+          href: "https://github.com/agent19music/vitapharm-client",
       dates: "Apr 2024 - Aug 2024",
       active: true,
       description:
-        "With the release of the [OpenAI GPT Store](https://openai.com/blog/introducing-the-gpt-store), I decided to build a SaaS which allows users to collect email addresses from their GPT users. This is a great way to build an audience and monetize your GPT API usage.",
+      "Developed a web-based application and an accompanying admin dashboard for Vitapharm Health, a cosmetics company, using React.js and Tailwind CSS. The application features a user-friendly interface for managing product inventory and customer orders.",
       technologies: [
         "React.js",
         "Javascript",
@@ -164,6 +164,17 @@ export const DATA = {
       description:"Developed a secure ticket management system that eliminated unauthorized transfers and prevented revenue loss from resale fraud, while delivering an intuitive, visually striking user interface for enhanced customer experience.",
       image:
         "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/logo_anzavillage.png",
+      mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
+      links: [],
+    },
+    
+    {
+      title: "DeKuT Idea to Business Innovation Weekend",
+      dates: "May 23rd - 24th 2025",
+      location: "Nyeri, Kenya",
+      description:"Presented the winning healthcare accessibility application that connects vulnerable patients like the elderly and disabled with healthcare providers, ensuring they receive timely medical attention.",
+      image:
+        "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/i2B-LOGO.png",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
     },
