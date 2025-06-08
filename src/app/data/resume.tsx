@@ -86,7 +86,7 @@ export const DATA = {
       title: "Full Stack Software Engineer",
       logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/upwork-logo.png",
       start: "June 2024",
-      end: "date",
+      end: "present",
       description: "Worked as a freelance software engineer, specializing in full-stack development. Collaborated with clients to design and implement custom web applications, focusing on user experience and performance optimization. Additionally, dedicated significant time to challenging personal projects, which served to deepen tool knowledge and enhance problem-solving skills."
       },
       {
