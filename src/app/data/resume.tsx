@@ -22,6 +22,8 @@ export const DATA = {
     "Flask",
     "Tailwind CSS",
     "React Native",
+    "PHP",
+    "Laravel",
    
   ],
   navbar: [
@@ -87,6 +89,18 @@ export const DATA = {
       end: "date",
       description: "Worked as a freelance software engineer, specializing in full-stack development. Collaborated with clients to design and implement custom web applications, focusing on user experience and performance optimization. Additionally, dedicated significant time to challenging personal projects, which served to deepen tool knowledge and enhance problem-solving skills."
       },
+      {
+      company: "Lixnet Technologies",
+      href: "https://lixnet.net",
+      badges: [],
+      location: "Remote",
+      title: "Backend Software Engineer",
+      logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/lixnet%20logo.jpeg",
+      start: "May 2025",
+      end: "present",
+      description:
+      "Currently working as a Backend Software Engineer at Lixnet Technologies where I am responsible for developing their payroll management system. My role involves designing and implementing robust backend solutions to ensure efficient payroll processing and management for clients.",
+    },
   ],
   education: [
     {
