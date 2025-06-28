@@ -7,11 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import dynamic from 'next/dynamic';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useColorPalette } from "@/contexts/color-palette-context";
 
 // Dynamically import Lottie with SSR disabled
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
 export default function EasterEggMessageForm() {
+  const { paletteData } = useColorPalette();
   const [showForm, setShowForm] = useState(false);
   const [message, setMessage] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -21,6 +23,7 @@ export default function EasterEggMessageForm() {
   const [error, setError] = useState("");
   const [isEggCracking, setIsEggCracking] = useState(false);
   const lottieRef = useRef(null);
+  const [showEasterEgg, setShowEasterEgg] = useState(false);
 
   const handleEggClick = () => {
     // Start the cracking animation
@@ -28,8 +31,8 @@ export default function EasterEggMessageForm() {
     
     // After animation completes, show the form
     setTimeout(() => {
-      setShowForm(true);
-    }, 1500); // Match this with the duration of your cracking animation
+      setShowEasterEgg(true);
+    }, 2000); // Match this with the duration of your cracking animation
   };
 
   interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {
@@ -140,7 +143,7 @@ export default function EasterEggMessageForm() {
     }
   };
 
-  if (!showForm) {
+  if (!showEasterEgg) {
     return (
       <motion.div 
         className="flex flex-col items-center justify-center space-y-4 text-center my-12 cursor-pointer" 
@@ -152,7 +155,8 @@ export default function EasterEggMessageForm() {
       >
         <div className="relative">
           <motion.div 
-            className="mt-4 text-xl font-bold text-sunset"
+            className="mt-4 text-xl font-bold"
+            style={{ color: paletteData.accent }}
             animate={{
               y: [0, -10, 0],
               transition: {
@@ -251,7 +255,8 @@ export default function EasterEggMessageForm() {
               transition={{ delay: 1, duration: 0.5 }}
             >
               <motion.div 
-                className="text-lg font-bold text-sunset"
+                className="text-lg font-bold"
+                style={{ color: paletteData.accent }}
                 animate={{
                   scale: [0.8, 1.2, 1],
                   transition: { duration: 0.5, delay: 1.2 }
@@ -282,7 +287,8 @@ export default function EasterEggMessageForm() {
         >
           <div className="space-y-2">
             <motion.div 
-              className="inline-block rounded-lg bg-sunset text-petal px-3 py-1 text-sm"
+              className="inline-block rounded-lg px-3 py-1 text-sm"
+              style={{ backgroundColor: paletteData.accent, color: paletteData.primary }}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.3, type: "spring", stiffness: 500 }}
@@ -309,7 +315,8 @@ export default function EasterEggMessageForm() {
         </motion.div>
         
         <motion.div 
-          className="bg-petal dark:bg-gray-900 rounded-lg shadow-md overflow-hidden border-gray-200 dark:border-gray-800"
+          className="rounded-lg shadow-md overflow-hidden border-gray-200 dark:border-gray-800"
+          style={{ backgroundColor: paletteData.primary }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
@@ -380,13 +387,18 @@ export default function EasterEggMessageForm() {
                     type="submit"
                     onClick={handleSubmit}
                     disabled={isSubmitting || (!message.trim() && !file) || isSent}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-white ${
-                      isSent 
-                        ? "bg-green-600" 
+                    className="flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all"
+                    style={{
+                      backgroundColor: isSent 
+                        ? "#22c55e" 
                         : (!message.trim() && !file) || isSubmitting
-                          ? "bg-gray-300 dark:bg-gray-700 cursor-not-allowed"
-                          : "bg-[#92736C] hover:bg-[#7d6259] transition-all"
-                    }`}
+                          ? "#d1d5db"
+                          : paletteData.accent,
+                      color: isSent || ((!message.trim() && !file) || isSubmitting)
+                        ? "#ffffff"
+                        : paletteData.background,
+                      cursor: (!message.trim() && !file) || isSubmitting ? "not-allowed" : "pointer"
+                    }}
                   >
                     {isSent ? (
                       "Sent!"

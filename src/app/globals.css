@@ -33,6 +33,14 @@
     --ring: 0 0% 3.9%;
 
     --radius: 0.5rem;
+
+    /* Dynamic theme variables - default to mocha */
+    --background: #FDF1F5;
+    --text: #92736C;
+    --accent: #92736C;
+    --primary: #FDF1F5;
+    --secondary: #92736C;
+    --muted: #F2F0E6;
   }
 
   .dark {
@@ -71,7 +79,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-blush text-mocha;
+    background-color: var(--background);
+    color: var(--text);
   }
 }
 

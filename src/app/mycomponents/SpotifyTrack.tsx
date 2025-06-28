@@ -6,6 +6,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Play, Pause, Music, AlertCircle } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { useColorPalette } from "@/contexts/color-palette-context";
 
 interface SpotifyTrack {
   albumImageUrl: string;
@@ -104,6 +105,7 @@ const fetcher = (url: string) => fetch(url).then((res) => {
 });
 
 export function SpotifyTrack() {
+  const { paletteData } = useColorPalette();
   const { data, error, isLoading, mutate } = useSWR<SpotifyTrack>(
     '/api/spotify',
     fetcher,
@@ -166,7 +168,11 @@ export function SpotifyTrack() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full max-w-full overflow-hidden rounded-lg border-2 border-mocha dark:border-gray-800 bg-petal dark:bg-gray-950 shadow-sm hover:shadow-md transition-shadow duration-200"
+      className="w-full max-w-full overflow-hidden rounded-lg border-2 shadow-sm hover:shadow-md transition-shadow duration-200"
+      style={{ 
+        borderColor: paletteData.accent,
+        backgroundColor: paletteData.primary
+      }}
     >
       <a 
         href={data.songUrl} 
@@ -186,9 +192,9 @@ export function SpotifyTrack() {
               />
               <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 {data.isPlaying ? (
-                  <Pause className="text-mocha" size={24} />
+                  <Pause size={24} style={{ color: paletteData.accent }} />
                 ) : (
-                  <Play className="text-mocha" size={24} />
+                  <Play size={24} style={{ color: paletteData.accent }} />
                 )}
               </div>
             </div>
@@ -199,7 +205,7 @@ export function SpotifyTrack() {
           )}
           
           <div className="flex-1 min-w-0 max-w-full overflow-hidden">
-            <SlidingText className="font-medium text-base sm:text-lg text-mocha dark:text-gray-100">
+            <SlidingText className="font-medium text-base sm:text-lg" style={{ color: paletteData.accent }}>
               {data.title || 'Unknown Track'}
             </SlidingText>
             <SlidingText className="text-sm text-gray-500 dark:text-gray-400">

@@ -59,6 +59,18 @@ const config = {
         orchid: "#F2CFF1",
         petal: "#FDF1F5",
         sunset: "#EE8E46",
+        snow: "#FCF7F8",
+        madder: "#A31621",
+        alabaster: "#F2F0E6",
+        mossgreen: "#7E8C54",
+        eggshell: "#F0EAD6",
+        lilac: "#C8A2C8",
+        // Dynamic theme colors
+        "theme-primary": "var(--primary)",
+        "theme-secondary": "var(--secondary)",
+        "theme-accent": "var(--accent)",
+        "theme-background": "var(--background)",
+        "theme-text": "var(--text)",
       },
       borderRadius: {
         lg: "var(--radius)",

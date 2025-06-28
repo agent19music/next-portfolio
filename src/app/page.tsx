@@ -1,3 +1,5 @@
+"use client"
+
 import type React from "react"
 import BlurFade from "@/components/magicui/blur-fade"
 import { LinksDock } from "./mycomponents/dock"
@@ -12,10 +14,16 @@ import { EducationCard } from "./mycomponents/educationcard"
 import StackedPhotoCollection from "./mycomponents/photocollection"
 import { SpotifyTrack } from "@/app/mycomponents/SpotifyTrack"
 import AnonymousMessageInput from "@/app/mycomponents/anonmessages"
+import { ColorPaletteSelector } from "@/components/color-palette-selector"
+import { useColorPalette } from "@/contexts/color-palette-context"
+
 const BLUR_FADE_DELAY = 0.04
 
 export type IconProps = React.HTMLAttributes<SVGElement>
-export default function BlurFadeTextDemo() {
+
+function PortfolioContent() {
+  const { currentPalette, setCurrentPalette, paletteData } = useColorPalette()
+
   return (
     <div className="flex flex-col min-h-[100dvh] space-y-10 container">
       <section className="mt-9 mx-auto w-full md:max-w-2xl lg:max-w-4xl xl:max-w-6xl container ">
@@ -23,23 +31,25 @@ export default function BlurFadeTextDemo() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             <div className="space-y-2">
               <BlurFade delay={0.25} inView>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none flex">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none flex" style={{ color: paletteData.text }}>
                   Hello, I&apos;m Sean 👋
                 </h2>
               </BlurFade>
               <BlurFade delay={0.25 * 2} inView className="py-4">
-                <span className="text-md text-pretty tracking-tighter sm:text-3xl xl:text-2xl/none">
+                <span className="text-md text-pretty tracking-tighter sm:text-3xl xl:text-2xl/none" style={{ color: paletteData.secondary }}>
                   Sofware Engineer, Designer
                 </span>
               </BlurFade>
               <section id="about" className="">
                 <BlurFade delay={BLUR_FADE_DELAY * 3}>
-                  <h2 className="text-xl font-bold pb-4">About</h2>
+                  <h2 className="text-xl font-bold pb-4" style={{ color: paletteData.text }}>About</h2>
                 </BlurFade>
                 <BlurFade delay={BLUR_FADE_DELAY * 4}>
-                  <Markdown className="prose max-w-full text-pretty text-md text-muted-foreground dark:prose-invert">
-                    {DATA.summary}
-                  </Markdown>
+                  <div style={{ color: paletteData.secondary }}>
+                    <Markdown className="prose max-w-full text-pretty text-md text-muted-foreground dark:prose-invert">
+                      {DATA.summary}
+                    </Markdown>
+                  </div>
                 </BlurFade>
               </section>
             </div>
@@ -52,7 +62,7 @@ export default function BlurFadeTextDemo() {
         <section id="work">
           <div className="flex min-h-0 flex-col gap-y-3 mt-4">
             <BlurFade delay={BLUR_FADE_DELAY * 5}>
-              <h2 className="text-xl font-bold">Work Experience</h2>
+              <h2 className="text-xl font-bold" style={{ color: paletteData.text }}>Work Experience</h2>
             </BlurFade>
             {DATA.work.map((work, id) => (
               <BlurFade key={work.company} delay={BLUR_FADE_DELAY * 6 + id * 0.05}>
@@ -74,7 +84,7 @@ export default function BlurFadeTextDemo() {
         <section id="education">
           <div className="flex min-h-0 flex-col gap-y-3">
             <BlurFade delay={BLUR_FADE_DELAY * 7}>
-              <h2 className="text-xl font-bold">Education</h2>
+              <h2 className="text-xl font-bold" style={{ color: paletteData.text }}>Education</h2>
             </BlurFade>
             {DATA.education.map((education, id) => (
               <BlurFade key={education.school} delay={BLUR_FADE_DELAY * 8 + id * 0.05}>
@@ -94,7 +104,7 @@ export default function BlurFadeTextDemo() {
         <section id="skills">
           <div className="flex min-h-0 flex-col gap-y-3">
             <BlurFade delay={BLUR_FADE_DELAY * 9}>
-              <h2 className="text-xl font-bold">Skills</h2>
+              <h2 className="text-xl font-bold" style={{ color: paletteData.text }}>Skills</h2>
             </BlurFade>
             <div className="flex flex-wrap gap-1">
               {DATA.skills.map((skill, id) => (
@@ -110,9 +120,9 @@ export default function BlurFadeTextDemo() {
             <BlurFade delay={BLUR_FADE_DELAY * 11}>
               <div className="flex flex-col items-center justify-center space-y-4 text-center">
                 <div className="space-y-2">
-                  <div className="inline-block rounded-lg bg-sunset text-petal px-3 py-1 text-sm">My Projects</div>
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Check out my latest work</h2>
-                  <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  <div className="inline-block rounded-lg px-3 py-1 text-sm" style={{ backgroundColor: paletteData.accent, color: paletteData.primary }}>My Projects</div>
+                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl" style={{ color: paletteData.text }}>Check out my latest work</h2>
+                  <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed" style={{ color: paletteData.secondary }}>
                     I&apos;ve worked on a variety of projects, from simple websites to complex web applications. Here
                     are a few of my favorites.
                   </p>
@@ -143,9 +153,9 @@ export default function BlurFadeTextDemo() {
             <BlurFade delay={BLUR_FADE_DELAY * 13}>
               <div className="flex flex-col items-center justify-center space-y-4 text-center">
                 <div className="space-y-2">
-                  <div className="inline-block rounded-lg bg-sunset text-petal px-3 py-1 text-sm">Hackathons</div>
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">I like building things</h2>
-                  <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  <div className="inline-block rounded-lg px-3 py-1 text-sm" style={{ backgroundColor: paletteData.accent, color: paletteData.primary }}>Hackathons</div>
+                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl" style={{ color: paletteData.text }}>I like building things</h2>
+                  <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed" style={{ color: paletteData.secondary }}>
                     During my time in university, I attended {DATA.hackathons.length}+ hackathons. People from around
                     the country would come together and build incredible things in 2-3 days. It was eye-opening to see
                     the endless possibilities brought to life by a group of motivated and passionate individuals.
@@ -175,9 +185,9 @@ export default function BlurFadeTextDemo() {
           <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
             <BlurFade delay={BLUR_FADE_DELAY * 16}>
               <div className="space-y-3">
-                <div className="inline-block rounded-lg bg-sunset text-petal px-3 py-1 text-sm">Contact</div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Get in Touch</h2>
-                <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                <div className="inline-block rounded-lg px-3 py-1 text-sm" style={{ backgroundColor: paletteData.accent, color: paletteData.primary }}>Contact</div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl" style={{ color: paletteData.text }}>Get in Touch</h2>
+                <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed" style={{ color: paletteData.secondary }}>
                   Want to chat? Just shoot me a dm{" "}
                   <Link href={DATA.contact.social.X.url} className="text-blue-500 hover:underline">
                     with a direct question on twitter
@@ -191,8 +201,8 @@ export default function BlurFadeTextDemo() {
       </section>
       <footer className="py-16 mt-8">
         <BlurFade delay={0.25 * 2} inView className="flex flex-col items-center mb-12">
-          <div className="inline-block rounded-lg bg-sunset text-petal px-3 py-1 text-sm mb-4">Currently Listening</div>
-          <h3 className="text-xl font-bold mb-4">My Latest Spotify Track</h3>
+          <div className="inline-block rounded-lg px-3 py-1 text-sm mb-4" style={{ backgroundColor: paletteData.accent, color: paletteData.primary }}>Currently Listening</div>
+          <h3 className="text-xl font-bold mb-4" style={{ color: paletteData.text }}>My Latest Spotify Track</h3>
           <div className="w-[80%]">
             <SpotifyTrack />
           </div>
@@ -203,7 +213,16 @@ export default function BlurFadeTextDemo() {
 
         <LinksDock />
       </footer>
+
+      <ColorPaletteSelector 
+        currentPalette={currentPalette}
+        onPaletteChange={setCurrentPalette}
+      />
     </div>
   )
+}
+
+export default function BlurFadeTextDemo() {
+  return <PortfolioContent />
 }
 
