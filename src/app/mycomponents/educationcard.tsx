@@ -53,7 +53,13 @@ export const EducationCard = ({
       className="block cursor-pointer"
       onClick={handleClick}
     >
-      <Card className="flex flex-col sm:flex-row">
+      <Card 
+        className="flex flex-col sm:flex-row"
+        style={{ 
+          backgroundColor: 'var(--card-bg)',
+          color: 'var(--card-text)'
+        }}
+      >
         <div className="flex justify-start pl-4 py-3 sm:p-4 sm:w-16 md:w-20">
           <Avatar className="border size-10 sm:size-12 bg-muted-background dark:bg-foreground">
             <AvatarImage src={logoUrl} alt={altText} className="object-contain" />
@@ -63,7 +69,7 @@ export const EducationCard = ({
         <div className="flex-grow flex-col group">
           <CardHeader className="px-4 py-2 sm:py-3">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-x-2">
-              <h3 className="inline-flex items-center font-semibold leading-none text-xs sm:text-sm">
+              <h3 className="inline-flex items-center font-semibold leading-none text-xs sm:text-sm" style={{ color: 'var(--card-text)' }}>
                 {title}
                 <ExternalLink
                   className={cn(
@@ -71,13 +77,14 @@ export const EducationCard = ({
                     isExpanded ? "rotate-90" : "rotate-0",
                     "sm:opacity-0 sm:group-hover:opacity-100 sm:transition-all sm:duration-300 sm:ease-out sm:group-hover:translate-x-1 sm:translate-x-0"
                   )}
+                  style={{ color: 'var(--card-text)' }}
                 />
               </h3>
-              <div className="text-xs sm:text-sm tabular-nums text-muted-foreground sm:text-right">
+              <div className="text-xs sm:text-sm tabular-nums text-muted-foreground sm:text-right" style={{ color: 'var(--muted)' }}>
                 {period}
               </div>
             </div>
-            {subtitle && <div className="text-xs mt-1">{subtitle}</div>}
+            {subtitle && <div className="text-xs mt-1" style={{ color: 'var(--card-text)' }}>{subtitle}</div>}
             {badges && badges.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {badges.map((badge, index) => (
@@ -97,6 +104,7 @@ export const EducationCard = ({
               <div 
                 ref={contentRef} 
                 className="absolute opacity-0 pointer-events-none px-4 pb-4 text-xs sm:text-sm"
+                style={{ color: 'var(--card-text)' }}
               >
                 {description}
               </div>
@@ -111,6 +119,7 @@ export const EducationCard = ({
                   ease: [0.16, 1, 0.3, 1],
                 }}
                 className="px-4 pb-4 text-xs sm:text-sm overflow-hidden"
+                style={{ color: 'var(--card-text)' }}
               >
                 {description}
               </motion.div>

@@ -25,6 +25,7 @@ export async function GET(request: NextRequest) {
       summary: {
         totalEvents: data.length,
         uniqueSessions: new Set(data.map(e => e.session_id)).size,
+        
         timeRange: `${days} days`
       }
     });

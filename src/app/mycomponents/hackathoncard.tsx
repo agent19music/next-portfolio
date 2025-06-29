@@ -33,14 +33,14 @@ export function HackathonCard({
       </div>
       <div className="flex flex-1 flex-col justify-start gap-1">
         {dates && (
-          <time className="text-xs text-muted-foreground">{dates}</time>
+          <time className="text-xs" style={{ color: 'var(--muted)' }}>{dates}</time>
         )}
-        <h2 className="font-semibold leading-none">{title}</h2>
+        <h2 className="font-semibold leading-none" style={{ color: 'var(--text)' }}>{title}</h2>
         {location && (
-          <p className="text-sm text-muted-foreground">{location}</p>
+          <p className="text-sm" style={{ color: 'var(--muted)' }}>{location}</p>
         )}
         {description && (
-          <span className="prose dark:prose-invert text-sm text-muted-foreground">
+          <span className="prose dark:prose-invert text-sm" style={{ color: 'var(--muted)' }}>
             {description}
           </span>
         )}
@@ -49,7 +49,11 @@ export function HackathonCard({
         <div className="mt-2 flex flex-row flex-wrap items-start gap-2">
           {links?.map((link, idx) => (
             <Link href={link.href} key={idx}>
-              <Badge key={idx} title={link.title} className="flex gap-2">
+              <Badge 
+                key={idx} 
+                title={link.title} 
+                className="flex gap-2"
+              >
                 {link.icon}
                 {link.title}
               </Badge>

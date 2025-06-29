@@ -3,30 +3,46 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { colorPalettes, type ColorPaletteKey } from '@/components/color-palette-selector'
 
-// Utility function for simple dark mode color swapping
-function getContrastColor(hex: string, isDark: boolean): string {
-  if (!isDark) return hex
-  
+// Utility function to create a muted version of a color
+function createMutedColor(hex: string, isDarkMode: boolean = false): string {
   const cleanHex = hex.replace('#', '')
   const num = parseInt(cleanHex, 16)
+  
   const r = (num >> 16) & 255
   const g = (num >> 8) & 255
   const b = num & 255
   
-  // Calculate luminance to determine if it's light or dark
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-  
-  // Simple inversion: light colors become dark, dark colors become light
-  if (luminance > 0.5) {
-    // Light color - make it dark
-    return '#2a2a2a'
+  if (isDarkMode) {
+    // In dark mode, make muted colors lighter/more visible
+    const newR = Math.min(255, Math.round(r + (255 - r) * 0.4))
+    const newG = Math.min(255, Math.round(g + (255 - g) * 0.4))
+    const newB = Math.min(255, Math.round(b + (255 - b) * 0.4))
+    return `#${((newR << 16) | (newG << 8) | newB).toString(16).padStart(6, '0')}`
   } else {
-    // Dark color - make it light
-    return '#f5f5f5'
+    // In light mode, make muted colors slightly lighter
+    const newR = Math.min(255, Math.round(r + (255 - r) * 0.3))
+    const newG = Math.min(255, Math.round(g + (255 - g) * 0.3))
+    const newB = Math.min(255, Math.round(b + (255 - b) * 0.3))
+    return `#${((newR << 16) | (newG << 8) | newB).toString(16).padStart(6, '0')}`
   }
 }
 
-
+// Dark mode transformation function - swap background with primary and accents
+function getDarkModeTransformation(paletteKey: ColorPaletteKey) {
+  const originalPalette = colorPalettes[paletteKey]
+  
+  // Only swap background and text colors, keep accent colors (pills) the same
+  return {
+    ...originalPalette,
+    background: originalPalette.text, // Use text color as background
+    text: originalPalette.background, // Use background as text
+    accent: originalPalette.accent, // Keep accent the same (for pills)
+    primary: originalPalette.text, // Use text color as primary
+    secondary: originalPalette.background, // Use background as secondary
+    muted: createMutedColor(originalPalette.background, true), // Lighter muted version for dark mode
+    cardText: "#f8f8f8", // Off-white text for cards in dark mode
+  }
+}
 
 interface ColorPaletteContextType {
   currentPalette: ColorPaletteKey
@@ -72,15 +88,24 @@ export function ColorPaletteProvider({ children }: { children: React.ReactNode }
     if (typeof window !== 'undefined') {
       const palette = colorPalettes[currentPalette]
       
-      // Simple dark mode: just swap background and text colors
-      const appliedPalette = isDarkMode ? {
-        ...palette,
-        background: getContrastColor(palette.background, true),
-        text: getContrastColor(palette.text, true),
-        primary: getContrastColor(palette.background, true),
-        accent: getContrastColor(palette.accent, true),
-        secondary: getContrastColor(palette.secondary, true),
-      } : palette
+      // Use new dark mode transformation
+      const appliedPalette = isDarkMode ? getDarkModeTransformation(currentPalette) : palette
+      
+      // Utility function to lighten a color for card backgrounds
+      const lightenColor = (hex: string, amount: number = 0.05): string => {
+        const cleanHex = hex.replace('#', '')
+        const num = parseInt(cleanHex, 16)
+        
+        const r = (num >> 16) & 255
+        const g = (num >> 8) & 255
+        const b = num & 255
+        
+        const newR = Math.min(255, Math.round(r + (255 - r) * amount))
+        const newG = Math.min(255, Math.round(g + (255 - g) * amount))
+        const newB = Math.min(255, Math.round(b + (255 - b) * amount))
+        
+        return `#${((newR << 16) | (newG << 8) | newB).toString(16).padStart(6, '0')}`
+      }
       
       // Set CSS custom properties
       document.documentElement.style.setProperty('--background', appliedPalette.background)
@@ -90,6 +115,12 @@ export function ColorPaletteProvider({ children }: { children: React.ReactNode }
       document.documentElement.style.setProperty('--secondary', appliedPalette.secondary)
       document.documentElement.style.setProperty('--muted', appliedPalette.muted)
       
+      // Add lighter card background
+      document.documentElement.style.setProperty('--card-bg', lightenColor(appliedPalette.background, 0.05))
+      
+      // Set card text color (off-white for dark mode, dark for light mode)
+      document.documentElement.style.setProperty('--card-text', appliedPalette.cardText || (isDarkMode ? '#f8f8f8' : '#333333'))
+      
       // Also set the body background to match the palette
       document.body.style.backgroundColor = appliedPalette.background
       document.body.style.color = appliedPalette.text
@@ -98,15 +129,8 @@ export function ColorPaletteProvider({ children }: { children: React.ReactNode }
 
   const palette = colorPalettes[currentPalette]
   
-  // Simple dark mode transformation for paletteData
-  const paletteData = isDarkMode ? {
-    ...palette,
-    background: getContrastColor(palette.background, true),
-    text: getContrastColor(palette.text, true),
-    primary: getContrastColor(palette.background, true),
-    accent: getContrastColor(palette.accent, true),
-    secondary: getContrastColor(palette.secondary, true),
-  } : palette
+  // Use new dark mode transformation for paletteData
+  const paletteData = isDarkMode ? getDarkModeTransformation(currentPalette) : palette
 
   return (
     <ColorPaletteContext.Provider 

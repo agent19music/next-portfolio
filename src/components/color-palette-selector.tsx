@@ -5,10 +5,50 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Palette, Save, Moon, Sun, Download, Eye } from "lucide-react"
+import { Palette, Save, FileText, Sun, Moon, Settings } from "lucide-react"
 import { useColorPalette } from "@/contexts/color-palette-context"
 
-// Color palette definitions
+// Utility function to lighten a color for card backgrounds
+function lightenColor(hex: string, amount: number = 0.1): string {
+  const cleanHex = hex.replace('#', '')
+  const num = parseInt(cleanHex, 16)
+  
+  const r = (num >> 16) & 255
+  const g = (num >> 8) & 255
+  const b = num & 255
+  
+  const newR = Math.min(255, Math.round(r + (255 - r) * amount))
+  const newG = Math.min(255, Math.round(g + (255 - g) * amount))
+  const newB = Math.min(255, Math.round(b + (255 - b) * amount))
+  
+  return `#${((newR << 16) | (newG << 8) | newB).toString(16).padStart(6, '0')}`
+}
+
+// Utility function to create a muted version of a color
+function createMutedColor(hex: string, isDarkMode: boolean = false): string {
+  const cleanHex = hex.replace('#', '')
+  const num = parseInt(cleanHex, 16)
+  
+  const r = (num >> 16) & 255
+  const g = (num >> 8) & 255
+  const b = num & 255
+  
+  if (isDarkMode) {
+    // In dark mode, make muted colors lighter/more visible
+    const newR = Math.min(255, Math.round(r + (255 - r) * 0.4))
+    const newG = Math.min(255, Math.round(g + (255 - g) * 0.4))
+    const newB = Math.min(255, Math.round(b + (255 - b) * 0.4))
+    return `#${((newR << 16) | (newG << 8) | newB).toString(16).padStart(6, '0')}`
+  } else {
+    // In light mode, make muted colors slightly lighter
+    const newR = Math.min(255, Math.round(r + (255 - r) * 0.3))
+    const newG = Math.min(255, Math.round(g + (255 - g) * 0.3))
+    const newB = Math.min(255, Math.round(b + (255 - b) * 0.3))
+    return `#${((newR << 16) | (newG << 8) | newB).toString(16).padStart(6, '0')}`
+  }
+}
+
+// Color palette definitions with dynamic muted colors
 export const colorPalettes = {
   "muder": {
     name: "Muder",
@@ -17,7 +57,8 @@ export const colorPalettes = {
     accent: "#A31621", // madder
     primary: "#FCF7F8", // snow
     secondary: "#A31621", // madder
-    muted: "#F2F0E6", // alabaster
+    get muted() { return createMutedColor(this.text, false) }, // muted version of text
+    cardText: "#333333", // Default card text for light mode
   },
   "monochrome": {
     name: "Monochrome",
@@ -26,7 +67,8 @@ export const colorPalettes = {
     accent: "#000000", // black
     primary: "#FFFFFF", // white
     secondary: "#000000", // black
-    muted: "#000000", // black
+    get muted() { return createMutedColor(this.text, false) }, // muted version of text
+    cardText: "#333333", // Default card text for light mode
   },
   "sunset": {
     name: "Sunset",
@@ -35,7 +77,8 @@ export const colorPalettes = {
     accent: "#EE8E46", // sunset
     primary: "#FDF1F5", // petal
     secondary: "#EE8E46", // sunset
-    muted: "#FEF7F9", // lighter petal
+    get muted() { return createMutedColor(this.text, false) }, // muted version of text
+    cardText: "#333333", // Default card text for light mode
   },
   "calm": {
     name: "Calm",
@@ -44,7 +87,8 @@ export const colorPalettes = {
     accent: "#7E8C54", // mossgreen
     primary: "#F2F0E6", // alabaster
     secondary: "#7E8C54", // mossgreen
-    muted: "#F8F6F0", // lighter alabaster
+    get muted() { return createMutedColor(this.text, false) }, // muted version of text
+    cardText: "#333333", // Default card text for light mode
   },
   "lilac": {
     name: "Lilac",
@@ -53,7 +97,8 @@ export const colorPalettes = {
     accent: "#C8A2C8", // lilac
     primary: "#F0EAD6", // eggshell
     secondary: "#C8A2C8", // lilac
-    muted: "#F7F3E8", // lighter eggshell
+    get muted() { return createMutedColor(this.text, false) }, // muted version of text
+    cardText: "#333333", // Default card text for light mode
   },
   "mocha": {
     name: "Mocha",
@@ -62,9 +107,10 @@ export const colorPalettes = {
     accent: "#92736C", // mocha
     primary: "#FDF1F5", // petal
     secondary: "#92736C", // mocha
-    muted: "#F2F0E6", // alabaster
+    get muted() { return createMutedColor(this.text, false) }, // muted version of text
+    cardText: "#333333", // Default card text for light mode
   },
-}
+} as const
 
 export type ColorPaletteKey = keyof typeof colorPalettes
 
@@ -73,7 +119,6 @@ interface ColorPaletteSelectorProps {
   currentPalette: ColorPaletteKey
 }
 
-// Smart dark mode color transformations
 function getDarkModeTransformation(paletteKey: string): {
   background: string;
   text: string;
@@ -81,86 +126,69 @@ function getDarkModeTransformation(paletteKey: string): {
   primary: string;
   secondary: string;
   muted: string;
+  cardText: string;
 } {
-  // Define smart dark mode transformations for each palette
-  const darkModeTransformations: Record<string, {
-    background: string;
-    text: string;
-    accent: string;
-    primary: string;
-    secondary: string;
-    muted: string;
-  }> = {
-    "muder": {
-      background: "#1a1214", // deep dark with red undertone
-      text: "#ff6b7a", // lighter, more vibrant red for dark mode
-      accent: "#ff4757", // vibrant red accent
-      primary: "#2d1b1e", // dark primary with red undertone
-      secondary: "#ff6b7a", // matching text color
-      muted: "#251a1c", // subtle dark muted
-    },
-    "monochrome": {
-      background: "#0f0f0f", // pure dark
-      text: "#ffffff", // pure white
-      accent: "#ffffff", // pure white accent
-      primary: "#1a1a1a", // dark gray primary
-      secondary: "#ffffff", // white secondary
-      muted: "#262626", // dark muted
-    },
-    "sunset": {
-      background: "#1a1015", // dark with warm undertone
-      text: "#ffb366", // warmer, brighter orange
-      accent: "#ff8c42", // vibrant sunset orange
-      primary: "#2d1f1a", // warm dark primary
-      secondary: "#ffb366", // matching text
-      muted: "#241c18", // warm dark muted
-    },
-    "calm": {
-      background: "#131514", // dark with green undertone
-      text: "#a8c474", // lighter, more vibrant green
-      accent: "#9bb65d", // fresh green accent
-      primary: "#1f2220", // dark green primary
-      secondary: "#a8c474", // matching text
-      muted: "#1a1d1b", // subtle green-tinted dark
-    },
-    "lilac": {
-      background: "#161115", // dark with purple undertone
-      text: "#e8a8e8", // lighter, more vibrant lilac
-      accent: "#d892d8", // bright lilac accent
-      primary: "#251f25", // dark purple primary
-      secondary: "#e8a8e8", // matching text
-      muted: "#1f1a1f", // subtle purple-tinted dark
-    },
-    "mocha": {
-      background: "#15110f", // dark with brown undertone
-      text: "#c4a394", // lighter, warmer brown
-      accent: "#b8967c", // warm mocha accent
-      primary: "#231d1a", // warm dark primary
-      secondary: "#c4a394", // matching text
-      muted: "#1d1815", // warm dark muted
-    },
-  }
-
-  return darkModeTransformations[paletteKey.toLowerCase()] || {
-    background: "#1a1a1a",
-    text: "#ffffff",
-    accent: "#ffffff",
-    primary: "#2a2a2a",
-    secondary: "#ffffff",
-    muted: "#262626",
+  const originalPalette = colorPalettes[paletteKey as ColorPaletteKey]
+  
+  // Only swap background and text colors, keep accent colors (pills) the same
+  return {
+    ...originalPalette,
+    background: originalPalette.text, // Use text color as background
+    text: originalPalette.background, // Use background as text
+    accent: originalPalette.accent, // Keep accent the same (for pills)
+    primary: originalPalette.text, // Use text color as primary
+    secondary: originalPalette.background, // Use background as secondary
+    muted: createMutedColor(originalPalette.background, true), // Lighter muted version for dark mode
+    cardText: "#f8f8f8", // Off-white text for cards in dark mode
   }
 }
 
-
-
 export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorPaletteSelectorProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(true) // Start collapsed
   const [savedPalette, setSavedPalette] = useState<ColorPaletteKey>("mocha")
   const [showCV, setShowCV] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
   // Use context for dark mode state
   const { isDarkMode, setIsDarkMode } = useColorPalette()
+
+  // Mobile detection with responsive behavior
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Auto-hide mobile menu after inactivity
+  const resetInactivityTimer = () => {
+    if (inactivityTimer) {
+      clearTimeout(inactivityTimer)
+    }
+    const timer = setTimeout(() => {
+      setIsMobileMenuOpen(false)
+    }, 3000) // Hide after 3 seconds of inactivity
+    setInactivityTimer(timer)
+  }
+
+  // Reset timer on any interaction
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      resetInactivityTimer()
+    }
+    return () => {
+      if (inactivityTimer) {
+        clearTimeout(inactivityTimer)
+      }
+    }
+  }, [isMobileMenuOpen])
 
   // Load saved palette on mount
   useEffect(() => {
@@ -175,6 +203,7 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
     onPaletteChange(palette)
     setIsCollapsed(true)
     setIsOpen(false)
+    setIsMobileMenuOpen(false) // Hide mobile menu after selection
   }
 
   const handleSave = () => {
@@ -182,10 +211,19 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
     setSavedPalette(currentPalette)
     setIsCollapsed(true)
     setIsOpen(false)
+    setIsMobileMenuOpen(false) // Hide mobile menu after saving
   }
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode)
+    resetInactivityTimer() // Reset timer on interaction
+  }
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+    if (!isMobileMenuOpen) {
+      resetInactivityTimer()
+    }
   }
 
   const currentPaletteData = colorPalettes[currentPalette]
@@ -193,6 +231,156 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
   // Apply dark mode transformations
   const appliedPalette = isDarkMode ? getDarkModeTransformation(currentPalette) : currentPaletteData
 
+  // Mobile view (smaller screens)
+  if (isMobile) {
+    return (
+      <div className="fixed bottom-6 right-6 z-50">
+        {/* Mobile Floating CTA */}
+        <div className="relative">
+          {/* Expanded Menu */}
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
+                className="absolute bottom-14 right-0 flex flex-col gap-2"
+              >
+                {/* CV Dialog */}
+                <Dialog open={showCV} onOpenChange={setShowCV}>
+                  <DialogTrigger asChild>
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="w-10 h-10 rounded-full flex items-center justify-center shadow-lg cursor-pointer"
+                      style={{
+                        background: "rgba(255, 255, 255, 0.1)",
+                        backdropFilter: "blur(20px) saturate(180%)",
+                        WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                        border: "1px solid rgba(255, 255, 255, 0.2)",
+                        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
+                      }}
+                    >
+                      <FileText className="w-4 h-4" style={{ color: appliedPalette.text }} />
+                    </motion.div>
+                  </DialogTrigger>
+                  <DialogContent 
+                    className="sm:max-w-4xl border-0 p-0 overflow-hidden max-h-[90vh]"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.05)",
+                      backdropFilter: "blur(40px) saturate(200%)",
+                      WebkitBackdropFilter: "blur(40px) saturate(200%)",
+                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                      boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
+                    }}
+                  >
+                    <CVViewer />
+                  </DialogContent>
+                </Dialog>
+
+                {/* Dark Mode Toggle */}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={toggleDarkMode}
+                  className="w-10 h-10 rounded-full flex items-center justify-center shadow-lg cursor-pointer"
+                  style={{
+                    background: "rgba(255, 255, 255, 0.1)",
+                    backdropFilter: "blur(20px) saturate(180%)",
+                    WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
+                  }}
+                >
+                  {isDarkMode ? (
+                    <Sun className="w-4 h-4" style={{ color: appliedPalette.text }} />
+                  ) : (
+                    <Moon className="w-4 h-4" style={{ color: appliedPalette.text }} />
+                  )}
+                </motion.div>
+
+                {/* Color Palette Selector */}
+                <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                  <DialogTrigger asChild>
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center gap-1 px-2 py-1.5 rounded-full shadow-lg cursor-pointer"
+                      style={{
+                        background: "rgba(255, 255, 255, 0.1)",
+                        backdropFilter: "blur(20px) saturate(180%)",
+                        WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                        border: "1px solid rgba(255, 255, 255, 0.2)",
+                        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
+                      }}
+                    >
+                      <div className="flex gap-0.5">
+                        <div 
+                          className="w-2 h-2 rounded-full shadow-sm" 
+                          style={{ backgroundColor: appliedPalette.primary }}
+                        />
+                        <div 
+                          className="w-2 h-2 rounded-full shadow-sm" 
+                          style={{ backgroundColor: appliedPalette.accent }}
+                        />
+                      </div>
+                      <span 
+                        className="text-xs font-medium backdrop-blur-sm"
+                        style={{ color: appliedPalette.text }}
+                      >
+                        {currentPaletteData.name}
+                      </span>
+                    </motion.div>
+                  </DialogTrigger>
+                  <DialogContent 
+                    className="sm:max-w-md border-0 p-0 overflow-hidden"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.05)",
+                      backdropFilter: "blur(40px) saturate(200%)",
+                      WebkitBackdropFilter: "blur(40px) saturate(200%)",
+                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                      boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
+                    }}
+                  >
+                    <ColorPaletteDialog 
+                      currentPalette={currentPalette}
+                      onPaletteSelect={handlePaletteSelect}
+                      onSave={handleSave}
+                      isDarkMode={isDarkMode}
+                    />
+                  </DialogContent>
+                </Dialog>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Main CTA Button - Use Settings icon consistently */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={toggleMobileMenu}
+            className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg cursor-pointer"
+            style={{
+              background: `linear-gradient(45deg, ${appliedPalette.primary}, ${appliedPalette.accent})`,
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              border: "2px solid rgba(255, 255, 255, 0.2)",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
+            }}
+          >
+            <motion.div
+              animate={{ rotate: isMobileMenuOpen ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Settings className="w-5 h-5 text-gray-700" />
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+    )
+  }
+
+  // Desktop view (unchanged but with updated icons)
   if (isCollapsed) {
     return (
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2">
@@ -211,7 +399,7 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
                 boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
               }}
             >
-              <Download className="w-5 h-5" style={{ color: appliedPalette.text }} />
+              <FileText className="w-5 h-5" style={{ color: appliedPalette.text }} />
             </motion.div>
           </DialogTrigger>
           <DialogContent 
@@ -329,7 +517,7 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            <Download className="w-6 h-6 text-gray-700" />
+            <FileText className="w-6 h-6 text-gray-700" />
           </motion.div>
         </DialogTrigger>
         <DialogContent 
@@ -446,7 +634,7 @@ interface ColorPaletteDialogProps {
 function ColorPaletteDialog({ currentPalette, onPaletteSelect, onSave, isDarkMode }: ColorPaletteDialogProps) {
   return (
     <div 
-      className="space-y-4 p-6"
+      className="p-6 space-y-4"
       style={{
         background: "rgba(255, 255, 255, 0.02)",
         backdropFilter: "blur(20px)",
@@ -455,7 +643,7 @@ function ColorPaletteDialog({ currentPalette, onPaletteSelect, onSave, isDarkMod
     >
       <div className="text-center">
         <h2 
-          className="text-xl font-bold mb-2"
+          className="text-2xl font-bold mb-2"
           style={{
             background: "linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7))",
             WebkitBackgroundClip: "text",
@@ -578,13 +766,11 @@ function ColorPaletteDialog({ currentPalette, onPaletteSelect, onSave, isDarkMod
 
 function CVViewer() {
   const handleDownload = () => {
-    // 🔥 REPLACE THIS WITH YOUR ACTUAL R2 BUCKET URL 🔥
-    const cvUrl = "https://your-r2-bucket-url.com/path/to/sean-motanya-cv.pdf"
+    const cvUrl = "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf"
     window.open(cvUrl, '_blank')
   }
 
-  // 🔥 REPLACE THIS WITH YOUR ACTUAL R2 BUCKET URL FOR PREVIEW 🔥
-  const cvPreviewUrl = "https://your-r2-bucket-url.com/path/to/sean-motanya-cv.pdf"
+  const cvPreviewUrl = "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf"
 
   return (
     <div 
@@ -618,7 +804,7 @@ function CVViewer() {
         </p>
       </div>
 
-      {/* CV Preview - SCROLLABLE */}
+      {/* CV Preview - Fixed iframe implementation */}
       <div 
         className="w-full h-96 sm:h-[500px] rounded-lg overflow-hidden"
         style={{
@@ -628,32 +814,16 @@ function CVViewer() {
           border: "1px solid rgba(255, 255, 255, 0.2)"
         }}
       >
-        {cvPreviewUrl && cvPreviewUrl !== "https://your-r2-bucket-url.com/path/to/sean-motanya-cv.pdf" ? (
-          /* 🔥 THIS IS WHERE YOUR RESUME WILL BE DISPLAYED - SCROLLABLE 🔥 */
-          <iframe
-            src={`${cvPreviewUrl}#toolbar=0&navpanes=0&scrollbar=1`}
-            className="w-full h-full"
-            title="Sean Motanya CV Preview"
-            style={{
-              border: 'none',
-              borderRadius: '8px',
-            }}
-          />
-        ) : (
-          /* Placeholder when no URL is set */
-          <div className="w-full h-full flex flex-col items-center justify-center text-center p-6">
-            <Eye className="w-12 h-12 mx-auto mb-4" style={{ color: "rgba(255, 255, 255, 0.7)" }} />
-            <p style={{ color: "rgba(255, 255, 255, 0.7)" }} className="mb-2">
-              CV Preview
-            </p>
-            <p className="text-sm mb-4" style={{ color: "rgba(255, 255, 255, 0.5)" }}>
-              Replace the cvPreviewUrl variable above with your R2 bucket URL
-            </p>
-            <div className="text-xs font-mono bg-black/20 p-3 rounded" style={{ color: "rgba(255, 255, 255, 0.6)" }}>
-              📁 Update cvPreviewUrl in CVViewer function
-            </div>
-          </div>
-        )}
+        <iframe
+          src={cvPreviewUrl}
+          className="w-full h-full"
+          title="Sean Motanya CV Preview"
+          style={{
+            border: 'none', 
+            borderRadius: '8px',
+          }}
+          loading="lazy"
+        />
       </div>
 
       <div className="flex justify-center pt-4">
@@ -669,10 +839,10 @@ function CVViewer() {
             color: "rgba(255, 255, 255, 0.9)"
           }}
         >
-          <Download className="w-4 h-4" />
+          <FileText className="w-4 h-4" />
           Download CV
         </Button>
       </div>
     </div>
   )
-} 
+}

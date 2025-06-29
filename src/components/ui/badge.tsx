@@ -2,19 +2,20 @@ import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+import { useColorPalette } from "@/contexts/color-palette-context"
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center rounded-full border-0 px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 shadow-sm",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-theme-accent text-theme-primary hover:bg-theme-accent/80",
+          "hover:opacity-90",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "hover:opacity-90",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/80",
+        outline: "text-foreground border border-border",
         
       },
     },
@@ -28,9 +29,23 @@ export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {}
 
-function Badge({ className, variant, ...props }: BadgeProps) {
+function Badge({ className, variant, style, ...props }: BadgeProps) {
+  const { paletteData } = useColorPalette()
+
+  const defaultStyle = variant === "destructive" || variant === "outline" 
+    ? {} 
+    : {
+        backgroundColor: paletteData.text,
+        color: paletteData.background,
+        ...style
+      }
+
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    <div 
+      className={cn(badgeVariants({ variant }), className)} 
+      style={defaultStyle}
+      {...props} 
+    />
   )
 }
 

@@ -168,9 +168,8 @@ export function SpotifyTrack() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full max-w-full overflow-hidden rounded-lg border-2 shadow-sm hover:shadow-md transition-shadow duration-200"
+      className="w-full max-w-full overflow-hidden rounded-lg shadow-md shadow-black/5 dark:shadow-white/5 hover:shadow-lg transition-shadow duration-200"
       style={{ 
-        borderColor: paletteData.accent,
         backgroundColor: paletteData.primary
       }}
     >
@@ -204,20 +203,24 @@ export function SpotifyTrack() {
             </div>
           )}
           
-          <div className="flex-1 min-w-0 max-w-full overflow-hidden">
-            <SlidingText className="font-medium text-base sm:text-lg" style={{ color: paletteData.accent }}>
-              {data.title || 'Unknown Track'}
-            </SlidingText>
-            <SlidingText className="text-sm text-gray-500 dark:text-gray-400">
-              {data.artistName || 'Unknown Artist'} · {data.albumName || 'Unknown Album'}
-            </SlidingText>
+          <div className="flex-1 min-w-0 space-y-1">
+            <div style={{  color: 'var(--text)' }}>
+              <SlidingText className="font-medium text-base sm:text-lg">
+                {data.title || 'Unknown Track'}
+              </SlidingText>
+            </div>
+            <div style={{ color: 'var(--muted)' }}>
+              <SlidingText className="text-sm">
+                {data.artistName || 'Unknown Artist'} · {data.albumName || 'Unknown Album'}
+              </SlidingText>
+            </div>
             <div className="mt-1 flex items-center gap-2">
               <span className={`inline-block w-2 h-2 rounded-full ${
                 data.isPlaying 
                   ? 'bg-green-500 animate-pulse' 
                   : 'bg-gray-300 dark:bg-gray-600'
               }`}></span>
-              <p className="text-xs sm:text-sm text-gray-400 dark:text-gray-500">
+              <p className="text-xs sm:text-sm" style={{ color: 'var(--muted)' }}>
                 {data.isPlaying 
                   ? 'Now playing' 
                   : data.playedAt 

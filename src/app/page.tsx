@@ -45,8 +45,8 @@ function PortfolioContent() {
                   <h2 className="text-xl font-bold pb-4" style={{ color: paletteData.text }}>About</h2>
                 </BlurFade>
                 <BlurFade delay={BLUR_FADE_DELAY * 4}>
-                  <div style={{ color: paletteData.secondary }}>
-                    <Markdown className="prose max-w-full text-pretty text-md text-muted-foreground dark:prose-invert">
+                  <div style={{ color: paletteData.muted }}>
+                    <Markdown className="prose max-w-full text-pretty text-md dark:prose-invert">
                       {DATA.summary}
                     </Markdown>
                   </div>
@@ -104,12 +104,14 @@ function PortfolioContent() {
         <section id="skills">
           <div className="flex min-h-0 flex-col gap-y-3">
             <BlurFade delay={BLUR_FADE_DELAY * 9}>
-              <h2 className="text-xl font-bold" style={{ color: paletteData.text }}>Skills</h2>
+            <h2 className="text-xl font-bold" style={{ color: paletteData.text }}>Skills</h2>
             </BlurFade>
             <div className="flex flex-wrap gap-1">
               {DATA.skills.map((skill, id) => (
                 <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
-                  <Badge key={skill}>{skill}</Badge>
+                  <Badge key={skill}>
+                    {skill}
+                  </Badge>
                 </BlurFade>
               ))}
             </div>
@@ -120,9 +122,12 @@ function PortfolioContent() {
             <BlurFade delay={BLUR_FADE_DELAY * 11}>
               <div className="flex flex-col items-center justify-center space-y-4 text-center">
                 <div className="space-y-2">
-                  <div className="inline-block rounded-lg px-3 py-1 text-sm" style={{ backgroundColor: paletteData.accent, color: paletteData.primary }}>My Projects</div>
+                  <div className="inline-block rounded-lg px-3 py-1 text-sm" style={{ 
+          backgroundColor: paletteData.text,
+          color: paletteData.background,
+        }}>My Projects</div>
                   <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl" style={{ color: paletteData.text }}>Check out my latest work</h2>
-                  <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed" style={{ color: paletteData.secondary }}>
+                  <p className="md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed" style={{ color: paletteData.muted }}>
                     I&apos;ve worked on a variety of projects, from simple websites to complex web applications. Here
                     are a few of my favorites.
                   </p>
@@ -153,9 +158,12 @@ function PortfolioContent() {
             <BlurFade delay={BLUR_FADE_DELAY * 13}>
               <div className="flex flex-col items-center justify-center space-y-4 text-center">
                 <div className="space-y-2">
-                  <div className="inline-block rounded-lg px-3 py-1 text-sm" style={{ backgroundColor: paletteData.accent, color: paletteData.primary }}>Hackathons</div>
+                  <div className="inline-block rounded-lg px-3 py-1 text-sm"  style={{ 
+          backgroundColor: paletteData.text,
+          color: paletteData.background,
+        }}>Hackathons</div>
                   <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl" style={{ color: paletteData.text }}>I like building things</h2>
-                  <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed" style={{ color: paletteData.secondary }}>
+                  <p className="md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed" style={{ color: paletteData.muted }}>
                     During my time in university, I attended {DATA.hackathons.length}+ hackathons. People from around
                     the country would come together and build incredible things in 2-3 days. It was eye-opening to see
                     the endless possibilities brought to life by a group of motivated and passionate individuals.
@@ -185,7 +193,10 @@ function PortfolioContent() {
           <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
             <BlurFade delay={BLUR_FADE_DELAY * 16}>
               <div className="space-y-3">
-                <div className="inline-block rounded-lg px-3 py-1 text-sm" style={{ backgroundColor: paletteData.accent, color: paletteData.primary }}>Contact</div>
+                <div className="inline-block rounded-lg px-3 py-1 text-sm"  style={{ 
+           backgroundColor: paletteData.text,
+           color: paletteData.background,
+        }}>Contact</div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl" style={{ color: paletteData.text }}>Get in Touch</h2>
                 <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed" style={{ color: paletteData.secondary }}>
                   Want to chat? Just shoot me a dm{" "}
@@ -201,7 +212,10 @@ function PortfolioContent() {
       </section>
       <footer className="py-16 mt-8">
         <BlurFade delay={0.25 * 2} inView className="flex flex-col items-center mb-12">
-          <div className="inline-block rounded-lg px-3 py-1 text-sm mb-4" style={{ backgroundColor: paletteData.accent, color: paletteData.primary }}>Currently Listening</div>
+          <div className="inline-block rounded-lg px-3 py-1 text-sm mb-4"  style={{ 
+          backgroundColor: paletteData.text,
+          color: paletteData.background,
+        }}>Currently Listening</div>
           <h3 className="text-xl font-bold mb-4" style={{ color: paletteData.text }}>My Latest Spotify Track</h3>
           <div className="w-[80%]">
             <SpotifyTrack />

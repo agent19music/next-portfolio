@@ -167,7 +167,9 @@ export default function EasterEggMessageForm() {
           >
             You found an Easter Egg!!
           </motion.div>
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-500"
+          style={{ color: paletteData.muted }}
+          >
             Click to reveal a secret
           </div>
           
@@ -308,6 +310,7 @@ export default function EasterEggMessageForm() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.4 }}
+              style={{ color: paletteData.muted }}
             >
               Share your thoughts without revealing your identity
             </motion.p>
@@ -315,7 +318,7 @@ export default function EasterEggMessageForm() {
         </motion.div>
         
         <motion.div 
-          className="rounded-lg shadow-md overflow-hidden border-gray-200 dark:border-gray-800"
+          className="rounded-lg shadow-md shadow-black/5 dark:shadow-white/5 overflow-hidden"
           style={{ backgroundColor: paletteData.primary }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -328,7 +331,8 @@ export default function EasterEggMessageForm() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="What would you like to say?"
-                className="w-full min-h-32 p-4 rounded-lg bg-white dark:bg-gray-800 dark:border-gray-700 focus:ring-2 focus:ring-[#92736C] focus:border-transparent resize-none placeholder:text-gray-400"
+                className="w-full min-h-32 p-4 rounded-lg border-0 shadow-sm shadow-black/5 dark:shadow-white/5"
+                style={{ backgroundColor: paletteData.primary, color: paletteData.text }}
               />
 
               {/* Image preview */}
@@ -339,7 +343,7 @@ export default function EasterEggMessageForm() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="relative rounded-lg overflow-hidden border-[#92736C] dark:border-gray-700 w-32 h-32">
+                  <div className="relative rounded-lg overflow-hidden shadow-sm shadow-black/5 dark:shadow-white/5 w-32 h-32">
                     <img
                       src={imagePreview}
                       alt="Preview"
@@ -378,7 +382,7 @@ export default function EasterEggMessageForm() {
                       className="hidden"
                       onChange={handleImageChange}
                     />
-                    <Image size={20} className="text-[#92736C]" />
+                    <Image size={20} style={{ color: paletteData.muted }} />
                   </label>
                 </div>
 
@@ -393,7 +397,7 @@ export default function EasterEggMessageForm() {
                         ? "#22c55e" 
                         : (!message.trim() && !file) || isSubmitting
                           ? "#d1d5db"
-                          : paletteData.accent,
+                          : paletteData.text,
                       color: isSent || ((!message.trim() && !file) || isSubmitting)
                         ? "#ffffff"
                         : paletteData.background,
