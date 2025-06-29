@@ -149,7 +149,6 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
   const [savedPalette, setSavedPalette] = useState<ColorPaletteKey>("mocha")
   const [showCV, setShowCV] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null)
   const [isSaving, setIsSaving] = useState(false)
@@ -169,31 +168,7 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Auto-hide mobile menu after inactivity (but NOT for palette dialog)
-  const resetInactivityTimer = () => {
-    if (inactivityTimer) {
-      clearTimeout(inactivityTimer)
-    }
-    // Only set timeout for main menu, not when palette dialog is open
-    if (!isOpen) {
-      const timer = setTimeout(() => {
-        setIsMobileMenuOpen(false)
-      }, 3000) // Hide after 3 seconds of inactivity
-      setInactivityTimer(timer)
-    }
-  }
 
-  // Reset timer on any interaction
-  useEffect(() => {
-    if (isMobileMenuOpen && !isOpen) {
-      resetInactivityTimer()
-    }
-    return () => {
-      if (inactivityTimer) {
-        clearTimeout(inactivityTimer)
-      }
-    }
-  }, [isMobileMenuOpen, isOpen])
 
   // Cleanup save timeout on unmount
   useEffect(() => {
@@ -268,14 +243,10 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode)
-    resetInactivityTimer() // Reset timer on interaction
   }
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
-    if (!isMobileMenuOpen) {
-      resetInactivityTimer()
-    }
   }
 
   const currentPaletteData = colorPalettes[currentPalette]

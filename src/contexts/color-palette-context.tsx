@@ -58,27 +58,43 @@ export function ColorPaletteProvider({ children }: { children: React.ReactNode }
   const [currentPalette, setCurrentPalette] = useState<ColorPaletteKey>("mocha")
   const [isDarkMode, setIsDarkMode] = useState(false)
 
-  // Monitor system dark mode preference
+  // Load saved preferences on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      setIsDarkMode(mediaQuery.matches)
-
-      const handleChange = (e: MediaQueryListEvent) => {
-        setIsDarkMode(e.matches)
+      // Load saved palette
+      const savedPalette = localStorage.getItem("color-palette")
+      if (savedPalette && savedPalette in colorPalettes) {
+        setCurrentPalette(savedPalette as ColorPaletteKey)
       }
 
-      mediaQuery.addEventListener('change', handleChange)
-      return () => mediaQuery.removeEventListener('change', handleChange)
+      // Load saved dark mode preference, fallback to system preference
+      const savedDarkMode = localStorage.getItem("dark-mode-preference")
+      if (savedDarkMode !== null) {
+        // User has a saved preference
+        setIsDarkMode(savedDarkMode === 'true')
+      } else {
+        // No saved preference, use system preference
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+        setIsDarkMode(mediaQuery.matches)
+      }
     }
   }, [])
 
-  // Load saved palette on mount
+  // Monitor system dark mode preference only if user hasn't set a manual preference
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem("color-palette")
-      if (saved && saved in colorPalettes) {
-        setCurrentPalette(saved as ColorPaletteKey)
+      const savedDarkMode = localStorage.getItem("dark-mode-preference")
+      
+      // Only listen to system changes if user hasn't set a manual preference
+      if (savedDarkMode === null) {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+        
+        const handleChange = (e: MediaQueryListEvent) => {
+          setIsDarkMode(e.matches)
+        }
+
+        mediaQuery.addEventListener('change', handleChange)
+        return () => mediaQuery.removeEventListener('change', handleChange)
       }
     }
   }, [])
@@ -132,6 +148,12 @@ export function ColorPaletteProvider({ children }: { children: React.ReactNode }
   // Use new dark mode transformation for paletteData
   const paletteData = isDarkMode ? getDarkModeTransformation(currentPalette) : palette
 
+  // Custom setIsDarkMode that persists to localStorage
+  const handleSetIsDarkMode = (isDark: boolean) => {
+    setIsDarkMode(isDark)
+    localStorage.setItem("dark-mode-preference", isDark.toString())
+  }
+
   return (
     <ColorPaletteContext.Provider 
       value={{ 
@@ -139,7 +161,7 @@ export function ColorPaletteProvider({ children }: { children: React.ReactNode }
         setCurrentPalette, 
         paletteData,
         isDarkMode,
-        setIsDarkMode
+        setIsDarkMode: handleSetIsDarkMode
       }}
     >
       {children}
