@@ -317,11 +317,10 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
                       <div className="flex gap-0.5">
                         <div 
                           className="w-2 h-2 rounded-full shadow-sm" 
-                          style={{ backgroundColor: appliedPalette.primary }}
                         />
                         <div 
                           className="w-2 h-2 rounded-full shadow-sm" 
-                          style={{ backgroundColor: appliedPalette.accent }}
+                          style={{ backgroundColor: appliedPalette.background }}
                         />
                       </div>
                       <span 
@@ -459,15 +458,15 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
                 <div className="flex gap-1">
                   <div 
                     className="w-3 h-3 rounded-full shadow-sm" 
-                    style={{ backgroundColor: appliedPalette.primary }}
+                    style={{ backgroundColor: appliedPalette.background }}
                   />
                   <div 
                     className="w-3 h-3 rounded-full shadow-sm" 
-                    style={{ backgroundColor: appliedPalette.accent }}
+                    style={{ backgroundColor: appliedPalette.text }}
                   />
                 </div>
                 <span 
-                  className="text-sm font-medium backdrop-blur-sm"
+                  className="text-sm font-medium"
                   style={{ color: appliedPalette.text }}
                 >
                   {currentPaletteData.name}

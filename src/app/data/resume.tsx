@@ -10,7 +10,7 @@ export const DATA = {
   description:
     "Software Engineer. I love building things and helping people.",
   summary:
-    "I am a 21-year-old full-stack web developer and computer science student, with a certificate in software engineering. I have a passion for building innovative and efficient web applications. In addition to my technical skills, I have a deep appreciation for music, which fuels my creativity and drive.",
+    "I am a full-stack web developer and computer science student, with a certificate in software engineering. I have a passion for building innovative and efficient web applications. In addition to my technical skills, I have a deep appreciation for music, which fuels my creativity and drive.",
   skills: [
     "React",
     "Next.js",
