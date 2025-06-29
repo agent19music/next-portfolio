@@ -33,13 +33,13 @@ function getDarkModeTransformation(paletteKey: ColorPaletteKey) {
   
   // Only swap background and text colors, keep accent colors (pills) the same
   return {
-    ...originalPalette,
+    name: originalPalette.name,
     background: originalPalette.text, // Use text color as background
     text: originalPalette.background, // Use background as text
     accent: originalPalette.accent, // Keep accent the same (for pills)
     primary: originalPalette.text, // Use text color as primary
     secondary: originalPalette.background, // Use background as secondary
-    muted: createMutedColor(originalPalette.background, true), // Lighter muted version for dark mode
+    get muted() { return createMutedColor(originalPalette.background, true) }, // Lighter muted version for dark mode
     cardText: "#f8f8f8", // Off-white text for cards in dark mode
   }
 }
@@ -47,7 +47,7 @@ function getDarkModeTransformation(paletteKey: ColorPaletteKey) {
 interface ColorPaletteContextType {
   currentPalette: ColorPaletteKey
   setCurrentPalette: (palette: ColorPaletteKey) => void
-  paletteData: typeof colorPalettes[ColorPaletteKey]
+  paletteData: any // Allow any palette data type (original or transformed)
   isDarkMode: boolean
   setIsDarkMode: (isDark: boolean) => void
 }

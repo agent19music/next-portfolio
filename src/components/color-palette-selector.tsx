@@ -151,6 +151,14 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout | null>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
+  const [sessionId] = useState(() => {
+    // Generate a unique session ID for this browser session
+    return typeof window !== 'undefined' 
+      ? `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+      : null
+  })
 
   // Use context for dark mode state
   const { isDarkMode, setIsDarkMode } = useColorPalette()
@@ -190,6 +198,15 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
     }
   }, [isMobileMenuOpen])
 
+  // Cleanup save timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (saveTimeout) {
+        clearTimeout(saveTimeout)
+      }
+    }
+  }, [])
+
   // Load saved palette on mount
   useEffect(() => {
     const saved = localStorage.getItem("color-palette")
@@ -207,11 +224,51 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
   }
 
   const handleSave = () => {
+    // Save to localStorage immediately for instant feedback
     localStorage.setItem("color-palette", currentPalette)
     setSavedPalette(currentPalette)
     setIsCollapsed(true)
     setIsOpen(false)
     setIsMobileMenuOpen(false) // Hide mobile menu after saving
+    
+    // Clear existing timeout if any
+    if (saveTimeout) {
+      clearTimeout(saveTimeout)
+    }
+    
+    // Set loading state
+    setIsSaving(true)
+    
+    // Debounce the API call by 3 seconds
+    const timeout = setTimeout(async () => {
+      try {
+        if (!sessionId) return
+        
+        const response = await fetch('/api/save-preferences', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            palette: currentPalette,
+            isDarkMode,
+            sessionId
+          })
+        })
+        
+        if (!response.ok) {
+          console.error('Failed to save preference to database')
+        } else {
+          console.log('Preference saved to database successfully')
+        }
+      } catch (error) {
+        console.error('Error saving preference:', error)
+      } finally {
+        setIsSaving(false)
+      }
+    }, 3000) // 3 second delay
+    
+    setSaveTimeout(timeout)
   }
 
   const toggleDarkMode = () => {
@@ -488,6 +545,7 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
                 onPaletteSelect={handlePaletteSelect}
                 onSave={handleSave}
                 isDarkMode={isDarkMode}
+                isSaving={isSaving}
               />
             </DialogContent>
           </Dialog>
@@ -611,12 +669,13 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
             boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
           }}
         >
-          <ColorPaletteDialog 
-            currentPalette={currentPalette}
-            onPaletteSelect={handlePaletteSelect}
-            onSave={handleSave}
-            isDarkMode={isDarkMode}
-          />
+                              <ColorPaletteDialog 
+                      currentPalette={currentPalette}
+                      onPaletteSelect={handlePaletteSelect}
+                      onSave={handleSave}
+                      isDarkMode={isDarkMode}
+                      isSaving={isSaving}
+                    />
         </DialogContent>
       </Dialog>
     </div>
@@ -628,9 +687,10 @@ interface ColorPaletteDialogProps {
   onPaletteSelect: (palette: ColorPaletteKey) => void
   onSave: () => void
   isDarkMode: boolean
+  isSaving?: boolean
 }
 
-function ColorPaletteDialog({ currentPalette, onPaletteSelect, onSave, isDarkMode }: ColorPaletteDialogProps) {
+function ColorPaletteDialog({ currentPalette, onPaletteSelect, onSave, isDarkMode, isSaving = false }: ColorPaletteDialogProps) {
   return (
     <div 
       className="p-6 space-y-4"
@@ -745,18 +805,24 @@ function ColorPaletteDialog({ currentPalette, onPaletteSelect, onSave, isDarkMod
       <div className="flex justify-end pt-4">
         <Button 
           onClick={onSave} 
+          disabled={isSaving}
           className="flex items-center gap-2 border-0"
           style={{
-            background: "rgba(255, 255, 255, 0.1)",
+            background: isSaving 
+              ? "rgba(255, 255, 255, 0.05)" 
+              : "rgba(255, 255, 255, 0.1)",
             backdropFilter: "blur(20px) saturate(180%)",
             WebkitBackdropFilter: "blur(20px) saturate(180%)",
             border: "1px solid rgba(255, 255, 255, 0.2)",
             boxShadow: "0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
-            color: "rgba(255, 255, 255, 0.9)"
+            color: isSaving 
+              ? "rgba(255, 255, 255, 0.5)" 
+              : "rgba(255, 255, 255, 0.9)",
+            opacity: isSaving ? 0.7 : 1
           }}
         >
-          <Save className="w-4 h-4" />
-          Save Preference
+          <Save className={`w-4 h-4 ${isSaving ? 'animate-pulse' : ''}`} />
+          {isSaving ? 'Saving...' : 'Save Preference'}
         </Button>
       </div>
     </div>
