@@ -812,9 +812,39 @@ function ColorPaletteDialog({ currentPalette, onPaletteSelect, onSave, isDarkMod
 }
 
 function CVViewer() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   const handleDownload = () => {
-    const cvUrl = "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf"
-    window.open(cvUrl, '_blank')
+    if (isMobile) {
+      // On mobile, download from local public directory
+      const link = document.createElement('a')
+      link.href = "/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf"
+      link.download = "Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf"
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    } else {
+      // On desktop, use R2 URL
+      const cvUrl = "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf"
+      window.open(cvUrl, '_blank')
+    }
+  }
+
+  const handleViewInNewTab = () => {
+    // Open the local PDF in a new tab
+    window.open("/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf", '_blank')
   }
 
   const cvPreviewUrl = "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf"
@@ -847,36 +877,78 @@ function CVViewer() {
             textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)"
           }}
         >
-          Preview my resume and download if you&apos;d like
+          {isMobile ? "View and download my resume" : "Preview my resume and download if you'd like"}
         </p>
       </div>
 
-      {/* CV Preview - Fixed iframe implementation */}
-      <div 
-        className="w-full h-96 sm:h-[500px] rounded-lg overflow-hidden"
-        style={{
-          background: "rgba(255, 255, 255, 0.1)",
-          backdropFilter: "blur(10px)",
-          WebkitBackdropFilter: "blur(10px)",
-          border: "1px solid rgba(255, 255, 255, 0.2)"
-        }}
-      >
-        <iframe
-          src={cvPreviewUrl}
-          className="w-full h-full"
-          title="Sean Motanya CV Preview"
+      {/* Desktop CV Preview */}
+      {!isMobile && (
+        <div 
+          className="w-full h-96 sm:h-[500px] rounded-lg overflow-hidden"
           style={{
-            border: 'none', 
-            borderRadius: '8px',
+            background: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)"
           }}
-          loading="lazy"
-        />
-      </div>
+        >
+          <iframe
+            src={cvPreviewUrl}
+            className="w-full h-full"
+            title="Sean Motanya CV Preview"
+            style={{
+              border: 'none', 
+              borderRadius: '8px',
+            }}
+            loading="lazy"
+          />
+        </div>
+      )}
 
-      <div className="flex justify-center pt-4">
+      {/* Mobile CV Actions */}
+      {isMobile && (
+        <div className="space-y-3">
+          <div 
+            className="w-full h-32 rounded-lg flex items-center justify-center"
+            style={{
+              background: "rgba(255, 255, 255, 0.1)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              border: "1px solid rgba(255, 255, 255, 0.2)"
+            }}
+          >
+            <div className="text-center">
+              <FileText className="w-12 h-12 mx-auto mb-2" style={{ color: "rgba(255, 255, 255, 0.7)" }} />
+              <p style={{ color: "rgba(255, 255, 255, 0.7)" }} className="text-sm">
+                PDF Document Ready
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className={`flex ${isMobile ? 'flex-col gap-3' : 'justify-center'} pt-4`}>
+        {isMobile && (
+          <Button 
+            onClick={handleViewInNewTab}
+            className="flex items-center justify-center gap-2 border-0 w-full"
+            style={{
+              background: "rgba(255, 255, 255, 0.15)",
+              backdropFilter: "blur(20px) saturate(180%)",
+              WebkitBackdropFilter: "blur(20px) saturate(180%)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+              color: "rgba(255, 255, 255, 0.9)"
+            }}
+          >
+            <FileText className="w-4 h-4" />
+            View in New Tab
+          </Button>
+        )}
+        
         <Button 
           onClick={handleDownload}
-          className="flex items-center gap-2 border-0"
+          className={`flex items-center ${isMobile ? 'justify-center w-full' : ''} gap-2 border-0`}
           style={{
             background: "rgba(255, 255, 255, 0.1)",
             backdropFilter: "blur(20px) saturate(180%)",
