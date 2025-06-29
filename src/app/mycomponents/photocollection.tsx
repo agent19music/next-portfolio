@@ -109,12 +109,17 @@ const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({
 
   return (
     <div 
-      className="w-full flex justify-center items-center  relative select-none"
+      className="w-full flex justify-center items-center relative select-none"
       ref={containerRef}
+      style={{ background: 'none' }}
     >
       <div 
-        className="relative perspective-1000"
-        style={getSizeStyles()}
+        className="relative"
+        style={{
+          ...getSizeStyles(),
+          perspective: '1000px',
+          background: 'none'
+        }}
       >
         <AnimatePresence>
           {photoStack.map((photo, index) => {
@@ -164,37 +169,24 @@ const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({
                   }
                 }}
               >
-                {/* Actual photo */}
-                <div className="absolute inset-0 w-full h-full rounded-lg overflow-hidden ">
+                {/* Clean photo container without background */}
                   <Image 
                     src={photo.src} 
                     alt={photo.alt}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="w-full h-full object-cover"
-                    draggable={false} // Prevent native image dragging
-                    quality={85}
-                    priority={index === 0} // Load first image with priority
+                    className="w-full h-full object-cover rounded-sm"
+                    draggable={false}
+                    quality={100}
+                    priority={index === 0}
                   />
-                </div>
-                
-                {/* Caption if provided */}
-                {/* {photo.caption && (
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-4 py-3">
-                    <p className="text-white text-sm font-medium">{photo.caption}</p>
-                  </div>
-                )} */}
                 
                 {/* "Click me" bubble - shown on all cards when hovered, but only if user hasn't interacted yet */}
                 {!hasInteracted && (
                   <div 
-                    className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300 ${
-                      isHovered ? 'opacity-100' : 'opacity-0'
-                    }`}
+                    className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300`}
                   >
-                    <div className="bg-black/60 text-white text-xs px-3 py-1.5 rounded-full">
-                      {isMobile ? 'Tap to shuffle' : 'Click to shuffle'}
-                    </div>
+                  
                   </div>
                 )}
               </motion.div>
@@ -205,16 +197,9 @@ const StackedPhotoCollection: React.FC<StackedPhotoCollectionProps> = ({
       
       <div className="absolute bottom-2 left-0 right-0 text-center">
         <p className="text-sm text-gray-500">
-          <span className="md:hidden">Tap to explore</span>
+          <span style={{ color: 'var(--muted)' }} className="md:hidden">Tap to explore</span>
         </p>
       </div>
-      
-      {/* Add custom styling for backface visibility and perspective */}
-      <style jsx>{`
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-      `}</style>
     </div>
   );
 };

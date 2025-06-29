@@ -1,31 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import crypto from 'crypto'
 import supabase from '@/lib/supabase'
 
 // Valid palette types
 const VALID_PALETTES = ['muder', 'monochrome', 'sunset', 'calm', 'lilac', 'mocha'] as const
 type ValidPalette = typeof VALID_PALETTES[number]
-
-// Hash IP address for privacy
-function hashIP(ip: string): string {
-  return crypto.createHash('sha256').update(ip).digest('hex')
-}
-
-// Get client IP address
-function getClientIP(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for')
-  const realIP = request.headers.get('x-real-ip')
-  
-  if (forwarded) {
-    return forwarded.split(',')[0].trim()
-  }
-  
-  if (realIP) {
-    return realIP
-  }
-  
-  return 'unknown'
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,7 +17,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { palette, isDarkMode, sessionId } = body
+    const { palette, isDarkMode } = body
 
     // Validate required fields
     if (!palette || typeof isDarkMode !== 'boolean') {
@@ -57,39 +35,80 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Get client information
-    const userAgent = request.headers.get('user-agent') || 'unknown'
-    const clientIP = getClientIP(request)
-    const ipHash = hashIP(clientIP)
+    // Check if this combination already exists
+    const { data: existing, error: selectError } = await supabase
+      .from('palette_preferences')
+      .select('id, counter')
+      .eq('palette', palette)
+      .eq('is_dark_mode', isDarkMode)
+      .single()
 
-    // Insert preference into database
-    const { data, error } = await supabase
-      .from('preferences')
-      .insert({
-        palette,
-        is_dark_mode: isDarkMode,
-        user_agent: userAgent,
-        ip_hash: ipHash,
-        session_id: sessionId || null
-      })
-      .select()
-
-    if (error) {
-      console.error('Supabase error:', error)
+    if (selectError && selectError.code !== 'PGRST116') {
+      // PGRST116 is "not found" error, which is expected for new combinations
+      console.error('Supabase select error:', selectError)
       return NextResponse.json(
-        { error: 'Failed to save preference' },
+        { error: 'Failed to check existing preference' },
         { status: 500 }
       )
     }
 
-    return NextResponse.json(
-      { 
-        success: true, 
-        message: 'Preference saved successfully',
-        id: data[0]?.id 
-      },
-      { status: 201 }
-    )
+    if (existing) {
+      // Update counter for existing combination
+      const { data, error } = await supabase
+        .from('palette_preferences')
+        .update({ 
+          counter: existing.counter + 1,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', existing.id)
+        .select()
+
+      if (error) {
+        console.error('Supabase update error:', error)
+        return NextResponse.json(
+          { error: 'Failed to update preference' },
+          { status: 500 }
+        )
+      }
+
+      return NextResponse.json(
+        { 
+          success: true, 
+          message: 'Preference updated successfully',
+          id: existing.id,
+          counter: existing.counter + 1
+        },
+        { status: 200 }
+      )
+    } else {
+      // Insert new preference combination
+      const { data, error } = await supabase
+        .from('palette_preferences')
+        .insert({
+          palette,
+          is_dark_mode: isDarkMode,
+          counter: 1
+        })
+        .select()
+
+      if (error) {
+        console.error('Supabase insert error:', error)
+        return NextResponse.json(
+          { error: 'Failed to save preference' },
+          { status: 500 }
+        )
+      }
+
+      return NextResponse.json(
+        { 
+          success: true, 
+          message: 'Preference saved successfully',
+          id: data[0]?.id,
+          counter: 1
+        },
+        { status: 201 }
+      )
+    }
 
   } catch (error) {
     console.error('API error:', error)
@@ -100,7 +119,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Optional: GET endpoint for analytics (requires authentication)
+// GET endpoint for analytics
 export async function GET(request: NextRequest) {
   try {
     // Check if Supabase is properly configured
@@ -112,12 +131,11 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Get aggregated data (no personal info)
+    // Get all preference data
     const { data, error } = await supabase
-      .from('preferences')
-      .select('palette, is_dark_mode, created_at')
-      .order('created_at', { ascending: false })
-      .limit(1000) // Limit for performance
+      .from('palette_preferences')
+      .select('*')
+      .order('counter', { ascending: false })
 
     if (error) {
       console.error('Supabase error:', error)
@@ -127,27 +145,29 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Aggregate the data
-    const stats = data.reduce((acc: any, pref) => {
-      // Count palettes
-      acc.palettes[pref.palette] = (acc.palettes[pref.palette] || 0) + 1
-      
-      // Count dark mode usage
-      if (pref.is_dark_mode) {
-        acc.darkMode.enabled++
-      } else {
-        acc.darkMode.disabled++
+    // Calculate totals
+    const totalVotes = data.reduce((sum, pref) => sum + pref.counter, 0)
+    const paletteStats = data.reduce((acc: any, pref) => {
+      if (!acc[pref.palette]) {
+        acc[pref.palette] = { light: 0, dark: 0, total: 0 }
       }
-      
-      acc.total++
+      if (pref.is_dark_mode) {
+        acc[pref.palette].dark += pref.counter
+      } else {
+        acc[pref.palette].light += pref.counter
+      }
+      acc[pref.palette].total += pref.counter
       return acc
-    }, {
-      palettes: {},
-      darkMode: { enabled: 0, disabled: 0 },
-      total: 0
-    })
+    }, {})
 
-    return NextResponse.json({ stats }, { status: 200 })
+    return NextResponse.json({ 
+      data,
+      stats: {
+        totalVotes,
+        paletteStats,
+        uniqueCombinations: data.length
+      }
+    }, { status: 200 })
 
   } catch (error) {
     console.error('API error:', error)

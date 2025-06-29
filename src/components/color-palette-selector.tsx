@@ -153,12 +153,6 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
   const [isMobile, setIsMobile] = useState(false)
   const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null)
   const [isSaving, setIsSaving] = useState(false)
-  const [sessionId] = useState(() => {
-    // Generate a unique session ID for this browser session
-    return typeof window !== 'undefined' 
-      ? `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-      : null
-  })
 
   // Use context for dark mode state
   const { isDarkMode, setIsDarkMode } = useColorPalette()
@@ -175,20 +169,23 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Auto-hide mobile menu after inactivity
+  // Auto-hide mobile menu after inactivity (but NOT for palette dialog)
   const resetInactivityTimer = () => {
     if (inactivityTimer) {
       clearTimeout(inactivityTimer)
     }
-    const timer = setTimeout(() => {
-      setIsMobileMenuOpen(false)
-    }, 3000) // Hide after 3 seconds of inactivity
-    setInactivityTimer(timer)
+    // Only set timeout for main menu, not when palette dialog is open
+    if (!isOpen) {
+      const timer = setTimeout(() => {
+        setIsMobileMenuOpen(false)
+      }, 3000) // Hide after 3 seconds of inactivity
+      setInactivityTimer(timer)
+    }
   }
 
   // Reset timer on any interaction
   useEffect(() => {
-    if (isMobileMenuOpen) {
+    if (isMobileMenuOpen && !isOpen) {
       resetInactivityTimer()
     }
     return () => {
@@ -196,7 +193,7 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
         clearTimeout(inactivityTimer)
       }
     }
-  }, [isMobileMenuOpen])
+  }, [isMobileMenuOpen, isOpen])
 
   // Cleanup save timeout on unmount
   useEffect(() => {
@@ -242,8 +239,6 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
     // Debounce the API call by 3 seconds
     const timeout = setTimeout(async () => {
       try {
-        if (!sessionId) return
-        
         const response = await fetch('/api/save-preferences', {
           method: 'POST',
           headers: {
@@ -251,15 +246,15 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
           },
           body: JSON.stringify({
             palette: currentPalette,
-            isDarkMode,
-            sessionId
+            isDarkMode
           })
         })
         
         if (!response.ok) {
           console.error('Failed to save preference to database')
         } else {
-          console.log('Preference saved to database successfully')
+          const result = await response.json()
+          console.log('Preference saved to database successfully', result)
         }
       } catch (error) {
         console.error('Error saving preference:', error)
@@ -374,6 +369,7 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
                       <div className="flex gap-0.5">
                         <div 
                           className="w-2 h-2 rounded-full shadow-sm" 
+                          style={{ backgroundColor: appliedPalette.text }}
                         />
                         <div 
                           className="w-2 h-2 rounded-full shadow-sm" 
@@ -410,25 +406,32 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
             )}
           </AnimatePresence>
 
-          {/* Main CTA Button - Use Settings icon consistently */}
+          {/* Main CTA Button - Clean settings icon without complex styling */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={toggleMobileMenu}
             className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg cursor-pointer"
             style={{
-              background: `linear-gradient(45deg, ${appliedPalette.primary}, ${appliedPalette.accent})`,
+              background: isDarkMode 
+                ? "rgba(255, 255, 255, 0.1)" 
+                : "rgba(0, 0, 0, 0.05)",
               backdropFilter: "blur(10px)",
               WebkitBackdropFilter: "blur(10px)",
-              border: "2px solid rgba(255, 255, 255, 0.2)",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
+              border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'}`,
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)"
             }}
           >
             <motion.div
               animate={{ rotate: isMobileMenuOpen ? 180 : 0 }}
               transition={{ duration: 0.3 }}
             >
-              <Settings className="w-5 h-5 text-gray-700" />
+              <Settings 
+                className="w-5 h-5" 
+                style={{ 
+                  color: isDarkMode ? '#f8f8f8' : '#374151'
+                }} 
+              />
             </motion.div>
           </motion.div>
         </div>
@@ -448,14 +451,16 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
               whileTap={{ scale: 0.95 }}
               className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg cursor-pointer"
               style={{
-                background: "rgba(255, 255, 255, 0.1)",
+                background: isDarkMode 
+                  ? "rgba(255, 255, 255, 0.1)" 
+                  : "rgba(0, 0, 0, 0.05)",
                 backdropFilter: "blur(20px) saturate(180%)",
                 WebkitBackdropFilter: "blur(20px) saturate(180%)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
+                border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'}`,
                 boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
               }}
             >
-              <FileText className="w-5 h-5" style={{ color: appliedPalette.text }} />
+              <FileText className="w-5 h-5" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
             </motion.div>
           </DialogTrigger>
           <DialogContent 
@@ -479,17 +484,19 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
           onClick={toggleDarkMode}
           className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg cursor-pointer"
           style={{
-            background: "rgba(255, 255, 255, 0.1)",
+            background: isDarkMode 
+              ? "rgba(255, 255, 255, 0.1)" 
+              : "rgba(0, 0, 0, 0.05)",
             backdropFilter: "blur(20px) saturate(180%)",
             WebkitBackdropFilter: "blur(20px) saturate(180%)",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
+            border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'}`,
             boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
           }}
         >
           {isDarkMode ? (
-            <Sun className="w-5 h-5" style={{ color: appliedPalette.text }} />
+            <Sun className="w-5 h-5" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
           ) : (
-            <Moon className="w-5 h-5" style={{ color: appliedPalette.text }} />
+            <Moon className="w-5 h-5" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
           )}
         </motion.div>
 
@@ -565,16 +572,18 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.3 }}
             style={{ 
-              background: `linear-gradient(45deg, ${appliedPalette.primary}, ${appliedPalette.accent})`,
+              background: isDarkMode 
+                ? "rgba(255, 255, 255, 0.1)" 
+                : "rgba(0, 0, 0, 0.05)",
               backdropFilter: "blur(10px)",
               WebkitBackdropFilter: "blur(10px)",
-              border: "2px solid rgba(255, 255, 255, 0.2)",
+              border: `2px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'}`,
               boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
             }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            <FileText className="w-6 h-6 text-gray-700" />
+            <FileText className="w-6 h-6" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
           </motion.div>
         </DialogTrigger>
         <DialogContent 
@@ -598,10 +607,12 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.4 }}
         style={{ 
-          background: `linear-gradient(45deg, ${appliedPalette.primary}, ${appliedPalette.accent})`,
+          background: isDarkMode 
+            ? "rgba(255, 255, 255, 0.1)" 
+            : "rgba(0, 0, 0, 0.05)",
           backdropFilter: "blur(10px)",
           WebkitBackdropFilter: "blur(10px)",
-          border: "2px solid rgba(255, 255, 255, 0.2)",
+          border: `2px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'}`,
           boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
         }}
         onClick={toggleDarkMode}
@@ -609,9 +620,9 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
         whileTap={{ scale: 0.9 }}
       >
         {isDarkMode ? (
-          <Sun className="w-6 h-6 text-gray-700" />
+          <Sun className="w-6 h-6" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
         ) : (
-          <Moon className="w-6 h-6 text-gray-700" />
+          <Moon className="w-6 h-6" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
         )}
       </motion.div>
 
