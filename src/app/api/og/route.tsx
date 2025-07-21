@@ -1,6 +1,5 @@
 import { ImageResponse } from '@vercel/og';
 import { NextRequest } from 'next/server';
-import React from 'react';
 
 export const runtime = 'edge';
 
@@ -15,6 +14,7 @@ export async function GET(request: NextRequest) {
       'Software Engineer. I love building things and helping people.';
 
     return new ImageResponse(
+      (
         <div
           style={{
             height: '100%',
@@ -124,7 +124,7 @@ export async function GET(request: NextRequest) {
       {
         width: 1200,
         height: 630,
-      },
+      }
     );
   } catch (e: any) {
     console.error(e);
@@ -132,4 +132,4 @@ export async function GET(request: NextRequest) {
       status: 500,
     });
   }
-} 
+}
