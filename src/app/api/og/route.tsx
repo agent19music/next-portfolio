@@ -106,7 +106,7 @@ export async function GET(request: NextRequest) {
                 justifyContent: 'center',
               }}
             >
-              {['Python', 'Typescript', 'Kotlin', 'Figma', 'Next.js', 'Node.js', 'Postgres', 'Docker', 'Flask', 'Tailwind CSS', 'React Native', 'PHP', 'Laravel', 'React'].map((tech) => (
+              {['Python', 'Typescript', 'Kotlin', 'Figma',  'Postgres', 'PHP', 'Flask', 'React Native', 'NextJs', 'Laravel', 'Docker'].map((tech) => (
                 <div
                   key={tech}
                   style={{
