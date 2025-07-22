@@ -4,19 +4,20 @@ import { HomeIcon, NotebookIcon } from "lucide-react";
 export const DATA = {
   name: "Sean Motanya",
   initials: "SM",
-  url: "https://seanmotanya.vercel.app",
+  url: "https://seanmotanya.dev",
   location: "Nairobi, KE",
   locationLink: "https://www.google.com/maps/place/nairobi",
   description:
-    "Software Engineer. I love building things and helping people.",
+    "Software Developer. I love building beautiful and efficient things that serve humanity.",
   summary:
     "I am a full-stack web developer and computer science graduate, with a certificate in software engineering. I have a passion for building innovative and efficient web applications. In addition to my technical skills, I have a deep appreciation for music, which fuels my creativity and drive.",
   skills: [
-    "React",
-    "Next.js",
-    "Typescript",
-    "Node.js",
     "Python",
+    "Typescript",
+    "Kotlin",
+    "Figma",
+    "Next.js",
+    "Node.js",
     "Postgres",
     "Docker",
     "Flask",
@@ -24,6 +25,7 @@ export const DATA = {
     "React Native",
     "PHP",
     "Laravel",
+    "React"
    
   ],
   navbar: [
@@ -57,7 +59,7 @@ export const DATA = {
       },
       email: {
         name: "Send Email",
-        url: "#",
+        url: "mailto:seanmotanya@gmail.com",
         icon: Icons.email,
 
         navbar: false,

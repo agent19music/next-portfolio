@@ -89,16 +89,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-      <meta property="og:title" content="Sean Motanya - Software Engineer" />
-        <meta property="og:description" content="Full-stack developer, designer. Explore my portfolio and projects." />
-        <meta property="og:url" content="https://seanmotanya.dev" />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/portfolio-preview.png" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Sean Motanya - Software Engineer" />
-        <meta name="twitter:description" content="Full-stack developer, designer. Explore my portfolio and projects." />
-        <meta name="twitter:image" content="https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/portfolio-preview.png" />
-      </head>
+        <StructuredData />
+       </head>
       <body className={inter.className}>
         <ColorPaletteProvider>
           <DynamicThemeProvider>

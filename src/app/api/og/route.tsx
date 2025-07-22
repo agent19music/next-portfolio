@@ -11,7 +11,14 @@ export async function GET(request: NextRequest) {
     const title = searchParams.get('title') || 'Sean Motanya';
     const description =
       searchParams.get('description') ||
-      'Software Engineer. I love building things and helping people.';
+      "Software Developer. I love building beautiful and efficient things that serve humanity.";
+
+    // Monochrome palette
+    const charcoal = '#18181b'; // very dark gray/charcoal
+    const charcoal2 = '#232326'; // slightly lighter charcoal
+    const offWhite = '#f3f4f6'; // off white
+    const midGray = '#a1a1aa'; // for subtle text
+    const borderGray = '#27272a'; // for borders
 
     return new ImageResponse(
       (
@@ -23,9 +30,9 @@ export async function GET(request: NextRequest) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#0f172a',
+            backgroundColor: charcoal,
             backgroundImage:
-              'radial-gradient(circle at 25px 25px, #1e293b 2%, transparent 0%), radial-gradient(circle at 75px 75px, #1e293b 2%, transparent 0%)',
+              'radial-gradient(circle at 25px 25px, #232326 2%, transparent 0%), radial-gradient(circle at 75px 75px, #232326 2%, transparent 0%)',
             backgroundSize: '100px 100px',
             fontFamily:
               'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
@@ -48,14 +55,14 @@ export async function GET(request: NextRequest) {
                 width: '120px',
                 height: '120px',
                 borderRadius: '60px',
-                backgroundColor: '#3b82f6',
+                backgroundColor: charcoal2,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginBottom: '40px',
                 fontSize: '48px',
                 fontWeight: 'bold',
-                color: 'white',
+                color: offWhite,
               }}
             >
               SM
@@ -64,7 +71,7 @@ export async function GET(request: NextRequest) {
               style={{
                 fontSize: '64px',
                 fontWeight: 'bold',
-                color: '#ffffff',
+                color: offWhite,
                 margin: '0 0 20px 0',
                 lineHeight: '1.2',
               }}
@@ -74,7 +81,7 @@ export async function GET(request: NextRequest) {
             <p
               style={{
                 fontSize: '28px',
-                color: '#94a3b8',
+                color: midGray,
                 margin: '0 0 40px 0',
                 lineHeight: '1.4',
                 maxWidth: '700px',
@@ -90,17 +97,17 @@ export async function GET(request: NextRequest) {
                 justifyContent: 'center',
               }}
             >
-              {['React', 'Next.js', 'TypeScript', 'Node.js'].map((tech) => (
+              {['Python', 'Typescript', 'Kotlin', 'Figma', 'Next.js', 'Node.js', 'Postgres', 'Docker', 'Flask', 'Tailwind CSS', 'React Native', 'PHP', 'Laravel', 'React'].map((tech) => (
                 <div
                   key={tech}
                   style={{
-                    backgroundColor: '#1e293b',
-                    color: '#3b82f6',
+                    backgroundColor: charcoal2,
+                    color: offWhite,
                     padding: '8px 20px',
                     borderRadius: '20px',
                     fontSize: '18px',
                     fontWeight: '500',
-                    border: '1px solid #334155',
+                    border: `1px solid ${borderGray}`,
                   }}
                 >
                   {tech}
@@ -115,8 +122,7 @@ export async function GET(request: NextRequest) {
               left: '0',
               right: '0',
               height: '4px',
-              background:
-                'linear-gradient(90deg, #3b82f6, #8b5cf6, #ef4444, #f59e0b)',
+              background: charcoal2,
             }}
           />
         </div>
