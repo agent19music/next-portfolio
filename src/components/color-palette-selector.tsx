@@ -223,20 +223,18 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
             palette: currentPalette,
             isDarkMode
           })
-        })
-        
+        });
         if (!response.ok) {
-          console.error('Failed to save preference to database')
-        } else {
-          const result = await response.json()
-          console.log('Preference saved to database successfully', result)
+          throw new Error('Save failed');
         }
+        const result = await response.json();
+        console.log('Save success:', result);
+        setIsSaving(false);
       } catch (error) {
-        console.error('Error saving preference:', error)
-      } finally {
-        setIsSaving(false)
+        console.error('Save error:', error);
+        setIsSaving(false);
       }
-    }, 3000) // 3 second delay
+    }, 3000);
     
     setSaveTimeout(timeout)
   }
