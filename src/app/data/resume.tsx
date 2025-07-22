@@ -157,7 +157,6 @@ export const DATA = {
         "Developed a web based anime quiz bowl game application with a bingwa points award system and weekly leaderboards.",
       image:
         "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/naicconlogo.jpg",
-      mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
     },
     {
@@ -168,7 +167,6 @@ export const DATA = {
         "Developed a mental wellness web application which helps streamline learning by providing links to tutorials and also a place to bond over common interests like music and movies.",
       image:
         "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/a2svlogo.jpeg",
-      mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
     },
     {
@@ -189,8 +187,22 @@ export const DATA = {
       description:"Presented the winning healthcare accessibility application that connects vulnerable patients like the elderly and disabled with healthcare providers, ensuring they receive timely medical attention.",
       image:
         "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/i2B-LOGO.png",
-      mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
       links: [],
+    },
+    {
+      title: "Walumo and Moringa School Hackathon",
+      dates: "July 1st - 4th, 2025",
+      location: "Nairobi, Kenya",
+      description: "Developed an AI powered HR management system that streamlines and automates hiring talent, employee management, and payroll processing",
+      image:
+        "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/FB_IMG_1753166941314.jpg",
+      links: [
+        // {
+        //   type: "Website",
+        //   href: "https://www.zentiri.app/",
+        //   icon: <Icons.globe className="size-3" />,
+        // },
+      ],
     },
 
   ],
