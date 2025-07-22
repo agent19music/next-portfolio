@@ -52,10 +52,9 @@ export async function GET(request: NextRequest) {
           >
             <div
               style={{
-             
+                display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                
               }}
             >
 <img
