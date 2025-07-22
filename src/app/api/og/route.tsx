@@ -55,14 +55,17 @@ export async function GET(request: NextRequest) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                marginBottom: '40px',
+                width: '342px',
+                height: '400px',
               }}
             >
 <img
   src="https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Open%20Peeps%20-%20Avatar-smile.png"
   alt="Sean Motanya"
-  style={{ borderRadius: "60px", marginBottom: '40px' }}
-  width={342px}
-  height={400px}
+  style={{ borderRadius: "60px" }}
+  width={342}
+  height={400}
 />            </div>
             <h1
               style={{
