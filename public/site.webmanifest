@@ -1,0 +1,25 @@
+{
+  "name": "Sean Motanya - Software Engineer",
+  "short_name": "Sean Motanya",
+  "description": "Software Engineer. I love building things and helping people.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["portfolio", "developer", "software"],
+  "lang": "en",
+  "scope": "/"
+} 
