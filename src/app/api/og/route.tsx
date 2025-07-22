@@ -56,17 +56,26 @@ export async function GET(request: NextRequest) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginBottom: '40px',
-                width: '342px',
-                height: '400px',
+                width: '220px',
+                height: '260px',
+                overflow: 'hidden',
               }}
             >
-<img
-  src="https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Open%20Peeps%20-%20Avatar-smile.png"
-  alt="Sean Motanya"
-  style={{ borderRadius: "60px" }}
-  width={342}
-  height={400}
-/>            </div>
+              <img
+                src="https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Open%20Peeps%20-%20Avatar-smile.png"
+                alt="Sean Motanya"
+                style={{
+                  borderRadius: "40px",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  display: "block",
+                  background: charcoal2,
+                }}
+                width={220}
+                height={260}
+              />
+            </div>
             <h1
               style={{
                 fontSize: '64px',
