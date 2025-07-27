@@ -14,10 +14,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL(DATA.url),
   title: {
-    default: DATA.name,
-    template: `%s | ${DATA.name}`,
+    default: "Sean Motanya - Full Stack Software Developer",
+    template: `%s | Sean Motanya`,
   },
-  description: DATA.description,
+  description: "Full Stack Software Developer specializing in React, Next.js, Python, and modern web technologies. Building beautiful and efficient applications that serve humanity.",
   keywords: [
     "Sean Motanya",
     "Software Engineer",
@@ -25,43 +25,48 @@ export const metadata: Metadata = {
     "React",
     "Next.js",
     "TypeScript",
+    "Python",
     "Frontend Developer",
     "Backend Developer",
     "Web Developer",
     "Portfolio",
     "Nairobi",
-    "Kenya"
+    "Kenya",
+    "Flask",
+    "Tailwind CSS",
+    "Node.js",
+    "Software Engineering"
   ],
   authors: [
     {
-      name: DATA.name,
+      name: "Sean Motanya",
       url: DATA.url,
     },
   ],
-  creator: DATA.name,
+  creator: "Sean Motanya",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: DATA.url,
-    title: DATA.name,
-    description: DATA.description,
-    siteName: DATA.name,
+    title: "Sean Motanya - Full Stack Software Developer",
+    description: "Full Stack Software Developer specializing in React, Next.js, Python, and modern web technologies. Building beautiful and efficient applications that serve humanity.",
+    siteName: "Sean Motanya Portfolio",
     images: [
       {
-        url: `/api/og?title=${encodeURIComponent(DATA.name)}&description=${encodeURIComponent(DATA.description)}`,
+        url: "/sean-avatar-og.png",
         width: 1200,
         height: 630,
-        alt: `${DATA.name} - ${DATA.description}`,
+        alt: "Sean Motanya - Full Stack Software Developer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: DATA.name,
-    description: DATA.description,
-    site: "@ufwsean", // Your Twitter handle from the resume data
+    title: "Sean Motanya - Full Stack Software Developer",
+    description: "Full Stack Software Developer specializing in React, Next.js, Python, and modern web technologies. Building beautiful and efficient applications that serve humanity.",
+    site: "@ufwsean",
     creator: "@ufwsean",
-    images: [`/api/og?title=${encodeURIComponent(DATA.name)}&description=${encodeURIComponent(DATA.description)}`],
+    images: ["/sean-avatar-og.png"],
   },
   robots: {
     index: true,

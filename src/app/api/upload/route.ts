@@ -1,5 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { r2, BUCKET_NAME, getPublicUrl } from '@/lib/r2-config'; // Adjust the import path as necessary
+import { createClient } from '@supabase/supabase-js';
+
+// Environment variables accessed server-side without NEXT_PUBLIC_ prefix
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+
+// Simple validation
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error("Supabase environment variables are not properly configured");
+}
+
+// Create a Supabase client for storage operations
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,22 +25,34 @@ export async function POST(request: NextRequest) {
     // Generate random filename
     const fileExt = file.name.split('.').pop();
     const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+    
+    // Convert file to buffer
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    // Upload to R2
-    await r2.putObject({
-      Bucket: BUCKET_NAME || '',
-      Key: fileName,
-      Body: buffer,
-      ContentType: file.type,
-    }).promise();
+    // Upload to Supabase Storage in the "anons" bucket
+    const { data, error } = await supabase.storage
+      .from('anons')
+      .upload(fileName, buffer, {
+        contentType: file.type,
+        cacheControl: '3600',
+        upsert: false
+      });
 
-    // Get the public URL
-    const publicUrl = getPublicUrl(fileName);
+    if (error) {
+      console.error('Supabase upload error:', error);
+      return NextResponse.json({ 
+        error: 'Upload failed: ' + error.message 
+      }, { status: 500 });
+    }
+
+    // Get the public URL for the uploaded file
+    const { data: urlData } = supabase.storage
+      .from('anons')
+      .getPublicUrl(fileName);
 
     return NextResponse.json({ 
       success: true, 
-      url: publicUrl 
+      url: urlData.publicUrl 
     });
   } catch (error) {
     console.error('Upload error:', error);

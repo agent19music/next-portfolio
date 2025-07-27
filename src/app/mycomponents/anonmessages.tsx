@@ -95,7 +95,8 @@ export default function EasterEggMessageForm() {
   };
   
   const handleSubmit = async () => {
-    if (!message.trim() && !file) return;
+    // Message is required - images are optional
+    if (!message.trim()) return;
 
     try {
       setIsSubmitting(true);
@@ -109,13 +110,14 @@ export default function EasterEggMessageForm() {
       }
 
       // Send message to our API route instead of directly to Supabase
+      // Send message even if empty (when only image is provided)
       const response = await fetch('/api/supabase-config', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: message.trim(),
+          message: message.trim(), // Message is always required
           imageUrl,
         }),
       });
@@ -390,18 +392,18 @@ export default function EasterEggMessageForm() {
                   <Button
                     type="submit"
                     onClick={handleSubmit}
-                    disabled={isSubmitting || (!message.trim() && !file) || isSent}
+                    disabled={isSubmitting || !message.trim() || isSent}
                     className="flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all"
                     style={{
                       backgroundColor: isSent 
                         ? "#22c55e" 
-                        : (!message.trim() && !file) || isSubmitting
+                        : !message.trim() || isSubmitting
                           ? "#d1d5db"
                           : paletteData.text,
-                      color: isSent || ((!message.trim() && !file) || isSubmitting)
+                      color: isSent || (!message.trim() || isSubmitting)
                         ? "#ffffff"
                         : paletteData.background,
-                      cursor: (!message.trim() && !file) || isSubmitting ? "not-allowed" : "pointer"
+                      cursor: !message.trim() || isSubmitting ? "not-allowed" : "pointer"
                     }}
                   >
                     {isSent ? (
