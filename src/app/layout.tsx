@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     siteName: "Sean Motanya Portfolio",
     images: [
       {
-        url: "/sean-avatar-og.png",
+        url: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/sean-avatar-og.png",
         width: 1200,
         height: 630,
         alt: "Sean Motanya - Full Stack Software Developer",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     description: "Full Stack Software Developer specializing in React, Next.js, Python, and modern web technologies. Building beautiful and efficient applications that serve humanity.",
     site: "@ufwsean",
     creator: "@ufwsean",
-    images: ["/sean-avatar-og.png"],
+    images: ["https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/sean-avatar-og.png"],
   },
   robots: {
     index: true,
