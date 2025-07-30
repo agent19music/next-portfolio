@@ -34,12 +34,12 @@
 
     --radius: 0.5rem;
 
-    /* Dynamic theme variables - default to mocha */
-    --background: #FDF1F5;
-    --text: #92736C;
-    --accent: #92736C;
-    --primary: #FDF1F5;
-    --secondary: #92736C;
+    /* Dynamic theme variables - default to murder */
+    --background: #FCF7F8;
+    --text: #A31621;
+    --accent: #A31621;
+    --primary: #FCF7F8;
+    --secondary: #A31621;
     --muted: #F2F0E6;
   }
 

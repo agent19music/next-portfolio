@@ -50,8 +50,8 @@ function createMutedColor(hex: string, isDarkMode: boolean = false): string {
 
 // Color palette definitions with dynamic muted colors
 export const colorPalettes = {
-  "muder": {
-    name: "Muder",
+  "murder": {
+    name: "Murder",
     background: "#FCF7F8", // snow
     text: "#A31621", // madder
     accent: "#A31621", // madder
@@ -146,7 +146,7 @@ function getDarkModeTransformation(paletteKey: string): {
 export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorPaletteSelectorProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(true) // Start collapsed
-  const [savedPalette, setSavedPalette] = useState<ColorPaletteKey>("mocha")
+  const [savedPalette, setSavedPalette] = useState<ColorPaletteKey>("murder")
   const [showCV, setShowCV] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)

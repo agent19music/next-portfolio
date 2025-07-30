@@ -55,7 +55,7 @@ interface ColorPaletteContextType {
 const ColorPaletteContext = createContext<ColorPaletteContextType | undefined>(undefined)
 
 export function ColorPaletteProvider({ children }: { children: React.ReactNode }) {
-  const [currentPalette, setCurrentPalette] = useState<ColorPaletteKey>("mocha")
+  const [currentPalette, setCurrentPalette] = useState<ColorPaletteKey>("murder")
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   // Load saved preferences on mount
