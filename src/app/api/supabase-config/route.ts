@@ -18,13 +18,21 @@ export async function POST(request: Request) {
     // Extract the message data from the request
     const { message, imageUrl } = await request.json();
     
+    // Validate that message is provided (images are optional)
+    const trimmedMessage = message?.trim();
+    if (!trimmedMessage) {
+      return NextResponse.json({ 
+        error: "Message text is required" 
+      }, { status: 400 });
+    }
+    
     // Insert message into database
     const { data, error } = await supabase
       .from("anonymous_messages")
       .insert([
         {
-          message: message?.trim(),
-          image_url: imageUrl,
+          message: trimmedMessage, // Message is always required and non-empty
+          image_url: imageUrl || null,
           created_at: new Date().toISOString(),
         },
       ])

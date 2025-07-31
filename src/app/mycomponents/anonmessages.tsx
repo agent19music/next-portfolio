@@ -106,11 +106,15 @@ export default function EasterEggMessageForm() {
 
       // Upload image if there is one
       if (file) {
-        imageUrl = await uploadImage(file);
+        try {
+          imageUrl = await uploadImage(file);
+        } catch (uploadError) {
+          console.error('Upload failed:', uploadError);
+          throw new Error('Failed to upload image. Please try again.');
+        }
       }
 
-      // Send message to our API route instead of directly to Supabase
-      // Send message even if empty (when only image is provided)
+      // Send message to our API route
       const response = await fetch('/api/supabase-config', {
         method: 'POST',
         headers: {
