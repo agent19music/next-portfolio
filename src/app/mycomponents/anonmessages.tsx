@@ -12,6 +12,8 @@ import { useColorPalette } from "@/contexts/color-palette-context";
 // Dynamically import Lottie with SSR disabled
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
+// Removed session ID generation for privacy
+
 export default function EasterEggMessageForm() {
   const { paletteData } = useColorPalette();
   const [showForm, setShowForm] = useState(false);
