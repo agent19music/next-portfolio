@@ -281,7 +281,7 @@ export default function ItalProductsPage() {
                     WEB DEVELOPMENT SERVICES AGREEMENT
                   </h3>
                   <div className="text-xs sm:text-sm text-slate-600 space-y-2">
-                    <p>This Service Agreement ("Agreement") is entered into on <span className="font-medium text-slate-700">{currentDate}</span> between:</p>
+                    <p>This Service Agreement (&quot;Agreement&quot;) is entered into on <span className="font-medium text-slate-700">{currentDate}</span> between:</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                       <div className="space-y-1">
                         <div className="uppercase tracking-wide text-[10px] sm:text-[11px] text-slate-400">Service Provider</div>
@@ -404,7 +404,7 @@ export default function ItalProductsPage() {
                       <li>The website will be functional and free from material defects for 30 days post-deployment</li>
                       <li>Bug fixes for issues identified within 30 days will be provided at no additional cost</li>
                     </ul>
-                    <p className="mt-3">Limitation of Liability: The Service Provider's liability shall not exceed the total contract value.</p>
+                    <p className="mt-3">Limitation of Liability: The Service Provider&apos;s liability shall not exceed the total contract value.</p>
                   </div>
                 </div>
 
