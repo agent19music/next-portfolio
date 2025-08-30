@@ -182,7 +182,7 @@ export const DATA = {
     },
     {
       title: "Royco  Mobile App",
-      href: "https://github.com/agent19music/ReccipeWhiteLabel-RN",
+      href: "https://github.com/agent19music/RecipeWhiteLabel-RN",
       dates: " Ongoing",
       active: true,
       description:
