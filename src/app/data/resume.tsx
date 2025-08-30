@@ -149,6 +149,61 @@ export const DATA = {
       video:
         "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/vitapharm.mp4",
     },
+    {
+      title: "Royco Recipe Dashboard",
+      href: "https://github.com/agent19music/recipe-dash",
+      dates: "On going",
+      active: true,
+      description:
+        "Developed an admin dashboard for Royco Foods . The dashboard provides an intuitive interface for managing the Royco Recipe mobile app, visualising metrics and managing campaigns",
+      technologies: [
+        "Next.js",
+        "TypeScript",
+        "PostgreSQL",
+        "Flask",
+        "TailwindCSS",
+        "Supabase"
+      ],
+      links: [
+        {
+          type: "Source",
+          href: "https://github.com/agent19music/recipe-dash",
+          icon: <Icons.github className="size-3" />,
+        },
+        {
+          type: "Demo",
+          href: "https://roycorecipedash.vercel.app/",
+          icon: <Icons.globe className="size-3" />,
+        }
+      ],
+      image: "",
+      video:
+        "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/recipe-dash.mp4",
+    },
+    {
+      title: "Royco  Mobile App",
+      href: "https://github.com/agent19music/ReccipeWhiteLabel-RN",
+      dates: " Ongoing",
+      active: true,
+      description:
+        "A mobile app to manage your kitchen, get personalized recipe recommendations, and engage in community cooking challenges. Built with React Native and TypeScript, the app helps users organize their pantry, discover new recipes, and participate in interactive cooking events with the community.",
+      technologies: [
+        "React Native",
+        "TypeScript",
+        "Expo",
+        "Redux",
+        "Supabase"
+      ],
+      links: [
+        {
+          type: "Source",
+          href: "https://github.com/agent19music/ReccipeWhiteLabel-RN",
+          icon: <Icons.github className="size-3" />,
+        }
+      ],
+      image: "",
+      video: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/royco-mobile.mp4",
+    }
   ],
   hackathons: [
     {

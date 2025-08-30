@@ -114,7 +114,7 @@ export default function ItalProductsPage() {
             <div ref={receiptRef} className="rounded-2xl bg-white overflow-hidden ring-1 ring-slate-200">
               {/* Top bar */}
               <div className="flex items-center justify-between px-4 sm:px-8 pt-4 sm:pt-6 pb-3 sm:pb-4">
-                <h2 className="text-slate-800 text-base sm:text-lg font-semibold">Invoice Receipt</h2>
+                <h2 className="text-slate-800 text-base sm:text-lg font-semibold">Invoice Receipt Draft</h2>
                 <div className="flex items-center gap-2 text-slate-500">
                   <button
                     type="button"
@@ -261,7 +261,7 @@ export default function ItalProductsPage() {
             <div ref={contractRef} className="rounded-2xl bg-white overflow-hidden ring-1 ring-slate-200">
               {/* Top bar */}
               <div className="flex items-center justify-between px-4 sm:px-8 pt-4 sm:pt-6 pb-3 sm:pb-4">
-                <h2 className="text-slate-800 text-base sm:text-lg font-semibold">Service Contract</h2>
+                <h2 className="text-slate-800 text-base sm:text-lg font-semibold">Service Contract Draft</h2>
                 <div className="flex items-center gap-2 text-slate-500">
                   <button
                     type="button"
