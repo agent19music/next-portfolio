@@ -197,7 +197,7 @@ export const DATA = {
       links: [
         {
           type: "Source",
-          href: "https://github.com/agent19music/ReccipeWhiteLabel-RN",
+          href: "https://github.com/agent19music/RecipeWhiteLabel-RN",
           icon: <Icons.github className="size-3" />,
         }
       ],
