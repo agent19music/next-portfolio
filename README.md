@@ -1,79 +1,145 @@
-# Supabase Integration
-
-This project uses Supabase for authentication and data storage. Follow these steps to ensure proper configuration:
-
-## Environment Variables
-
-1. Update your `.env.local` file to include the following Supabase variables with the `NEXT_PUBLIC_` prefix:
-
-```
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-The existing `SUPABASE_URL` and `SUPABASE_ANON_KEY` variables (without the `NEXT_PUBLIC_` prefix) should be kept for server-side operations.
-
-## Using the Supabase Client
-
-The Supabase client is initialized in a centralized location at `src/lib/supabase.ts`. Import and use it in your components like this:
-
-```tsx
-import supabase from '@/lib/supabase';
-
-// Now you can use the supabase client
-const { data, error } = await supabase.auth.signInWithPassword({
-  email: 'example@email.com',
-  password: 'example-password',
-});
-```
-
-## Authentication Example
-
-An example authentication component is provided at `src/components/examples/SupabaseAuthExample.tsx`. You can use this as a reference for implementing Supabase authentication in your application.
-
-## Troubleshooting
-
-If you encounter issues with Supabase client initialization:
-
-1. Make sure the environment variables are correctly set with the `NEXT_PUBLIC_` prefix in `.env.local`
-2. Check the browser console for any error messages during development
-3. Verify that the Supabase project URL and anon key are correct
-4. Restart the Next.js development server after making changes to `.env.local`
-
 # Hello, I'm Sean Motanya! 👋✨
 
-Certified Software Engineer | Anime Enthusiast | JavaScript Ninja 🥷
+**Full-Stack Software Engineer | Tech Innovator | Problem Solver**
 
-I'm a Computer Science student with a passion for crafting dynamic and immersive web experiences. My stack? A lethal combo of **ReactJS** and **NextJS** on the frontend, with **Flask** powering the backend. 💻
+[![GitHub](https://img.shields.io/badge/GitHub-agent19music-181717?style=flat&logo=github)](https://github.com/agent19music)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Sean_Motanya-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/sean-motanya/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-seanmotanya.dev-4285F4?style=flat&logo=google-chrome)](https://seanmotanya.dev)
+[![Email](https://img.shields.io/badge/Email-seanmotanya@gmail.com-D14836?style=flat&logo=gmail)](mailto:seanmotanya@gmail.com)
 
-## Skills 🚀
-- **Frontend:** ReactJS, NextJS, Bootstrap, Tailwind CSS
-- **Backend:** Flask
-- **Languages:** JavaScript, Python, HTML, CSS
+I'm a passionate Full-Stack Software Engineer and Computer Science graduate with a certificate in Software Engineering from Moringa School. I specialize in building beautiful, efficient, and scalable web applications that serve humanity. Currently working as a Backend Software Engineer at Lixnet Technologies, where I'm developing robust payroll management solutions. 🚀
 
-## Projects 🎮
+## 🛠️ Tech Stack & Skills
 
-### Campo Social 🌐
-- **Description:** A social media app where connections come alive. Built with **React Bootstrap** for sleek UI and **Flask** for a robust backend. Connect, share, and stay updated with the latest trends.
-- **Technologies Used:** React.js, Bootstrap, Flask
+### Languages
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 
-### Anime Store 🛒
-- **Description:** A mock anime merchandise shopping site for all the otakus out there! 🎌
-- **Technologies Used:** React.js, Flask, Bootstrap
-- **GitHub Link:** [Check it out](https://github.com/agent19music/anime-store-react)
+### Frontend
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Chakra UI](https://img.shields.io/badge/Chakra_UI-319795?style=for-the-badge&logo=chakra-ui&logoColor=white)
 
-### Vitapaharm Cosmeics 💼
-- **Description:** A fully functional beauty and cosmetics e-commerce platform with all the bells and whistles, built for the real world! 🌐
-- **Technologies Used:** React.js, Tailwind CSS, Flask
-- **LIve Link:** [Check it out](https://vitapharmcosmetics.co.ke)
+### Backend & Databases
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+
+### Tools & Technologies
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)
+![Redux](https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=redux&logoColor=white)
+![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)
+
+## 🚀 Featured Projects
+
+### 🏢 Lixnet Payroll Management System
+- **Role:** Backend Software Engineer
+- **Status:** Currently In Development
+- **Description:** Developing a comprehensive payroll management system for Lixnet Technologies. Building robust backend solutions to ensure efficient payroll processing and management for enterprise clients.
+- **Technologies:** Backend architecture, API development, Database design
+- **Period:** May 2025 - Present
+
+### 💄 Vitapharm Cosmetics E-Commerce Platform
+- **Description:** Developed a full-featured web application and admin dashboard for Vitapharm Health, a cosmetics company. The platform features an intuitive interface for managing product inventory, processing customer orders, and analyzing sales data.
+- **Technologies:** React.js, JavaScript, MySQL, Flask, Tailwind CSS, Chakra UI
+- **Features:**
+  - Product catalog with advanced filtering
+  - Shopping cart and checkout system
+  - Admin dashboard for inventory management
+  - Order tracking and customer management
+- **Links:** 
+  - [GitHub Repository](https://github.com/agent19music/vitapharm-client)
+  - [Live Demo](https://vitapharmcosmetics.co.ke)
+- **Period:** Apr 2024 - Aug 2024
+
+### 📱 Royco Recipe Mobile App & Dashboard
+- **Description:** A comprehensive ecosystem consisting of a React Native mobile app and Next.js admin dashboard for Royco Foods. The mobile app helps users manage their kitchen, get personalized recipe recommendations, and engage in community cooking challenges.
+- **Mobile App Technologies:** React Native, TypeScript, Expo, Redux, Supabase
+- **Dashboard Technologies:** Next.js, TypeScript, PostgreSQL, Flask, Tailwind CSS, Supabase
+- **Features:**
+  - Personalized recipe recommendations
+  - Kitchen inventory management
+  - Community cooking challenges
+  - Campaign management dashboard
+  - Real-time metrics visualization
+- **Links:**
+  - [Mobile App GitHub](https://github.com/agent19music/RecipeWhiteLabel-RN)
+  - [Dashboard GitHub](https://github.com/agent19music/recipe-dash)
+  - [Dashboard Demo](https://roycorecipedash.vercel.app/)
+- **Status:** Ongoing
 
 
-## Education 🎓
-- **Major:** Computer Science
+## 💼 Professional Experience
+
+### Backend Software Engineer @ Lixnet Technologies
+- **Period:** May 2025 - Present
+- **Location:** Remote
+- **Focus:** Developing payroll management systems with robust backend solutions
+
+### Frontend Software Engineer @ Vitapharm Health
+- **Period:** April 2024 - August 2024
+- **Location:** Hybrid
+- **Achievement:** Successfully delivered a complete e-commerce platform with admin dashboard
+
+### Full Stack Software Engineer @ Freelance
+- **Period:** June 2024 - Present
+- **Location:** Nairobi, KE
+- **Focus:** Custom web applications, performance optimization, and challenging personal projects
+
+## 🏆 Hackathon Achievements
+
+- **🥇 DeKuT Idea to Business Innovation Weekend (May 2025)** - Winner with healthcare accessibility application
+- **Walumo & Moringa School Hackathon (July 2025)** - AI-powered HR management system
+- **Anza Village Design Thinking Hackathon (Nov 2024)** - Secure ticket management system
+- **A2SV AI for Impact in Africa (July 2024)** - Mental wellness web application
+- **Naiccon Afrofuturistic Game Hackathon (Nov 2023)** - Anime quiz bowl game with leaderboards
+
+## 🎓 Education
+
+### Bachelor's Degree in Computer Science (BCS)
 - **University:** Riara University
-- **Graduation Year:** 2025
+- **Period:** 2021 - 2025
+- **Status:** Final Year
 
-## Let's Connect! 📫
-- **Email:** seanmotanya@gmail.com
+### Certificate in Software Engineering
+- **Institution:** Moringa School
+- **Period:** 2023 - 2024
+- **Status:** Graduated
 
-Thank you for stopping by my GitHub portfolio! 🚀 Let's build something awesome together!
+## 📊 GitHub Stats
+
+![Sean's GitHub Stats](https://github-readme-stats.vercel.app/api?username=agent19music&show_icons=true&theme=radical)
+
+## 🌐 Let's Connect!
+
+- 📧 **Email:** [seanmotanya@gmail.com](mailto:seanmotanya@gmail.com)
+- 💼 **LinkedIn:** [Sean Motanya](https://www.linkedin.com/in/sean-motanya/)
+- 🐦 **X (Twitter):** [@ufwsean](https://x.com/ufwsean)
+- 🌍 **Portfolio:** [seanmotanya.dev](https://seanmotanya.dev)
+- 📱 **Phone:** +254 745 071 299
+- 📍 **Location:** Nairobi, Kenya
+
+---
+
+### 💡 Fun Facts
+- 🎌 Anime enthusiast who builds while binge-watching
+- 🎵 Music fuels my creativity and coding sessions
+- 🥷 JavaScript Ninja mastering the art of clean code
+- 🚀 Always learning, always building, always growing
+
+---
+
+<div align="center">
+  <b>Thank you for visiting my profile! Let's build something awesome together! 🚀</b>
+  
+  ![Visitor Count](https://visitor-badge.laobi.icu/badge?page_id=agent19music.agent19music)
+</div>
