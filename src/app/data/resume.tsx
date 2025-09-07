@@ -266,29 +266,29 @@ export const DATA = {
   photos:  [
     {
       id: 1,
-      src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/miracle-garden-polaroid.png",
+      src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/canva/seanmotanyaatthedubaimiraclegarden.png",
       alt: "Dubai Miracle Garden",
       caption: "Me at the Dubai Miracle Garden, 2024"
     },
     {
       id: 2,
-      src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/moringa-grad-polaroid.png",
+      src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/canva/seanmotanyaathismoringaschoolgraduation.png",
       alt: "Moringa School Graduation",
       caption: "Me at the Moringa School Graduation, 2024"
     },
     {
       id: 3,
-      src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/dubai-desert-safari-polaroid.png",
+      src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/canva/seanmotanyaatthedubaidesertsafari.png",
       alt: "Dubai Desert Safari",
       caption: "Me at the Dubai Desert Safari, 2024"
     },
     {
       id: 4,
-      src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/oloolua-walk-polaroid.png",
-      alt: "Oloolua Nature Trail",
-      caption: "Me at the Oloolua Nature Trail, 2025"
-    },
-   
+        src: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/canva/seanmotanyaattheolooluanaturetrail.png",
+        alt: "Oloolua Nature Trail",
+        caption: "Me at the Oloolua Nature Trail, 2025"
+      },
+    
   ],
 
 } as const;
