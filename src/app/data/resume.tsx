@@ -108,7 +108,7 @@ export const DATA = {
       href: "https://darajaplus.com",
       badges: [],
       location: "Hybrid",
-      title: "Software Engineer ",
+      title: "Full Stack Software Engineer ",
       logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/darajapluslogo.jpg",
       start: "June 2024",
       end: "present",
@@ -171,8 +171,7 @@ export const DATA = {
         "Next.js",
         "TypeScript",
         "PostgreSQL",
-        "Flask",
-        "TailwindCSS",
+         "TailwindCSS",
         "Supabase"
       ],
       links: [
@@ -202,8 +201,10 @@ export const DATA = {
         "React Native",
         "TypeScript",
         "Expo",
-        "Redux",
-        "Supabase"
+        "Supabase",
+        "Figma",
+        "PostgreSQL"
+        
       ],
       links: [
         {
