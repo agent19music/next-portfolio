@@ -99,10 +99,21 @@ export const DATA = {
       title: "Backend Software Engineer",
       logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/lixnet%20logo.jpeg",
       start: "May 2025",
-      end: "present",
+      end: "June 2025",
       description:
       "Currently working as a Backend Software Engineer at Lixnet Technologies where I am responsible for developing their payroll management system. My role involves designing and implementing robust backend solutions to ensure efficient payroll processing and management for clients.",
     },
+    {
+      company: "Daraja Plus",
+      href: "https://darajaplus.com",
+      badges: [],
+      location: "Hybrid",
+      title: "Software Engineer ",
+      logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/darajapluslogo.jpg",
+      start: "June 2024",
+      end: "present",
+      description:"Built the backend for a brand ambassador sales tracking tool, handling data integration with existing systems. Developed a kitchen companion app with AI recipe suggestions, meal planning, and pantry management features, plus an admin dashboard for analytics. Delivered two working applications that improved sales tracking operations and provided users with a complete kitchen management solution."
+    }
   ],
   education: [
     {
