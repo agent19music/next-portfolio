@@ -34,13 +34,13 @@
 
     --radius: 0.5rem;
 
-    /* Dynamic theme variables - default to murder */
-    --background: #FCF7F8;
-    --text: #A31621;
-    --accent: #A31621;
-    --primary: #FCF7F8;
-    --secondary: #A31621;
-    --muted: #F2F0E6;
+  /* Dynamic theme variables - default to monochrome */
+  --background: #FFFFFF;
+  --text: #000000;
+  --accent: #000000;
+  --primary: #FFFFFF;
+  --secondary: #000000;
+  --muted: #B3B3B3;
   }
 
   .dark {

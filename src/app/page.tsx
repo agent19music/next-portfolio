@@ -16,6 +16,7 @@ import { SpotifyTrack } from "@/app/mycomponents/SpotifyTrack"
 import AnonymousMessageInput from "@/app/mycomponents/anonmessages"
 import { ColorPaletteSelector } from "@/components/color-palette-selector"
 import { useColorPalette } from "@/contexts/color-palette-context"
+import Image from "next/image"
 
 const BLUR_FADE_DELAY = 0.04
 
@@ -226,6 +227,10 @@ function PortfolioContent() {
         </BlurFade>
 
         <LinksDock />
+        <div className="text-center text-sm text-muted-foreground mt-8 flex items-center justify-center gap-2" style={{ color: paletteData.muted }}>
+            I use Arch btw
+          <Image src="https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/icons8-arch-linux-24-blue.png" alt="Description of image" width={16} height={16} />
+        </div>
       </footer>
 
       <ColorPaletteSelector 

@@ -10,22 +10,19 @@ export const DATA = {
   description:
     "Software Developer. I love building beautiful and efficient things that serve humanity.",
   summary:
-    "I am a full-stack web developer and computer science graduate, with a certificate in software engineering. I have a passion for building innovative and efficient web applications. In addition to my technical skills, I have a deep appreciation for music, which fuels my creativity and drive.",
+    "I am a full-stack  developer and recent computer science graduate. I'm intrested in  building innovative and impactful applications. I also like music and gaming.",
   skills: [
     "Python",
     "Typescript",
     "Kotlin",
+    "PHP",
     "Figma",
     "Next.js",
-    "Node.js",
-    "Postgres",
     "Docker",
     "Flask",
-    "Tailwind CSS",
     "React Native",
-    "PHP",
     "Laravel",
-    "React"
+    
    
   ],
   navbar: [
@@ -143,11 +140,8 @@ export const DATA = {
       "Developed a web-based application and an accompanying admin dashboard for Vitapharm Health, a cosmetics company, using React.js and Tailwind CSS. The application features a user-friendly interface for managing product inventory and customer orders.",
       technologies: [
         "React.js",
-        "Javascript",
         "MySQL",
         "Flask",
-        "TailwindCSS",
-        "Chakra UI",
       ],
       links: [
         {
@@ -169,9 +163,6 @@ export const DATA = {
         "Developed an admin dashboard for Royco Foods . The dashboard provides an intuitive interface for managing the Royco Recipe mobile app, visualising metrics and managing campaigns",
       technologies: [
         "Next.js",
-        "TypeScript",
-        "PostgreSQL",
-         "TailwindCSS",
         "Supabase"
       ],
       links: [
@@ -199,11 +190,7 @@ export const DATA = {
         "A mobile app to manage your kitchen, get personalized recipe recommendations, and engage in community cooking challenges. Built with React Native and TypeScript, the app helps users organize their pantry, discover new recipes, and participate in interactive cooking events with the community.",
       technologies: [
         "React Native",
-        "TypeScript",
-        "Expo",
         "Supabase",
-        "Figma",
-        "PostgreSQL"
         
       ],
       links: [
@@ -233,7 +220,7 @@ export const DATA = {
       dates: "July 26th - 31st, 2024",
       location: "Nairobi, Kenya",
       description:
-        "Developed a mental wellness web application which helps streamline learning by providing links to tutorials and also a place to bond over common interests like music and movies.",
+        "Developed a mental wellness web application that  streamlines learning by easing access to material, providing a place to bond over common interests like music and film.",
       image:
         "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/a2svlogo.jpeg",
       links: [],
@@ -242,7 +229,7 @@ export const DATA = {
       title: "Anza Village Design Thinking Hackathon",
       dates: "November 15th - 17th 2024",
       location: "Nairobi, Kenya",
-      description:"Developed a secure ticket management system that eliminated unauthorized transfers and prevented revenue loss from resale fraud, while delivering an intuitive, visually striking user interface for enhanced customer experience.",
+      description:"Developed a secure ticket management system that eliminates unauthorized transfers and prevents revenue loss from resale fraud, while delivering an intuitive, visually striking user interface for enhanced customer experience.",
       image:
         "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/logo_anzavillage.png",
       mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
