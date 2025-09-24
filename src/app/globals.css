@@ -34,6 +34,25 @@
 
     --radius: 0.5rem;
 
+    /* For WebKit browsers (Chrome, Safari, newer Edge, Opera) */
+element::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* For Firefox */
+element {
+  scrollbar-width: none;
+}
+
+/* For Internet Explorer and older Edge */
+element {
+  -ms-overflow-style: none;
+}
+
   /* Dynamic theme variables - default to monochrome */
   --background: #FFFFFF;
   --text: #000000;

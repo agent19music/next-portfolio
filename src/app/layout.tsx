@@ -64,8 +64,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sean Motanya - Full Stack Software Developer",
     description: "Full Stack Software Developer specializing in React, Next.js, Python, and modern web technologies. Building beautiful and efficient applications that serve humanity.",
-    site: "@ufwsean",
-    creator: "@ufwsean",
+    site: "@seanmotanya",
+    creator: "@seanmotanya",
     images: ["https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/sean-avatar-og.png"],
   },
   robots: {
