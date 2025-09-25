@@ -123,7 +123,7 @@ I'm a passionate Full-Stack Software Engineer and Computer Science graduate with
 
 - 📧 **Email:** [seanmotanya@gmail.com](mailto:seanmotanya@gmail.com)
 - 💼 **LinkedIn:** [Sean Motanya](https://www.linkedin.com/in/sean-motanya/)
-- 🐦 **X (Twitter):** [@lyzersean](https://x.com/lyzersean)   
+- 🐦 **X (Twitter):** [@uzski404](https://x.com/uzski404)   
 - 🌍 **Portfolio:** [seanmotanya.dev](https://seanmotanya.dev)
 - 📱 **Phone:** +254 745 071 299
 - 📍 **Location:** Nairobi, Kenya
