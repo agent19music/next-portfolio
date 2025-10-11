@@ -98,7 +98,7 @@ export const DATA = {
       start: "May 2025",
       end: "July 2025",
       description:
-      "Currently working as a Backend Software Engineer at Lixnet Technologies where I am responsible for developing their payroll management system. My role involves designing and implementing robust backend solutions to ensure efficient payroll processing and management for clients.",
+      "Worked as a Backend Software Engineer at Lixnet Technologies, where I was responsible for developing their payroll management system. My role involved designing and implementing robust backend solutions to ensure efficient payroll processing and management for clients.",
     },
     {
       company: "Daraja Plus",
@@ -109,8 +109,8 @@ export const DATA = {
       logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/darajapluslogo.jpg",
       start: "July 2025",
       end: "present",
-      description:"Built the backend for a brand ambassador sales tracking tool, handling data integration with existing systems. Developed a kitchen companion app with AI recipe suggestions, meal planning, and pantry management features, plus an admin dashboard for analytics. Delivered two working applications that improved sales tracking operations and provided users with a complete kitchen management solution."
-    }
+      description: "Currently working as a Full Stack Software Engineer at Daraja Plus, building web and mobileapplications for a variety of clients. I focus on delivering value by designing and implementing both frontend and backend solutions tailored to client needs.",
+    },
   ],
   education: [
     {
