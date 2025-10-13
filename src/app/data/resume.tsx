@@ -109,7 +109,7 @@ export const DATA = {
       logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/darajapluslogo.jpg",
       start: "July 2025",
       end: "present",
-      description: "Currently working as a Full Stack Software Engineer at Daraja Plus, building web and mobileapplications for a variety of clients. I focus on delivering value by designing and implementing both frontend and backend solutions tailored to client needs.",
+      description: "Currently working as a Full Stack Software Engineer at Daraja Plus, building web and mobile applications for a variety of clients. I focus on delivering value by designing and implementing both frontend and backend solutions tailored to client needs.",
     },
   ],
   education: [
