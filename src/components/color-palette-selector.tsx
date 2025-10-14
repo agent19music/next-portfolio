@@ -1,18 +1,94 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useMemo, Suspense } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Palette, Save, FileText, Sun, Moon, Settings } from "lucide-react"
+import { Palette, Save, FileText, Sun, Moon, Settings, ExternalLink } from "lucide-react"
 import { useColorPalette } from "@/contexts/color-palette-context"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+
+// Custom hook for modern media queries
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia(query)
+    if (media.matches !== matches) {
+      setMatches(media.matches)
+    }
+    const listener = () => setMatches(media.matches)
+    media.addEventListener('change', listener)
+    return () => media.removeEventListener('change', listener)
+  }, [matches, query])
+
+  return matches
+}
+
+// Custom hook for debounced save
+function useDebouncedSave(delay: number = 3000) {
+  const [isSaving, setIsSaving] = useState(false)
+  const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null)
+
+  const debouncedSave = useCallback(async (currentPalette: ColorPaletteKey, isDarkMode: boolean) => {
+    // Save to localStorage immediately for instant feedback
+    localStorage.setItem("color-palette", currentPalette)
+    
+    // Clear existing timeout
+    if (saveTimeout) {
+      clearTimeout(saveTimeout)
+    }
+    
+    setIsSaving(true)
+    
+    const timeout = setTimeout(async () => {
+      try {
+        const response = await fetch('/api/save-preferences', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            palette: currentPalette,
+            isDarkMode
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error('Save failed');
+        }
+        
+        const result = await response.json();
+        console.log('Save success:', result);
+      } catch (error) {
+        console.error('Save error:', error);
+      } finally {
+        setIsSaving(false);
+      }
+    }, delay);
+    
+    setSaveTimeout(timeout)
+  }, [delay, saveTimeout])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (saveTimeout) {
+        clearTimeout(saveTimeout)
+      }
+    }
+  }, [saveTimeout])
+
+  return { debouncedSave, isSaving }
+}
 
 // Utility function to lighten a color for card backgrounds
 function lightenColor(hex: string, amount: number = 0.1): string {
   const cleanHex = hex.replace('#', '')
   const num = parseInt(cleanHex, 16)
-  
+
   const r = (num >> 16) & 255
   const g = (num >> 8) & 255
   const b = num & 255
@@ -145,112 +221,72 @@ function getDarkModeTransformation(paletteKey: string): {
 
 export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorPaletteSelectorProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [isCollapsed, setIsCollapsed] = useState(true) // Start collapsed
+  const [isCollapsed, setIsCollapsed] = useState(true)
   const [savedPalette, setSavedPalette] = useState<ColorPaletteKey>("murder")
   const [showCV, setShowCV] = useState(false)
+  const [isCVHovered, setIsCVHovered] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null)
-  const [isSaving, setIsSaving] = useState(false)
-
+  
+  const router = useRouter()
+  
+  // Modern media query hook
+  const isMobile = useMediaQuery('(max-width: 768px)')
+  
   // Use context for dark mode state
   const { isDarkMode, setIsDarkMode } = useColorPalette()
+  
+  // Custom debounced save hook
+  const { debouncedSave, isSaving } = useDebouncedSave(3000)
 
-  // Mobile detection with responsive behavior
+  // Memoize palette calculations for performance
+  const appliedPalette = useMemo(() => {
+    return isDarkMode ? getDarkModeTransformation(currentPalette) : colorPalettes[currentPalette]
+  }, [currentPalette, isDarkMode])
+
+  // Load saved palette on mount with error handling
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
-
-
-
-  // Cleanup save timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (saveTimeout) {
-        clearTimeout(saveTimeout)
+    try {
+      const saved = localStorage.getItem("color-palette")
+      if (saved && saved in colorPalettes) {
+        setSavedPalette(saved as ColorPaletteKey)
+        onPaletteChange(saved as ColorPaletteKey)
       }
-    }
-  }, [])
-
-  // Load saved palette on mount
-  useEffect(() => {
-    const saved = localStorage.getItem("color-palette")
-    if (saved && saved in colorPalettes) {
-      setSavedPalette(saved as ColorPaletteKey)
-      onPaletteChange(saved as ColorPaletteKey)
+    } catch (error) {
+      console.warn('Failed to load saved palette:', error)
     }
   }, [onPaletteChange])
 
-  const handlePaletteSelect = (palette: ColorPaletteKey) => {
+  const handlePaletteSelect = useCallback((palette: ColorPaletteKey) => {
     onPaletteChange(palette)
     setIsCollapsed(true)
     setIsOpen(false)
-    setIsMobileMenuOpen(false) // Hide mobile menu after selection
-  }
+    setIsMobileMenuOpen(false)
+  }, [onPaletteChange])
 
-  const handleSave = () => {
-    // Save to localStorage immediately for instant feedback
-    localStorage.setItem("color-palette", currentPalette)
+  const handleSave = useCallback(() => {
     setSavedPalette(currentPalette)
     setIsCollapsed(true)
     setIsOpen(false)
-    setIsMobileMenuOpen(false) // Hide mobile menu after saving
+    setIsMobileMenuOpen(false)
     
-    // Clear existing timeout if any
-    if (saveTimeout) {
-      clearTimeout(saveTimeout)
-    }
-    
-    // Set loading state
-    setIsSaving(true)
-    
-    // Debounce the API call by 3 seconds
-    const timeout = setTimeout(async () => {
-      try {
-        const response = await fetch('/api/save-preferences', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            palette: currentPalette,
-            isDarkMode
-          })
-        });
-        if (!response.ok) {
-          throw new Error('Save failed');
-        }
-        const result = await response.json();
-        console.log('Save success:', result);
-        setIsSaving(false);
-      } catch (error) {
-        console.error('Save error:', error);
-        setIsSaving(false);
-      }
-    }, 3000);
-    
-    setSaveTimeout(timeout)
-  }
+    // Use debounced save
+    debouncedSave(currentPalette, isDarkMode)
+  }, [currentPalette, isDarkMode, debouncedSave])
 
-  const toggleDarkMode = () => {
+  const toggleDarkMode = useCallback(() => {
     setIsDarkMode(!isDarkMode)
-  }
+  }, [isDarkMode, setIsDarkMode])
 
-  const toggleMobileMenu = () => {
+  const toggleMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
+  }, [isMobileMenuOpen])
 
-  const currentPaletteData = colorPalettes[currentPalette]
-  
-  // Apply dark mode transformations
-  const appliedPalette = isDarkMode ? getDarkModeTransformation(currentPalette) : currentPaletteData
+  // Handle CV link opening in new tab
+  const handleCVClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    window.open("https://www.self.so/sean-nyandusi", '_blank', 'noopener,noreferrer')
+  }, [])
 
   // Mobile view (smaller screens)
   if (isMobile) {
@@ -281,8 +317,15 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
                         border: "1px solid rgba(255, 255, 255, 0.2)",
                         boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
                       }}
+                      onMouseEnter={() => setIsCVHovered(true)}
+                      onMouseLeave={() => setIsCVHovered(false)}
+                      onClick={handleCVClick}
                     >
-                      <FileText className="w-4 h-4" style={{ color: appliedPalette.text }} />
+                      {isCVHovered ? (
+                        <ExternalLink className="w-4 h-4" style={{ color: appliedPalette.text }}  target="_blank" href="https://www.self.so/sean-nyandusi"/>
+                      ) : (
+                        <FileText className="w-4 h-4" style={{ color: appliedPalette.text }} />
+                      )}
                     </motion.div>
                   </DialogTrigger>
                   <DialogContent 
@@ -295,7 +338,9 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
                       boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
                     }}
                   >
-                    <CVViewer />
+                    <Suspense fallback={<div className="flex items-center justify-center h-96">Loading...</div>}>
+                      <CVViewer />
+                    </Suspense>
                   </DialogContent>
                 </Dialog>
 
@@ -349,7 +394,7 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
                         className="text-xs font-medium backdrop-blur-sm"
                         style={{ color: appliedPalette.text }}
                       >
-                        {currentPaletteData.name}
+                        {colorPalettes[currentPalette].name}
                       </span>
                     </motion.div>
                   </DialogTrigger>
@@ -428,8 +473,15 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
                 border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'}`,
                 boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
               }}
+              onMouseEnter={() => setIsCVHovered(true)}
+              onMouseLeave={() => setIsCVHovered(false)}
+              onClick={handleCVClick}
             >
-              <FileText className="w-5 h-5" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
+              {isCVHovered ? (
+                <ExternalLink className="w-5 h-5" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
+              ) : (
+                <FileText className="w-5 h-5" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
+              )}
             </motion.div>
           </DialogTrigger>
           <DialogContent 
@@ -442,7 +494,9 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
               boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
             }}
           >
-            <CVViewer />
+            <Suspense fallback={<div className="flex items-center justify-center h-96">Loading...</div>}>
+              <CVViewer />
+            </Suspense>
           </DialogContent>
         </Dialog>
 
@@ -502,7 +556,7 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
                   className="text-sm font-medium"
                   style={{ color: appliedPalette.text }}
                 >
-                  {currentPaletteData.name}
+                  {colorPalettes[currentPalette].name}
                 </span>
               </motion.div>
             </DialogTrigger>
@@ -551,8 +605,15 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
             }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
+            onMouseEnter={() => setIsCVHovered(true)}
+            onMouseLeave={() => setIsCVHovered(false)}
+            onClick={handleCVClick}
           >
-            <FileText className="w-6 h-6" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
+            {isCVHovered ? (
+              <ExternalLink className="w-6 h-6" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
+            ) : (
+              <FileText className="w-6 h-6" style={{ color: isDarkMode ? '#f8f8f8' : '#374151' }} />
+            )}
           </motion.div>
         </DialogTrigger>
         <DialogContent 
@@ -565,7 +626,9 @@ export function ColorPaletteSelector({ onPaletteChange, currentPalette }: ColorP
             boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
           }}
         >
-          <CVViewer />
+          <Suspense fallback={<div className="flex items-center justify-center h-96">Loading...</div>}>
+            <CVViewer />
+          </Suspense>
         </DialogContent>
       </Dialog>
 
@@ -810,40 +873,11 @@ function ColorPaletteDialog({ currentPalette, onPaletteSelect, onSave, isDarkMod
 }
 
 function CVViewer() {
-  const [isMobile, setIsMobile] = useState(false)
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
-  // Mobile detection
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    
-    return () => window.removeEventListener('resize', checkMobile)
+  const handleViewInNewTab = useCallback(() => {
+    window.open("/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf", '_blank', 'noopener,noreferrer')
   }, [])
-
-  const handleDownload = () => {
-    if (isMobile) {
-      // On mobile, download from local public directory
-      const link = document.createElement('a')
-      link.href = "/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf"
-      link.download = "Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf"
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    } else {
-      // On desktop, use R2 URL
-      const cvUrl = "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf"
-      window.open(cvUrl, '_blank')
-    }
-  }
-
-  const handleViewInNewTab = () => {
-    // Open the local PDF in a new tab
-    window.open("/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf", '_blank')
-  }
 
   const cvPreviewUrl = "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Sean_Motanya_3_Years_Experience_Software_Developer_Designer_2025.pdf"
 
@@ -944,21 +978,8 @@ function CVViewer() {
           </Button>
         )}
         
-        <Button 
-          onClick={handleDownload}
-          className={`flex items-center ${isMobile ? 'justify-center w-full' : ''} gap-2 border-0`}
-          style={{
-            background: "rgba(255, 255, 255, 0.1)",
-            backdropFilter: "blur(20px) saturate(180%)",
-            WebkitBackdropFilter: "blur(20px) saturate(180%)",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
-            color: "rgba(255, 255, 255, 0.9)"
-          }}
-        >
-          <FileText className="w-4 h-4" />
-          Download CV
-        </Button>
+
+ 
       </div>
     </div>
   )
