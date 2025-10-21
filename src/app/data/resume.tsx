@@ -155,7 +155,7 @@ export const DATA = {
         "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/vitapharm.mp4",
     },
     {
-      title: "Camposicial",
+      title: "Camposocial",
       href: "https://camposicial.app",
       dates: "May 2025 - Present",
       active: true,
