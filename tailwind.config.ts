@@ -65,6 +65,7 @@ const config = {
         mossgreen: "#7E8C54",
         eggshell: "#F0EAD6",
         lilac: "#C8A2C8",
+        charcoal: "#18181b",
         // Dynamic theme colors
         "theme-primary": "var(--primary)",
         "theme-secondary": "var(--secondary)",

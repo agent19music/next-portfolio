@@ -4,11 +4,14 @@ import { cn } from "@/lib/utils"
 import { useColorPalette } from "@/contexts/color-palette-context"
 import { ColorPaletteKey, colorPalettes } from "../color-palette-selector"
 
+type TextareaColorScheme = "default" | "monochrome"
+
 const Textarea = React.forwardRef<
   HTMLTextAreaElement,
-  React.ComponentProps<"textarea">
->(({ className, style, ...props }, ref) => {
-  const { paletteData, currentPalette, isDarkMode } = useColorPalette()
+  React.ComponentProps<"textarea"> & { colorScheme?: TextareaColorScheme }
+>(({ className, style, colorScheme = "default", ...props }, ref) => {
+  const { currentPalette, isDarkMode } = useColorPalette()
+  const isMonochrome = colorScheme === "monochrome"
   
   function createMutedColor(hex: string, isDarkMode: boolean = false): string {
     const cleanHex = hex.replace('#', '')
@@ -59,6 +62,12 @@ const Textarea = React.forwardRef<
   
   const currentPaletteData = colorPalettes[currentPalette]
   const appliedPalette = isDarkMode ? getDarkModeTransformation(currentPalette) : currentPaletteData
+  const monochromeColors = {
+    background: "#18181b",
+    text: "#f8f8f8",
+    placeholder: "#b0b0b0",
+  }
+  const placeholderColor = isMonochrome ? monochromeColors.placeholder : appliedPalette.text
   
   // Generate a unique ID for this textarea instance
   const textareaId = React.useId()
@@ -76,7 +85,7 @@ const Textarea = React.forwardRef<
     
     styleElement.textContent = `
       .textarea-${textareaId}::placeholder {
-        color: ${appliedPalette.text} !important;
+        color: ${placeholderColor} !important;
         opacity: 0.7 !important;
       }
     `
@@ -87,7 +96,7 @@ const Textarea = React.forwardRef<
         element.remove()
       }
     }
-  }, [appliedPalette.text, textareaId])
+  }, [placeholderColor, textareaId])
 
   
   return (
@@ -99,8 +108,8 @@ const Textarea = React.forwardRef<
       )}
       style={{
         ...style,
-        color: appliedPalette.text,
-        backgroundColor: appliedPalette.background,
+        color: isMonochrome ? monochromeColors.text : appliedPalette.text,
+        backgroundColor: isMonochrome ? monochromeColors.background : appliedPalette.background,
       }}
       ref={ref}
       {...props}

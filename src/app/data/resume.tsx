@@ -154,6 +154,51 @@ export const DATA = {
       video:
         "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/vitapharm.mp4",
     },
+    {
+      title: "Camposicial",
+      href: "https://camposicial.app",
+      dates: "May 2025 - Present",
+      active: true,
+      description:"A social media platform for university students to connect, discover and join events, buy and sell items within their college community, and find groups that match their interests.",
+      technologies: [
+        "Next.js",
+        'PostgreSQL',
+        "Flask",
+        "Socket.io",
+        "Docker",
+      ],
+      links: [
+        {
+          type: "Website",
+          href: "https://camposocial.app",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+      image: "https://pub-0a313ba028f9423cba4b9803d081b5db.r2.dev/app%20ui/Screenshot_20251018_090709.png",
+      video:
+      "",
+    },
+    {
+      title: "Uniwell",
+      href: "https://uniwell.seanmotanya.dev",
+      dates: "May 2025 - Present",
+      active: true,
+      description:"A mental wellness mobile application that provides tools and resources to help students thrive academically and emotionally. ",
+      technologies: [
+        "React Native",
+        "Expo",
+        "Supabase",
+      ],
+      links: [
+        {
+          type: "Website",
+          href: "https://uniwell.seanmotanya.dev",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+      image: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Screenshot_20251018_090735.png",
+      video: "",
+    },
 
   ],
   hackathons: [
