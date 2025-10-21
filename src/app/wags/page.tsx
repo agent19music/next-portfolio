@@ -161,7 +161,7 @@ export default function WAGSPage() {
         <section id="header" className="mt-9 mx-auto">
           <BlurFade delay={BLUR_FADE_DELAY} inView>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-4 text-white">
-              Be my WAG for Mootball ⚽
+              Be my WAG !!l ⚽
             </h1>
           </BlurFade>
 
