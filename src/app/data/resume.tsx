@@ -145,7 +145,7 @@ export const DATA = {
       ],
       links: [
         {
-          type: "Source",
+          type: "Client repo",
           href: "https://github.com/agent19music/vitapharm-client",
           icon: <Icons.github className="size-3" />,
         },
@@ -169,9 +169,14 @@ export const DATA = {
       ],
       links: [
         {
-          type: "Website",
-          href: "https://camposocial.app",
-          icon: <Icons.globe className="size-3" />,
+          type: "Client repo",
+          href: "https://github.com/agent19music/camposocial-client-next",
+          icon: <Icons.github className="size-3" />,
+        },
+        {
+          type: "Server repo",
+          href: "https://github.com/agent19music/camposocial-server",
+          icon: <Icons.github className="size-3" />,
         },
       ],
       image: "https://pub-0a313ba028f9423cba4b9803d081b5db.r2.dev/app%20ui/Screenshot_20251018_090709.png",
@@ -191,9 +196,9 @@ export const DATA = {
       ],
       links: [
         {
-          type: "Website",
-          href: "https://uniwell.seanmotanya.dev",
-          icon: <Icons.globe className="size-3" />,
+          type: "Repo",
+          href: "https://github.com/agent19music/uniwell",
+          icon: <Icons.github className="size-3" />,
         },
       ],
       image: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Screenshot_20251018_090735.png",
