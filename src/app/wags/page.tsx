@@ -310,7 +310,7 @@ export default function WAGSPage() {
                     <p>
                       Questions?{" "}
                       <Link href="https://www.x.com/ufwsean" target="_blank" className="underline font-medium hover:opacity-80">
-                        Get in touch
+                        DMs open on Twitter
                       </Link>
                     </p>
                   </div>
