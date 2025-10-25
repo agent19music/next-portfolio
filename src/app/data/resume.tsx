@@ -156,7 +156,7 @@ export const DATA = {
     },
     {
       title: "Camposocial",
-      href: "https://camposicial.app",
+      href: "https://camposocial.app",
       dates: "May 2025 - Present",
       active: true,
       description:"A social media platform for university students to connect, discover and join events, buy and sell items within their college community, and find groups that match their interests.",
