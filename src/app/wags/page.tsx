@@ -41,6 +41,106 @@ export default function WAGSPage() {
     setSuccessMessage("")
     setErrorMessage("")
 
+    // Helper: get browser / device information (safe on server too)
+    const getBrowserInfo = () => {
+      try {
+        if (typeof navigator === "undefined" || typeof window === "undefined") return null
+
+        return {
+          userAgent: navigator.userAgent,
+          platform: navigator.platform,
+          language: navigator.language,
+          screen: {
+            width: window.screen?.width || null,
+            height: window.screen?.height || null,
+          },
+          viewport: {
+            width: window.innerWidth || null,
+            height: window.innerHeight || null,
+          },
+          isTouchDevice: 'ontouchstart' in window || (navigator as any).maxTouchPoints > 0,
+        }
+      } catch (err) {
+        console.warn('Could not collect browser info', err)
+        return null
+      }
+    }
+
+    // Helper: get location with a timeout and graceful fallback
+    // IMPORTANT: do NOT trigger a permission prompt. Only read geolocation
+    // if the Permissions API reports 'granted'. Otherwise return null.
+    const getLocationAsync = (timeout = 5000): Promise<{ latitude: number; longitude: number; accuracy?: number } | null> => {
+      return new Promise(async (resolve) => {
+        if (typeof navigator === "undefined" || !navigator.geolocation) {
+          resolve(null)
+          return
+        }
+
+        try {
+          // If Permissions API exists, check geolocation state first.
+          const permQuery = (navigator as any).permissions?.query
+          if (typeof permQuery === 'function') {
+            try {
+              const status = await (navigator as any).permissions.query({ name: 'geolocation' })
+              // Only proceed if permission already granted. Do NOT call getCurrentPosition
+              // when status.state is 'prompt' because that would show a permission dialog.
+              if (status.state !== 'granted') {
+                resolve(null)
+                return
+              }
+            } catch (permErr) {
+              // If permissions.query throws, be conservative and don't prompt the user
+              console.warn('Permissions query failed, skipping geolocation to avoid prompt', permErr)
+              resolve(null)
+              return
+            }
+          } else {
+            // Permissions API not available; do NOT attempt geolocation because that would prompt.
+            resolve(null)
+            return
+          }
+        } catch (err) {
+          console.warn('Error checking geolocation permission, skipping to avoid prompt', err)
+          resolve(null)
+          return
+        }
+
+        // If we reach here, permission is granted and it's safe to call getCurrentPosition
+        let didFinish = false
+
+        const success = (pos: GeolocationPosition) => {
+          if (didFinish) return
+          didFinish = true
+          resolve({
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude,
+            accuracy: pos.coords.accuracy,
+          })
+        }
+
+        const error = (err: GeolocationPositionError) => {
+          if (didFinish) return
+          didFinish = true
+          console.warn('Geolocation error:', err)
+          resolve(null)
+        }
+
+        try {
+          navigator.geolocation.getCurrentPosition(success, error, { enableHighAccuracy: true, maximumAge: 0, timeout })
+        } catch (callErr) {
+          console.warn('getCurrentPosition threw, skipping location', callErr)
+          resolve(null)
+        }
+
+        // Fallback timeout in case getCurrentPosition doesn't call back
+        setTimeout(() => {
+          if (didFinish) return
+          didFinish = true
+          resolve(null)
+        }, timeout + 200)
+      })
+    }
+
     try {
       const instagramHandle = formData.instagram.trim()
 
@@ -117,17 +217,31 @@ export default function WAGSPage() {
         return
       }
 
-      const { error } = await supabase.from("wags").insert([
-        {
-          name: formData.name,
-          favourite_football_club: formData.favouriteClub,
-          age,
-          rate_card: rateCardValue,
-          note: formData.note || null,
-          created_at: new Date().toISOString(),
-          [instagramColumn]: instagramHandle,
-        },
-      ])
+      // Collect browser/device info and geolocation (best-effort)
+      const browserInfo = getBrowserInfo()
+
+      let locationData = null
+      try {
+        locationData = await getLocationAsync(5000)
+      } catch (locErr) {
+        console.warn('Location collection failed:', locErr)
+        locationData = null
+      }
+
+      const payload: Record<string, any> = {
+        name: formData.name,
+        favourite_football_club: formData.favouriteClub,
+        age,
+        rate_card: rateCardValue,
+        note: formData.note || null,
+        created_at: new Date().toISOString(),
+        [instagramColumn]: instagramHandle,
+        // Append gathered info (null when unavailable)
+        location: locationData,
+        browser: browserInfo,
+      }
+
+      const { error } = await supabase.from("wags").insert([payload])
 
       if (error) {
         console.error("Supabase error:", error)
