@@ -8,10 +8,11 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import toast, { Toaster } from "react-hot-toast"
+import { ColorPaletteSelector } from "@/components/color-palette-selector"
+import { useColorPalette } from "@/contexts/color-palette-context"
 
 const BLUR_FADE_DELAY = 0.04
 
-// Placeholder data - you'll fill this in with actual usernames and profile URLs
 const winners = [
   {
     id: 1,
@@ -52,6 +53,7 @@ const winners = [
 
 export default function TwtMillionairesPage() {
   const [phoneNumber, setPhoneNumber] = useState("")
+  const { currentPalette, setCurrentPalette } = useColorPalette()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -183,24 +185,31 @@ export default function TwtMillionairesPage() {
       </section>
 
       {/* Footer with disclaimer */}
-      <footer className="py-16 mt-8 text-muted">
-        <div className="text-center text-sm max-w-2xl mx-auto px-4" style={{ color: 'var(--muted)' }}>
-          <p className="mb-2 ">
+      <footer className="py-16 mt-8">
+        <div className="text-center text-sm max-w-2xl mx-auto px-4  text-muted-foreground" >
+          <p className="mb-2">
             * This is all for gags, vibes, and comedic purposes only. No actual money, prizes, rewards, 
             or any form of compensation will be transferred, sent, wired, or delivered to anyone. 
           </p>
-          <p className="mb-2">
+          <p className="mb-2" >
             This is not a legitimate giveaway, contest, lottery, or financial transaction of any kind. 
             If you actually thought you were getting a million shillings for replying to a tweet about 
             fit pics, we need to have a serious conversation about internet literacy.
           </p>
-          <p className="italic">
+          <p className="italic mb-2" >
             Please don&apos;t send me money. Please don&apos;t ask me for money. This is purely satire. 
-            I repeat: THIS IS SATIRE. No MPesa. No nothing. Just jokes.😭
+          </p>
+          <p className="text-xs text-muted" >
+            DM me on X if you wanna get removed from this page😭
           </p>
         </div>
       </footer>
       </div>
+
+      <ColorPaletteSelector 
+        currentPalette={currentPalette}
+        onPaletteChange={setCurrentPalette}
+      />
     </>
   )
 }
