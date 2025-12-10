@@ -262,6 +262,16 @@ export const DATA = {
         // },
       ],
     },
+    {
+      title: "Google Chrome Built-In AI Hackathon",
+      dates: "September 9th - October 31st, 2025",
+      location: "Nairobi, Kenya",
+      description: "Developed a smart shopping assistant Chrome extension that leverages AI to help users find the best deals, compare prices, and make informed purchasing decisions while browsing online stores.",
+      image:
+        "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/googlechromeAIhackathon.png",
+      links: [
+      ],
+    }
 
   ],
   photos:  [
