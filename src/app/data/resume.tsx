@@ -204,6 +204,31 @@ export const DATA = {
       image: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Screenshot_20251018_090735.png",
       video: "",
     },
+    {
+      title: "Uzksi Corp",
+      href: "https://uzskicorp.seanmotanya.dev",
+      dates: "Jan 2026 - Present",
+      active: true,
+      description:"A web application for Uzksi Corp, a software development, design and brand consulting company. ",
+      technologies: [
+        "Next.js",
+       "TypeScript",
+      ],
+      links: [
+        {
+          type: "Repo",
+          href: "https://github.com/agent19music/uzski-corp-landing",
+          icon: <Icons.github className="size-3" />,
+        },
+        {
+          type: "Website",
+          href: "https://uzskicorp.seanmotanya.dev",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+      image: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/uzski-corp.png",
+      video: "",
+    },
 
   ],
   hackathons: [
