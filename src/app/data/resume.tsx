@@ -132,7 +132,7 @@ export const DATA = {
   ],
   projects: [
     {
-      title: "Vitapharm cosmetics",
+      title: "Vitapharm Cosmetics",
           href: "https://github.com/agent19music/vitapharm-client",
       dates: "Apr 2024 - Aug 2024",
       active: true,
@@ -205,11 +205,11 @@ export const DATA = {
       video: "",
     },
     {
-      title: "Uzksi Corp",
+      title: "Uzski Corp",
       href: "https://uzskicorp.seanmotanya.dev",
       dates: "Jan 2026 - Present",
       active: true,
-      description:"A web application for Uzksi Corp, a software development, design and brand consulting company. ",
+      description:"A web application for Uzski Corp, a software development, design and brand consulting company. ",
       technologies: [
         "Next.js",
        "TypeScript",
