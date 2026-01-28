@@ -206,7 +206,7 @@ export const DATA = {
     },
     {
       title: "Uzski Corp",
-      href: "https://uzskicorp..agency",
+      href: "https://uzskicorp.agency",
       dates: "Jan 2026 - Present",
       active: true,
       description:"A web application for Uzski Corp, a software development, design and brand consulting company. ",
