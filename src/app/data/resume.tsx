@@ -10,7 +10,7 @@ export const DATA = {
   description:
     "Software Developer. I love building beautiful and efficient things that serve humanity.",
   summary:
-    "I am a full-stack  developer and recent computer science graduate. I'm intrested in  building innovative and impactful applications. I also like music and gaming.",
+    "I am a full-stack  engineer and recent computer science graduate. I'm intrested in  building intentionally designed and impactful applications. I also like music and gaming.",
   skills: [
     "Python",
     "Typescript",
@@ -206,7 +206,7 @@ export const DATA = {
     },
     {
       title: "Uzski Corp",
-      href: "https://uzskicorp.seanmotanya.dev",
+      href: "https://uzskicorp..agency",
       dates: "Jan 2026 - Present",
       active: true,
       description:"A web application for Uzski Corp, a software development, design and brand consulting company. ",
