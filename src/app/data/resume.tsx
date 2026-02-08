@@ -8,7 +8,7 @@ export const DATA = {
   location: "Nairobi, KE",
   locationLink: "https://www.google.com/maps/place/nairobi",
   description:
-    "Software Developer. I love building beautiful and efficient things that serve humanity.",
+    "Software Engineer. I love building beautiful and efficient things that serve humanity.",
   summary:
     "I am a full-stack  engineer and recent computer science graduate. I'm intrested in  building intentionally designed and impactful applications. I also like music and gaming.",
   skills: [
@@ -30,7 +30,7 @@ export const DATA = {
     { href: "/blog", icon: NotebookIcon, label: "Blog" },
   ],
   contact: {
-    email: "seanmotanya@gmail.com",
+    email: "hi@seanmotanya.dev",
     tel: "+254 745 071 299",
     social: {
       GitHub: {
@@ -56,7 +56,7 @@ export const DATA = {
       },
       email: {
         name: "Send Email",
-        url: "mailto:seanmotanya@gmail.com",
+        url: "mailto:hi@seanmotanya.dev",
         icon: Icons.email,
 
         navbar: false,
@@ -72,22 +72,11 @@ export const DATA = {
       location: "Hybrid",
       title: "Frontend Software Engineer",
       logoUrl: "/vitapharmlogo.png",
-      start: "April 2024",
-      end: "August 2024",
+      start: "Apr 2024",
+      end: "Aug 2024",
       description:
         "Developed a web-based application and an accompanying admin dashboard for Vitapharm Health, a cosmetics company, using React.js and Tailwind CSS. The application features a user-friendly interface for managing product inventory and customer orders.",
     },
-    {
-      company: "Freelance",
-      href: "https://www.upwork.com/freelancers/~01a2b3c4d5e6f7g8h9",
-      badges: [],
-      location: "Nairobi, KE",
-      title: "Full Stack Software Engineer",
-      logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/upwork-logo.png",
-      start: "June 2024",
-      end: "present",
-      description: "Worked as a freelance software engineer, specializing in full-stack development. Collaborated with clients to design and implement custom web applications, focusing on user experience and performance optimization. Additionally, dedicated significant time to challenging personal projects, which served to deepen tool knowledge and enhance problem-solving skills."
-      },
       {
       company: "Lixnet Technologies",
       href: "https://lixnet.net",
@@ -96,7 +85,7 @@ export const DATA = {
       title: "Backend Software Engineer",
       logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/lixnet%20logo.jpeg",
       start: "May 2025",
-      end: "July 2025",
+      end: "Jul 2025",
       description:
       "Worked as a Backend Software Engineer at Lixnet Technologies, where I was responsible for developing their payroll management system. My role involved designing and implementing robust backend solutions to ensure efficient payroll processing and management for clients.",
     },
@@ -107,10 +96,21 @@ export const DATA = {
       location: "Hybrid",
       title: "Full Stack Software Engineer ",
       logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/darajapluslogo.jpg",
-      start: "July 2025",
-      end: "present",
-      description: "Currently working as a Full Stack Software Engineer at Daraja Plus, building web and mobile applications for a variety of clients. I focus on delivering value by designing and implementing both frontend and backend solutions tailored to client needs.",
+      start: "Jul 2025",
+      end: "Dec 2025",
+      description: "Worked as a Full Stack Software Engineer at Daraja Plus, building web and mobile applications for a variety of clients. I focus on delivering value by designing, implementing and maintaining both frontend and backend solutions tailored to client needs.",
     },
+    {
+      company: "Uzski Corp",
+      href: "https://uzskicorp.agency",
+      badges: [],
+      location: "Nairobi, KE",
+      title: "Technical Lead",
+      logoUrl: "/uzskicorp-logo.webp",
+      start: "Sep 2024",
+      end: "present",
+      description: "Currently working as Technical Lead at Uzski Corp, a software development, design and brand consulting company. I specialize in system design, platforms architecture  and end to end project delivery."
+      },
   ],
   education: [
     {
