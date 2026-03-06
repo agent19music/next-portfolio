@@ -10,7 +10,7 @@ export const DATA = {
   description:
     "Software Engineer. I love building beautiful and efficient things that serve humanity.",
   summary:
-    "I am a full-stack  engineer and recent computer science graduate. I'm intrested in  building intentionally designed and impactful applications. I also like music and gaming.",
+    "I am a full-stack  engineer and recent computer science graduate. I'm interested in  building intentionally designed and impactful applications. I also like music and gaming.",
   skills: [
     "Python",
     "Typescript",
