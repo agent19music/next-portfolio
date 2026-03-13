@@ -24,3 +24,24 @@ export const SPOTIFY_EMBED_SRCS: string[] = [
 
 ]
 
+export function getSimulatedSpotifyEmbedIndex(
+  totalTracks: number,
+  intervalMs: number = 120000,
+  nowMs: number = Date.now(),
+): number {
+  if (totalTracks <= 0) return 0
+
+  const safeIntervalMs = intervalMs > 0 ? intervalMs : 120000
+  return Math.floor(nowMs / safeIntervalMs) % totalTracks
+}
+
+export function getSimulatedSpotifyEmbedSrc(
+  embedSrcs: string[],
+  intervalMs: number = 120000,
+  nowMs: number = Date.now(),
+): string | null {
+  if (!embedSrcs.length) return null
+
+  const index = getSimulatedSpotifyEmbedIndex(embedSrcs.length, intervalMs, nowMs)
+  return embedSrcs[index]
+}

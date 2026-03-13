@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import useSWR from "swr"
 import { Music } from "lucide-react"
 
 type SpotifyEmbedPlaylistProps = {
@@ -14,17 +14,16 @@ export function SpotifyEmbedPlaylist({
   intervalMs = 120000,
   height = 152,
 }: SpotifyEmbedPlaylistProps) {
-  const [idx, setIdx] = useState(0)
-
-  useEffect(() => {
-    if (embedSrcs.length <= 1) return
-
-    const id = window.setInterval(() => {
-      setIdx((prev) => (prev + 1) % embedSrcs.length)
-    }, intervalMs)
-
-    return () => window.clearInterval(id)
-  }, [embedSrcs, intervalMs])
+  const apiUrl = `/api/spotify-embed?intervalMs=${intervalMs}`
+  const { data } = useSWR<{ src: string }>(
+    apiUrl,
+    (url: string) => fetch(url).then((res) => (res.ok ? res.json() : null)),
+    {
+      refreshInterval: 15000,
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+    },
+  )
 
   if (!embedSrcs.length) {
     return (
@@ -37,7 +36,7 @@ export function SpotifyEmbedPlaylist({
     )
   }
 
-  const src = embedSrcs[idx % embedSrcs.length]
+  const src = data?.src ?? embedSrcs[0]
 
   return (
     <div className="w-full overflow-hidden rounded-lg shadow-md shadow-black/5 dark:shadow-white/5">
