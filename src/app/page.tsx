@@ -13,10 +13,13 @@ import { HackathonCard } from "./mycomponents/hackathoncard"
 import { EducationCard } from "./mycomponents/educationcard"
 import StackedPhotoCollection from "./mycomponents/photocollection"
 import { SpotifyTrack } from "@/app/mycomponents/SpotifyTrack"
+import { SpotifyEmbedPlaylist } from "@/app/mycomponents/SpotifyEmbedPlaylist"
 import AnonymousMessageInput from "@/app/mycomponents/anonmessages"
 import { ColorPaletteSelector } from "@/components/color-palette-selector"
 import { useColorPalette } from "@/contexts/color-palette-context"
 import Image from "next/image"
+import { SPOTIFY_EMBED_SRCS } from "@/app/data/spotifyEmbedPlaylist"
+const USE_FAKE_SPOTIFY = true
 
 const BLUR_FADE_DELAY = 0.04
 
@@ -218,8 +221,12 @@ function PortfolioContent() {
           color: paletteData.background,
         }}>Currently Listening</div>
           <h3 className="text-xl font-bold mb-4" style={{ color: paletteData.text }}>My Latest Spotify Track</h3>
-          <div className="w-[80%]">
-            <SpotifyTrack />
+          <div className="w-full max-w-[560px] px-4">
+            {USE_FAKE_SPOTIFY ? (
+              <SpotifyEmbedPlaylist embedSrcs={SPOTIFY_EMBED_SRCS} intervalMs={120000} height={152} />
+            ) : (
+              <SpotifyTrack />
+            )}
           </div>
           <div>
             <AnonymousMessageInput />

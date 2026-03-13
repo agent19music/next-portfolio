@@ -64,55 +64,51 @@ export const DATA = {
     },
   },
 
-  work: [
-    {
-      company: "Vitapharm Health",
-      href: "https://vitapharmcosmetics.co.ke",
-      badges: [],
-      location: "Hybrid",
-      title: "Frontend Software Engineer",
-      logoUrl: "/vitapharmlogo.png",
-      start: "Apr 2024",
-      end: "Aug 2024",
-      description:
-        "Developed a web-based application and an accompanying admin dashboard for Vitapharm Health, a cosmetics company, using React.js and Tailwind CSS. The application features a user-friendly interface for managing product inventory and customer orders.",
-    },
-      {
-      company: "Lixnet Technologies",
-      href: "https://lixnet.net",
-      badges: [],
-      location: "Remote",
-      title: "Backend Software Engineer",
-      logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/lixnet%20logo.jpeg",
-      start: "May 2025",
-      end: "Jul 2025",
-      description:
-      "Worked as a Backend Software Engineer at Lixnet Technologies, where I was responsible for developing their payroll management system. My role involved designing and implementing robust backend solutions to ensure efficient payroll processing and management for clients.",
-    },
-    {
-      company: "Daraja Plus",
-      href: "https://darajaplus.com",
-      badges: [],
-      location: "Hybrid",
-      title: "Full Stack Software Engineer ",
-      logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/darajapluslogo.jpg",
-      start: "Jul 2025",
-      end: "Dec 2025",
-      description: "Worked as a Full Stack Software Engineer at Daraja Plus, building web and mobile applications for a variety of clients. I focus on delivering value by designing, implementing and maintaining both frontend and backend solutions tailored to client needs.",
-    },
+  work: [ 
     {
       company: "Uzski Corp",
       href: "https://uzskicorp.agency",
       badges: [],
       location: "Nairobi, KE",
-      title: "Technical Lead",
+      title: "Founder and CEO | Technical Lead",
       logoUrl: "/uzskicorp-logo.webp",
       start: "Sep 2024",
       end: "present",
       description: "Currently working as Technical Lead at Uzski Corp, a software development, design and brand consulting company. I specialize in system design, platforms architecture  and end to end project delivery."
       },
+      {
+        company: "Daraja Plus",
+        href: "https://darajaplus.com",
+        badges: [],
+        location: "Hybrid",
+        title: "Full Stack Software Engineer ",
+        logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/darajapluslogo.jpg",
+        start: "Jul 2025",
+        end: "Dec 2025",
+        description: "Worked as a Full Stack Software Engineer at Daraja Plus, building web and mobile applications for a variety of clients. I focus on delivering value by designing, implementing and maintaining both frontend and backend solutions tailored to client needs.",
+      },
+      {
+        company: "Lixnet Technologies",
+        href: "https://lixnet.net",
+        badges: [],
+        location: "Remote",
+        title: "Backend Software Engineer",
+        logoUrl: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/lixnet%20logo.jpeg",
+        start: "May 2025",
+        end: "Jul 2025",
+        description:
+        "Worked as a Backend Software Engineer at Lixnet Technologies, where I was responsible for developing their payroll management system. My role involved designing and implementing robust backend solutions to ensure efficient payroll processing and management for clients.",
+      },
   ],
   education: [
+    {
+      school: "Riara University",
+      href: "https://riarauniversity.ac.ke",
+      degree: "Bachelor's Degree in Computer Science (BCS)",
+      logoUrl: "/rulogo.jpg",
+      start: "2021",
+      end: "2025",
+    },
     {
       school: "Moringa School",
       href: "https://moringaschool.com",
@@ -121,14 +117,7 @@ export const DATA = {
       start: "2023",
       end: "2024",
     },
-    {
-      school: "Riara University",
-      href: "https://riarauniversity.ac.ke",
-      degree: "Bachelor's Degree in Computer Science (BCS)",
-      logoUrl: "/rulogo.jpg",
-      start: "2021",
-      end: "2025",
-    }
+  
   ],
   projects: [
     {
@@ -178,6 +167,11 @@ export const DATA = {
           href: "https://github.com/agent19music/camposocial-server",
           icon: <Icons.github className="size-3" />,
         },
+        {
+          type: "Website",
+          href: "https://camposocial.app",
+          icon: <Icons.globe className="size-3" />,
+        },
       ],
       image: "https://pub-0a313ba028f9423cba4b9803d081b5db.r2.dev/app%20ui/Screenshot_20251018_090709.png",
       video:
@@ -200,6 +194,11 @@ export const DATA = {
           href: "https://github.com/agent19music/uniwell",
           icon: <Icons.github className="size-3" />,
         },
+        {
+          type: "Website",
+          href: "https://uniwell.seanmotanya.dev",
+          icon: <Icons.globe className="size-3" />,
+        },
       ],
       image: "https://pub-c6a134c8e1fd4881a475bf80bc0717ba.r2.dev/Screenshot_20251018_090735.png",
       video: "",
@@ -215,11 +214,7 @@ export const DATA = {
        "TypeScript",
       ],
       links: [
-        {
-          type: "Repo",
-          href: "https://github.com/agent19music/uzski-corp-landing",
-          icon: <Icons.github className="size-3" />,
-        },
+        
         {
           type: "Website",
           href: "https://uzskicorp.seanmotanya.dev",
